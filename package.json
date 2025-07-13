@@ -53,5 +53,8 @@
   "resolutions": {
     "@slidev/cli": "catalog:",
     "@slidev/client": "catalog:"
+  },
+  "dependencies": {
+    "slidev-addon-tldraw": "^0.4.2"
   }
 }
