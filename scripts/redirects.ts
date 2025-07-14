@@ -56,7 +56,7 @@ status = 302`)
     parts.push(`
 [[redirects]]
 from = "${dir}"
-to = "https://doctorwu.me/talks${base}"
+to = "https://talks.doctorwu.me${base}"
 status = 301
 
 [[redirects]]

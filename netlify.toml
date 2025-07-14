@@ -1,3 +1,4 @@
+
 [build]
 publish = "dist"
 command = "pnpm run build"
@@ -6,7 +7,23 @@ command = "pnpm run build"
 NODE_VERSION = "22"
 PLAYWRIGHT_BROWSERS_PATH = "0"
 
+
+[[redirects]]
+from = "/conf_vue2025/src"
+to = "https://github.com/Doctor-wu/talks/tree/main/conf_vue2025"
+status = 302
+
+[[redirects]]
+from = "conf_vue2025"
+to = "https://talks.doctorwu.me/conf_vue2025/"
+status = 301
+
+[[redirects]]
+from = "/conf_vue2025/*"
+to = "/conf_vue2025/index.html"
+status = 200
+
 [[redirects]]
 from = "/"
-to = "https://doctorwu.me"
+to = "https://doctorwu.me/talks"
 status = 302

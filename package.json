@@ -8,6 +8,7 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint .",
     "update": "esno scripts/redirects.ts",
+    "picker": "esno scripts/picker.ts",
     "prepare": "git submodule update --init --recursive"
   },
   "devDependencies": {

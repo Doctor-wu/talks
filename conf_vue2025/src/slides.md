@@ -7,7 +7,6 @@ transition: fade-out
 mdc: true
 glowSeed: 4
 title: Vue reactivity system 演进
-remoteAssets: true
 
 addons:
   - tldraw
