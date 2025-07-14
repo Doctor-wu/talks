@@ -1,3 +1,3 @@
-# ESLint One for All Made Easy
+# VueConf 2025
 
-2024/12/07 - [FEDAY 2024](https://fequan.com/2024/)
+2025/07/12 - [VueConf 2025](https://vueconf.cn/)
