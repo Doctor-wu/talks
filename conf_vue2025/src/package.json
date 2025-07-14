@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "kill -9 $(lsof -ti:7777) && npx @eslint/config-inspector --config=eslint.demo.config.ts --no-open & slidev",
     "build": "slidev build --base /conf_vue2025/ --out ../../dist/conf_vue2025",
-    "export": "slidev export --per-slide --output ../2024-12-07-feday-zh.pdf"
+    "export": "slidev export --per-slide --output ../conf_vue2025.pdf"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
