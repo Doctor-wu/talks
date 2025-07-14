@@ -591,7 +591,7 @@ layout: fact
 <section flex items-center flex-col>
 <img src="/doubly-linked-list.png" w-150 />
 <span text-xs text-gray-400>
-图片来自 <a href="https://soonwang.me/vue-reactivity-3.5-preact-signals/" target="_blank">soonwang</a>
+图片来自 <a href="https://soonwang.me/blog/vue-reactivity-3.5-preact-signals" target="_blank">soonwang</a>
 </span>
 </section>
 ---
