@@ -12,9 +12,9 @@ addons:
   - tldraw
 ---
 <h2>Vue reactivity system 演进</h2>
-<p class="text-gray-400 text-s">
+<div class="text-gray-400 text-s">
 Doctor Wu / 2025-07-12
-</p>
+</div>
 
 <!-- 
 打招呼, 听完早上尤大的分享, 大家心里可能会有些疑问, Vue 的响应式系统究竟发生了什么变化, 包括尤大提到的 
@@ -87,9 +87,9 @@ layout: fact
 
 ## 经典 Glitch 问题
 
-<p flex justify-between>
+<div flex justify-between>
 
-<section flex-col justify-between>
+<div flex-col justify-between>
 
 ````md magic-move
 ```ts
@@ -122,18 +122,18 @@ A.value = 2;
 ```
 ````
 
-</section>
+</div>
 
-<section flex justify-end>
-  <tldraw class="w-100 h-100 float-right" doc="tldraw/doc-QlFu8VrzFr6iJuxd9NFgi.json"></tldraw>
-</section>
-</p>
----
+<div flex justify-end>
+  <tldraw class="w-100 h-100 float-right" doc="tldraw/doc-8hUX-LQoZrXnnsa-aP1WU.json"></tldraw>
+</div>
+</div>
+
 ---
 
 ## Scheduler
 <br>
-<tldraw class="w-full h-full" doc="tldraw/doc-F7okTfOjaUtlwwh16xlcr.json"></tldraw>
+<tldraw class="w-full h-full" doc="tldraw/doc-HXBoIjtHPGPWtwWbFtLHz.json"></tldraw>
 
 ---
 layout: center
@@ -141,9 +141,9 @@ layout: center
 ## 所以, 我们已经安全了<v-click>吗?</v-click>
 ---
 
-<p flex justify-between>
+<div flex justify-between>
 
-<section flex-col justify-between>
+<div flex-col justify-between>
 
 ````md magic-move
 ```ts
@@ -189,22 +189,23 @@ A.value = 2;
 ```
 ````
 
-</section>
+</div>
 
 <v-click at="1">
-  <section flex justify-end>
-    <tldraw class="w-100 h-100 float-right" doc="tldraw/doc-xHpX9SbbC7uUDkVwQKoOn.json"></tldraw>
-  </section>
+  <div flex justify-end>
+    <tldraw class="w-100 h-100 float-right" doc="tldraw/doc-BaMbeLMVerrdokhsRDiBX.json"></tldraw>
+  </div>
 </v-click>
-</p>
+</div>
+
 ---
 
 ## Oops, effect 怎么跑了两次
 <br>
-<tldraw class="w-220 h-full" doc="tldraw/doc-qEVHfD2-8mEiS-uLChoNs.json"></tldraw>
+<tldraw class="w-220 h-full" doc="tldraw/doc-Z1wDqc13imKRVfG_CZilr.json"></tldraw>
 
-<!-- 
-  抖一下 React 严格模式的包袱
+<!--
+抖一下 React 严格模式的包袱
 -->
 
 ---
@@ -213,18 +214,18 @@ layout: fact
 
 <PR link="https://github.com/vuejs/core/pull/5912" title="feat(reactivity): more efficient reactivity system" />
 
-<section pos-absolute bottom-10 right-10 w-36 h-36 flex justify-center>
+<div pos-absolute bottom-10 right-10 w-36 h-36 flex justify-center>
   <img v-click src="/johnson-avatar.png" w-36 h-36 />
   <img v-click src="/sun-glasses.svg" w-15 h-15 pos-absolute top-12 mr-2 />
-</section>
+</div>
 
 ---
 
 ## Effect 支持脏值检查
 <br>
-<p flex justify-between>
+<div flex justify-between>
 
-<section w-100>
+<div w-100>
 
 ```ts
 const update: SchedulerJob = (instance.update = () => {
@@ -233,9 +234,9 @@ const update: SchedulerJob = (instance.update = () => {
   }
 })
 ```
-</section>
+</div>
 
-<section w-100>
+<div w-100>
 
 ```ts
 public get dirty() {
@@ -247,10 +248,10 @@ public get dirty() {
   return this._dirtyLevel >= DirtyLevels.Dirty
 }
 ```
-</section>
-</p>
+</div>
+</div>
 
-<tldraw class="w-full h-full" doc="tldraw/doc-lTGiy23wuEjSU8Z1-jslY.json"></tldraw>
+<tldraw class="w-full h-full" doc="tldraw/doc-PfA25lWRjELk2to__t3dr.json"></tldraw>
 
 ---
 layout: fact
@@ -264,8 +265,8 @@ layout: fact
 
 ---
 
-<p flex justify-between>
-<section flex-col>
+<div flex justify-between>
+<div flex-col>
 
 ````md magic-move
 ```typescript
@@ -293,17 +294,17 @@ A.value = 2;
 ```
 ````
 
-</section>
+</div>
 
-<section v-click w-120>
-  <tldraw class="w-120 h-120" doc="tldraw/doc-7wNyyezOC7Wo_oMl3Wzzs.json"></tldraw>
-</section>
-</p>
+<div v-click w-120>
+  <tldraw class="w-120 h-120" doc="tldraw/doc-0ceuRWmpWAePAsB2xCQOp.json"></tldraw>
+</div>
+</div>
 
 ---
 
-<p flex justify-between>
-<section flex-col>
+<div flex justify-between>
+<div flex-col>
 
 ## 染色算法
 <br>
@@ -334,15 +335,15 @@ A.value = 2;
 ```
 ````
 
-</section>
+</div>
 
-<section v-click w-120>
-  <tldraw class="w-120 h-120" doc="tldraw/doc-0FR8PqzGEBwzObZ-pX7kH.json"></tldraw>
-</section>
-</p>
+<div v-click w-120>
+  <tldraw class="w-120 h-120" doc="tldraw/doc-mfPdBohqlimsi-waXRNMo.json"></tldraw>
+</div>
+</div>
 
 ---
----
+
 ````md magic-move
 ```ts 
 let sec_counter = 0
@@ -397,7 +398,7 @@ console.log(`hour: ${hour.value}, hour_counter: ${hour_counter}`) // hour: 2, ho
 ```
 ````
 <div h-3></div>
-<tldraw class="w-200 h-80 float-right" doc="tldraw/doc-7PhAqgUgMNwIxzpG3H5nN.json"></tldraw>
+<tldraw class="w-200 h-80 float-right" doc="tldraw/doc-j-ZlNi2KuclcnOhi-y_3h.json"></tldraw>
 
 ---
 layout: fact
@@ -408,8 +409,8 @@ layout: fact
 
 ---
 ---
-<p flex justify-between>
-  <section>
+<div flex justify-between>
+  <div>
 
   ## 基于 Set 的数据结构
   <br>
@@ -433,8 +434,8 @@ class ReactiveEffect {
 }
 ```
 
-  </section>
-  <section v-click>
+  </div>
+  <div v-click>
 
   ## track 依赖收集
 
@@ -463,12 +464,12 @@ function track(target, key) {
 }
 ```
 
-  </section>
-</p>
+  </div>
+</div>
 ---
 ---
-<p flex justify-around>
-  <section flex-1 mr-16>
+<div flex justify-around>
+  <div flex-1 mr-16>
 
   ## trigger 触发更新
   <br>
@@ -488,8 +489,8 @@ function trigger(target, key) {
 }
 ```
 
-  </section>
-  <section v-click>
+  </div>
+  <div v-click>
 
   ## cleanupEffect 依赖清理
 
@@ -507,8 +508,8 @@ function cleanupEffect(effect) {
 }
 ```
 
-  </section>
-</p>
+  </div>
+</div>
 ---
 layout: fact
 ---
@@ -518,8 +519,8 @@ layout: fact
 
 ---
 ---
-<p flex justify-between>
-  <section>
+<div flex justify-between>
+  <div>
 
   ## 基于双向链表的数据结构
   <br>
@@ -544,8 +545,8 @@ class ReactiveEffect {
 }
 ```
 
-  </section>
-  <section v-click>
+  </div>
+  <div v-click>
 
   ## track 依赖收集
 
@@ -574,8 +575,8 @@ function track(target, key) {
 }
 ```
 
-  </section>
-</p>
+  </div>
+</div>
 
 <!--
 使用的是伪代码, 主要为了说明问题, 并不是正式实现
@@ -588,12 +589,12 @@ function track(target, key) {
 ---
 layout: fact
 ---
-<section flex items-center flex-col>
+<div flex items-center flex-col>
 <img src="/doubly-linked-list.png" w-150 />
 <span text-xs text-gray-400>
 图片来自 <a href="https://soonwang.me/blog/vue-reactivity-3.5-preact-signals" target="_blank">soonwang</a>
 </span>
-</section>
+</div>
 ---
 layout: fact
 ---
@@ -631,7 +632,7 @@ layout: fact
 
 ---
 
-<p flex justify-between>
+<div flex justify-between>
 
 ````md magic-move
 ```typescript
@@ -658,7 +659,7 @@ A.value = 1
 ```
 ````
 
-<section flex flex-1 justify-center>
+<div flex flex-1 justify-center>
 
 ```mermaid
 ---
@@ -688,9 +689,9 @@ flowchart TD
     C --> D["Effect"]
 ```
 </div>
-</section>
+</div>
 
-</p>
+</div>
 
 ---
 layout: center
@@ -699,8 +700,8 @@ layout: center
 
 ---
 
-<p flex justify-between>
-<section flex-col>
+<div flex justify-between>
+<div flex-col>
 
 ```typescript
 const src = signal(10);
@@ -714,17 +715,17 @@ src(10);  // double.flags -> Dirty
 double(); // propagate (unnecessary)
 ```
 
-</section>
+</div>
 
-<section w-120>
-  <tldraw class="w-120 h-120" doc="tldraw/doc-xpYOb45nuyUymA35Q3wtc.json"></tldraw>
-</section>
-</p>
+<div w-120>
+  <tldraw class="w-120 h-120" doc="tldraw/doc-v33klP8S7kBqpLgxUXcao.json"></tldraw>
+</div>
+</div>
 
 ---
 
-<p flex justify-between>
-<section flex-col>
+<div flex justify-between>
+<div flex-col>
 
 ## 更加极致的染色算法
 <br>
@@ -758,29 +759,29 @@ double();
 ```
 ````
 
-</section>
+</div>
 
-<section v-click='1' w-120>
-  <tldraw class="w-120 h-120" doc="tldraw/doc-IE1B7DMSb038KrplVu1Ge.json"></tldraw>
-</section>
-</p>
+<div v-click='1' w-120>
+  <tldraw class="w-120 h-120" doc="tldraw/doc-9u7PfNOUXh2y_Mcdl3n1D.json"></tldraw>
+</div>
+</div>
 
 ---
 layout: fact
 ---
 
-<p flex justify-between>
+<div flex justify-between>
 <img src="/signal-recursive.png" w-100 />
 <img v-click src="/alien-signal-no-recursive.png" w-100 />
-</p>
+</div>
 
 ---
 layout: fact
 ---
 
-<p flex justify-around>
+<div flex justify-around>
 
-<section w-100 text-left ml-20>
+<div w-100 text-left ml-20>
 
 ```ts
 const foo = { a: 1, foo: 1 }
@@ -800,13 +801,13 @@ function funcB(obj, a) {
 }
 ```
 
-</section>
+</div>
 
-<section flex-1 flex justify-center>
-<tldraw class="w-80 h-120" doc="tldraw/doc-fohCMVlPgXW1z532M6B1z.json"></tldraw>
-</section>
+<div flex-1 flex justify-center>
+<tldraw class="w-80 h-120" doc="tldraw/doc-WBkj7TFkHzt_O_DbwMchf.json"></tldraw>
+</div>
 
-</p>
+</div>
 
 ---
 layout: fact
@@ -820,10 +821,10 @@ layout: fact
 
 ## Huge thanks to
 
-<section pos-absolute bottom-10 right-10 w-36 h-36 flex justify-center>
+<div pos-absolute bottom-10 right-10 w-36 h-36 flex justify-center>
   <img v-click src="/johnson-avatar.png" w-36 h-36 rounded-full />
   <img v-click src="/sun-glasses.svg" w-15 h-15 pos-absolute top-12 mr-2 />
-</section>
+</div>
 
 ---
 layout: fact
@@ -831,6 +832,6 @@ layout: fact
 
 ## Thank you!
 
-<section pt-10 text-s text-gray-400>
+<div pt-10 text-s text-gray-400>
 Created using <logos-slidev ml-2 /> Slidev
-</section>
+</div>

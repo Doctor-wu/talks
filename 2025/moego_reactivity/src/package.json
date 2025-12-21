@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "kill -9 $(lsof -ti:7777) && npx @eslint/config-inspector --config=eslint.demo.config.ts --no-open & slidev",
+    "build": "slidev build --base /2025_moego_reactivity/ --out ../../dist/2025_moego_reactivity",
+    "export": "slidev export --per-slide --output ../2025_moego_reactivity.pdf"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@eslint/config-inspector": "catalog:",
+    "eslint": "catalog:"
+  }
+}
+
+
