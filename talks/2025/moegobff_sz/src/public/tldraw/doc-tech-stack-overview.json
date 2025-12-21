@@ -1,0 +1,365 @@
+{
+  "store": {
+    "shape:hono": {
+      "x": 150,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:hono",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "orange",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Hono\nWeb 框架"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shape:connect": {
+      "x": 650,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:connect",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "green",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Connect RPC\n后端通信"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shape:zod": {
+      "x": 400,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:zod",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "Zod + zod-openapi\nSchema 验证"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shape:datadog": {
+      "x": 400,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:datadog",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a5",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "red",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "dd-trace\n链路追踪"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "page:page": {
+      "meta": {},
+      "id": "page:page",
+      "name": "Page 1",
+      "index": "a1",
+      "typeName": "page"
+    },
+    "document:document": {
+      "gridSize": 10,
+      "name": "",
+      "meta": {},
+      "id": "document:document",
+      "typeName": "document"
+    },
+    "shape:ast-grep": {
+      "x": 150,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:ast-grep",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "violet",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "ast-grep\n代码生成"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shape:typescript": {
+      "x": 650,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:typescript",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a6",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "solid",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "TypeScript\n类型安全基石"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "shape:title": {
+      "x": 300,
+      "y": 50,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:title",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a0",
+      "type": "text",
+      "props": {
+        "color": "black",
+        "size": "xl",
+        "w": 400,
+        "font": "draw",
+        "textAlign": "middle",
+        "autoSize": false,
+        "scale": 1,
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": {
+                "dir": "auto"
+              },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "技术栈总览"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {
+      "com.tldraw.store": 4,
+      "com.tldraw.asset": 1,
+      "com.tldraw.camera": 1,
+      "com.tldraw.document": 2,
+      "com.tldraw.instance": 25,
+      "com.tldraw.instance_page_state": 5,
+      "com.tldraw.page": 1,
+      "com.tldraw.instance_presence": 6,
+      "com.tldraw.pointer": 1,
+      "com.tldraw.shape": 4,
+      "com.tldraw.asset.bookmark": 2,
+      "com.tldraw.asset.image": 5,
+      "com.tldraw.asset.video": 5,
+      "com.tldraw.shape.arrow": 6,
+      "com.tldraw.shape.bookmark": 2,
+      "com.tldraw.shape.draw": 2,
+      "com.tldraw.shape.embed": 4,
+      "com.tldraw.shape.frame": 1,
+      "com.tldraw.shape.geo": 10,
+      "com.tldraw.shape.group": 0,
+      "com.tldraw.shape.highlight": 1,
+      "com.tldraw.shape.image": 5,
+      "com.tldraw.shape.line": 5,
+      "com.tldraw.shape.note": 9,
+      "com.tldraw.shape.text": 3,
+      "com.tldraw.shape.video": 4,
+      "com.tldraw.binding.arrow": 1
+    }
+  }
+}

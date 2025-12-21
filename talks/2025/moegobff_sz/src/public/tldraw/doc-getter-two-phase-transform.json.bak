@@ -1,0 +1,151 @@
+{
+  "store": {
+    "shape:phase1": {
+      "x": 150,
+      "y": 100,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:phase1",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 300,
+        "h": 150,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "阶段一：转换字段为 getter\n\n检测循环引用字段\n↓\n转换为 getter 函数\n\naddons: z.array(...)\n↓\nget addons() { return z.array(...) }" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:phase2": {
+      "x": 600,
+      "y": 100,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:phase2",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 300,
+        "h": 150,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "green",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "阶段二：移除 lazy 包装\n\n检查是否有 getter\n↓\n移除 z.lazy() 包装\n\nz.lazy(() => z.object({...}))\n↓\nz.object({...}).openapi('Name')" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:arrow": {
+      "x": 450,
+      "y": 170,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "l",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 150, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow"
+      }
+    },
+    "shape:functions": {
+      "x": 150,
+      "y": 320,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:functions",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 750,
+        "h": 120,
+        "geo": "rectangle",
+        "dash": "dashed",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "grey",
+        "labelColor": "black",
+        "fill": "none",
+        "size": "s",
+        "font": "mono",
+        "align": "start",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "ast-grep 实现：\n\nconvertCircularFieldsToGetters(root: SgNode)\nremoveLazyWrapper(root: SgNode)\n\n自动化、批量、精确的代码转换" }]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {}
+  }
+}
+

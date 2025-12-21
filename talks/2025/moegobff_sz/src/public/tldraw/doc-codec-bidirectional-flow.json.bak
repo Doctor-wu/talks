@@ -1,0 +1,293 @@
+{
+  "store": {
+    "shape:frontend": {
+      "x": 100,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:frontend",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 120,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Frontend\n(JSON)\n\nid: \"123\"\ndate: \"2024-01-01\"" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:bff-decode": {
+      "x": 400,
+      "y": 120,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:bff-decode",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "violet",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "decode\n请求解析" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:bff-internal": {
+      "x": 700,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:bff-internal",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "geo",
+      "props": {
+        "w": 220,
+        "h": 120,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "green",
+        "labelColor": "black",
+        "fill": "solid",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "BFF 内部\n(内部类型)\n\nid: 123n (bigint)\ndate: GoogleDate obj" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:bff-encode": {
+      "x": 400,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:bff-encode",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 200,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "orange",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "encode\n响应格式化" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:arrow-decode": {
+      "x": 300,
+      "y": 160,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow-decode",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a5",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "violet",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 100, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "decode" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:arrow-internal": {
+      "x": 600,
+      "y": 240,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow-internal",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a6",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 100, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "业务逻辑" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:arrow-encode": {
+      "x": 300,
+      "y": 320,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow-encode",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a7",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "orange",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 100, "y": 0 },
+        "end": { "x": 0, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "encode" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:title": {
+      "x": 300,
+      "y": 50,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:title",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a0",
+      "type": "text",
+      "props": {
+        "color": "black",
+        "size": "xl",
+        "w": 400,
+        "text": "Codec 双向转换边界",
+        "font": "draw",
+        "textAlign": "middle",
+        "autoSize": false,
+        "scale": 1
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {}
+  }
+}
+

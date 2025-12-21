@@ -1,0 +1,188 @@
+{
+  "store": {
+    "shape:title": {
+      "x": 200,
+      "y": 50,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:title",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a0",
+      "type": "text",
+      "props": {
+        "color": "black",
+        "size": "xl",
+        "w": 600,
+        "text": "RPC vs RESTful 错误处理对比",
+        "font": "draw",
+        "textAlign": "middle",
+        "autoSize": false,
+        "scale": 1
+      }
+    },
+    "shape:rpc": {
+      "x": 100,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:rpc",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 350,
+        "h": 280,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "red",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "start",
+        "verticalAlign": "start",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "传统 RPC 风格 ❌\n\n❌ 永远返回 HTTP 200\n\n❌ Datadog/APM 无法识别错误\n\n❌ 需要解析 body 才知道是否出错\n\n❌ 第三方系统无法识别请求状态" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:restful": {
+      "x": 550,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:restful",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 350,
+        "h": 280,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "green",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "start",
+        "verticalAlign": "start",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "我们的 RESTful 风格 ✅\n\n✅ 返回正确的 HTTP 状态码\n   401, 403, 404, 500...\n\n✅ Datadog 自动识别错误\n   status code = 4xx/5xx\n\n✅ 链路追踪自动标记失败请求\n\n✅ 网关、负载均衡可直接识别" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:example-rpc": {
+      "x": 100,
+      "y": 480,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:example-rpc",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "geo",
+      "props": {
+        "w": 350,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "dashed",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "grey",
+        "labelColor": "black",
+        "fill": "none",
+        "size": "s",
+        "font": "mono",
+        "align": "start",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "HTTP 200 OK\n{ \"code\": 10001, \"error\": \"Not Found\" }" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:example-restful": {
+      "x": 550,
+      "y": 480,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:example-restful",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 350,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "dashed",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "grey",
+        "labelColor": "black",
+        "fill": "none",
+        "size": "s",
+        "font": "mono",
+        "align": "start",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "HTTP 404 Not Found\n{ \"code\": 5, \"message\": \"资源不存在\" }" }]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {}
+  }
+}
+

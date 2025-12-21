@@ -1,0 +1,327 @@
+{
+  "store": {
+    "shape:proto": {
+      "x": 100,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:proto",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "orange",
+        "labelColor": "black",
+        "fill": "solid",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Proto\n定义" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:protobuf-es": {
+      "x": 300,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:protobuf-es",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "protobuf-es\nTS 类型" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:ts-to-zod": {
+      "x": 500,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:ts-to-zod",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "green",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "ts-to-zod\n初始 Schema" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:ast-grep": {
+      "x": 700,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:ast-grep",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "violet",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "ast-grep\nAST 转换" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:final": {
+      "x": 900,
+      "y": 200,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:final",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a5",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "yellow",
+        "labelColor": "black",
+        "fill": "solid",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Zod Schema\n✨ 完美" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:arrow1": {
+      "x": 250,
+      "y": 240,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow1",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a6",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 50, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow"
+      }
+    },
+    "shape:arrow2": {
+      "x": 450,
+      "y": 240,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow2",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a7",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 50, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow"
+      }
+    },
+    "shape:arrow3": {
+      "x": 650,
+      "y": 240,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow3",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a8",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 50, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow"
+      }
+    },
+    "shape:arrow4": {
+      "x": 850,
+      "y": 240,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:arrow4",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a9",
+      "type": "arrow",
+      "props": {
+        "dash": "draw",
+        "size": "m",
+        "fill": "none",
+        "color": "black",
+        "labelColor": "black",
+        "bend": 0,
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 50, "y": 0 },
+        "arrowheadStart": "none",
+        "arrowheadEnd": "arrow"
+      }
+    },
+    "shape:command": {
+      "x": 300,
+      "y": 350,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:command",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a10",
+      "type": "text",
+      "props": {
+        "color": "grey",
+        "size": "m",
+        "w": 400,
+        "text": "$ pnpm generate:zod",
+        "font": "mono",
+        "textAlign": "middle",
+        "autoSize": false,
+        "scale": 1
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {}
+  }
+}
+

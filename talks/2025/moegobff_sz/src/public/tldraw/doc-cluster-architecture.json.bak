@@ -1,0 +1,250 @@
+{
+  "store": {
+    "shape:title": {
+      "x": 300,
+      "y": 50,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:title",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a0",
+      "type": "text",
+      "props": {
+        "color": "black",
+        "size": "xl",
+        "w": 400,
+        "text": "多进程架构",
+        "font": "draw",
+        "textAlign": "middle",
+        "autoSize": false,
+        "scale": 1
+      }
+    },
+    "shape:manager": {
+      "x": 350,
+      "y": 130,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:manager",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 250,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "orange",
+        "labelColor": "black",
+        "fill": "solid",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Cluster Manager\n进程管理器" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:worker1": {
+      "x": 150,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:worker1",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Worker 1" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:worker2": {
+      "x": 350,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:worker2",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Worker 2" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:worker3": {
+      "x": 550,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:worker3",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Worker 3" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:worker4": {
+      "x": 750,
+      "y": 280,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:worker4",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a5",
+      "type": "geo",
+      "props": {
+        "w": 150,
+        "h": 80,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "blue",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "Worker 4" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:features": {
+      "x": 250,
+      "y": 420,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:features",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a6",
+      "type": "text",
+      "props": {
+        "color": "grey",
+        "size": "m",
+        "w": 500,
+        "text": "• 最多 4 个 Worker 进程\n• 自动负载均衡\n• Worker 崩溃自动重启\n• 充分利用多核 CPU",
+        "font": "draw",
+        "textAlign": "start",
+        "autoSize": false,
+        "scale": 1
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {}
+  }
+}
+

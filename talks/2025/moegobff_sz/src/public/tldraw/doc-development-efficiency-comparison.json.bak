@@ -1,0 +1,188 @@
+{
+  "store": {
+    "shape:title": {
+      "x": 250,
+      "y": 50,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:title",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a0",
+      "type": "text",
+      "props": {
+        "color": "black",
+        "size": "xl",
+        "w": 500,
+        "text": "开发效率对比",
+        "font": "draw",
+        "textAlign": "middle",
+        "autoSize": false,
+        "scale": 1
+      }
+    },
+    "shape:scenario1": {
+      "x": 100,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:scenario1",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a1",
+      "type": "geo",
+      "props": {
+        "w": 380,
+        "h": 100,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "red",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "start",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "后端 API 更新\n传统方案：手动同步类型 → 30 分钟\n我们的方案：运行命令 → 2 分钟 ✅" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:scenario2": {
+      "x": 550,
+      "y": 150,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:scenario2",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a2",
+      "type": "geo",
+      "props": {
+        "w": 380,
+        "h": 100,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "orange",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "start",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "新增接口\n传统方案：手写类型 + Schema → 20 分钟\n我们的方案：pnpm cr → 5 分钟 ✅" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:scenario3": {
+      "x": 100,
+      "y": 300,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:scenario3",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a3",
+      "type": "geo",
+      "props": {
+        "w": 380,
+        "h": 100,
+        "geo": "rectangle",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "yellow",
+        "labelColor": "black",
+        "fill": "semi",
+        "size": "m",
+        "font": "draw",
+        "align": "start",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "类型不一致检测\n传统方案：运行时报错 → 生产环境\n我们的方案：编译时 + 运行时 → 提前发现 ✅" }]
+            }
+          ]
+        }
+      }
+    },
+    "shape:conclusion": {
+      "x": 550,
+      "y": 300,
+      "rotation": 0,
+      "isLocked": false,
+      "opacity": 1,
+      "meta": {},
+      "id": "shape:conclusion",
+      "typeName": "shape",
+      "parentId": "page:page",
+      "index": "a4",
+      "type": "geo",
+      "props": {
+        "w": 380,
+        "h": 100,
+        "geo": "ellipse",
+        "dash": "draw",
+        "growY": 0,
+        "url": "",
+        "scale": 1,
+        "color": "green",
+        "labelColor": "black",
+        "fill": "solid",
+        "size": "l",
+        "font": "draw",
+        "align": "middle",
+        "verticalAlign": "middle",
+        "richText": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "attrs": { "dir": "auto" },
+              "content": [{ "type": "text", "text": "效率提升 10 倍！" }]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schema": {
+    "schemaVersion": 2,
+    "sequences": {}
+  }
+}
+
