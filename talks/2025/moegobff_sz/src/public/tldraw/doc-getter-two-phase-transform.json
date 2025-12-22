@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:functions": {
-      "x": 150,
-      "y": 320,
+      "x": 25,
+      "y": 450,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -47,8 +47,8 @@
       }
     },
     "shape:phase1": {
-      "x": 150,
-      "y": 100,
+      "x": 25,
+      "y": 230,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -62,7 +62,7 @@
         "w": 300,
         "h": 150,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -70,7 +70,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -93,8 +93,8 @@
       }
     },
     "shape:phase2": {
-      "x": 600,
-      "y": 100,
+      "x": 475,
+      "y": 230,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -108,7 +108,7 @@
         "w": 300,
         "h": 150,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -116,7 +116,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -139,8 +139,8 @@
       }
     },
     "shape:arrow": {
-      "x": 450,
-      "y": 170,
+      "x": 325,
+      "y": 300,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -151,7 +151,7 @@
       "index": "a3",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "l",
         "fill": "none",
         "color": "black",
@@ -168,7 +168,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,

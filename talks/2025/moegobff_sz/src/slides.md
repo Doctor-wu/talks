@@ -12,10 +12,10 @@ addons:
   - tldraw
 ---
 
-<h2>现代化 BFF 架构</h2>
-<h3 class="text-gray-400">类型安全的端到端实践</h3>
-<p class="text-gray-400 text-s">
-Doctor Wu / 2025-XX-XX
+<h2>Modernized BFF Architecture</h2>
+<h5 class="text-gray-500">类型安全的端到端实践</h5>
+<p class="text-gray-500 text-s">
+Doctor Wu / 2025-12-26
 </p>
 
 <!--
@@ -59,26 +59,26 @@ layout: center
 
 ## 议题概览
 
-<div grid="~ cols-2 gap-4" class="w-180 mx-auto mt-10">
+<div grid="~ cols-2 gap-4" class="w-140 mx-auto mt-10">
 
 <div class="p-6 rounded-lg bg-blue-500/10 border-2 border-blue-500/30">
-  <div class="text-2xl mb-2">📝 端到端类型安全</div>
-  <div class="text-sm opacity-70">Proto → Zod → OpenAPI</div>
+  <div class="text-xl mb-2">📝 端到端类型安全</div>
+  <div class="text-sm opacity-50">Proto → Zod → OpenAPI</div>
 </div>
 
 <div class="p-6 rounded-lg bg-green-500/10 border-2 border-green-500/30">
-  <div class="text-2xl mb-2">🔄 Codec 机制</div>
-  <div class="text-sm opacity-70">边界数据双向转换</div>
+  <div class="text-xl mb-2">🔄 Codec 机制</div>
+  <div class="text-sm opacity-50">边界数据双向转换</div>
 </div>
 
 <div class="p-6 rounded-lg bg-yellow-500/10 border-2 border-yellow-500/30">
-  <div class="text-2xl mb-2">⚡ 开发效率</div>
-  <div class="text-sm opacity-70">自动化工具链</div>
+  <div class="text-xl mb-2">⚡ 开发效率</div>
+  <div class="text-sm opacity-50">自动化工具链</div>
 </div>
 
 <div class="p-6 rounded-lg bg-red-500/10 border-2 border-red-500/30">
-  <div class="text-2xl mb-2">🚨 错误处理</div>
-  <div class="text-sm opacity-70">RESTful 风格的创新</div>
+  <div class="text-xl mb-2">🚨 错误处理</div>
+  <div class="text-sm opacity-50">RESTful 风格的创新</div>
 </div>
 
 </div>
@@ -107,7 +107,35 @@ BFF 是 Backend for Frontend 的缩写，它是一个专门为前端服务的中
 
 ## BFF 整体架构
 
-<tldraw document="doc-bff-architecture-overview" class="h-90 w-[65%]" doc="tldraw/doc-bff-architecture-overview.json"></tldraw>
+<div class="flex justify-center mt-14">
+
+```mermaid {scale: 0.55}
+flowchart TB
+    subgraph Frontend ["前端应用"]
+        direction LR
+        F1["B Web"] --- F2["B App"] --- F3["Client Portal"] --- F4["..."]
+    end
+
+    Frontend -->|"REST API (JSON)<br/>类型安全的 OpenAPI Client"| BFF
+
+    subgraph BFF ["BFF 层"]
+        direction LR
+        Auth["统一鉴权"] --- Agg["接口聚合"] --- Trans["数据转换"] --- Err["错误处理"]
+    end
+
+    BFF -->|"gRPC (Connect RPC)"| Backend
+
+    subgraph Backend ["后端微服务集群"]
+        direction LR
+        S1[Customer] --- S2[Payment] --- S3[Order] --- S4[Pet] --- S5[...]
+    end
+
+    style Frontend fill:#1e3a5f,stroke:#3b82f6,color:#93c5fd
+    style BFF fill:#14532d,stroke:#22c55e,color:#86efac
+    style Backend fill:#422006,stroke:#f59e0b,color:#fcd34d
+```
+
+</div>
 
 <!--
 这是 BFF 在整个系统中的位置。
@@ -130,7 +158,7 @@ layout: fact
 
 ## 三大痛点
 
-<tldraw document="doc-traditional-bff-pain-points" class="h-90 w-[65%]" doc="tldraw/doc-traditional-bff-pain-points.json"></tldraw>
+<tldraw document="doc-traditional-bff-pain-points" class="h-90 w-[85%]" doc="tldraw/doc-traditional-bff-pain-points.json"></tldraw>
 
 <!--
 传统 BFF 方案主要有三大痛点：
@@ -144,7 +172,7 @@ layout: fact
 
 ## 传统开发流程的复杂度
 
-<tldraw document="doc-traditional-workflow-complexity" class="h-90 w-[65%]" doc="tldraw/doc-traditional-workflow-complexity.json"></tldraw>
+<tldraw document="doc-traditional-workflow-complexity" class="h-90 w-[85%]" doc="tldraw/doc-traditional-workflow-complexity.json"></tldraw>
 
 <!--
 看这个流程图，传统方案下开发一个接口需要：
@@ -157,11 +185,11 @@ layout: fact
 -->
 
 ---
-layout: section
+layout: fact
 ---
 
-# 核心优势一
-## 端到端类型安全
+## End-to-End Type Safety
+端到端类型安全
 
 <!--
 接下来，我们来看第一个核心优势：端到端类型安全。
@@ -173,7 +201,7 @@ layout: section
 ## Single Source of Truth
 同构 Schema 哲学
 
-<tldraw document="doc-schema-isomorphism-flow" class="h-80 w-[65%]" doc="tldraw/doc-schema-isomorphism-flow.json"></tldraw>
+<tldraw document="doc-schema-isomorphism-flow" class="h-80 w-[85%]" doc="tldraw/doc-schema-isomorphism-flow.json"></tldraw>
 
 <!--
 我们的核心理念是 Single Source of Truth（单一数据源）。
@@ -228,7 +256,7 @@ layout: fact
 
 ## 自动生成流程
 
-<tldraw document="doc-proto-to-zod-pipeline" class="h-80 w-[65%]" doc="tldraw/doc-proto-to-zod-pipeline.json"></tldraw>
+<tldraw document="doc-proto-to-zod-pipeline" class="h-80 w-[85%]" doc="tldraw/doc-proto-to-zod-pipeline.json"></tldraw>
 
 <!--
 生成流程分为四步：
@@ -243,7 +271,7 @@ layout: fact
 
 ## ast-grep 介绍
 
-<tldraw document="doc-ast-grep-concepts" class="h-90 w-[65%]" doc="tldraw/doc-ast-grep-concepts.json"></tldraw>
+<tldraw document="doc-ast-grep-concepts" class="h-90 w-[85%]" doc="tldraw/doc-ast-grep-concepts.json"></tldraw>
 
 <!--
 这里我想重点介绍一下 ast-grep 这个工具。
@@ -258,7 +286,7 @@ ast-grep 是一个基于 AST（抽象语法树）的代码搜索和转换工具�
 
 ## AST 转换实战
 
-<tldraw document="doc-ast-grep-transformation" class="h-90 w-[65%]" doc="tldraw/doc-ast-grep-transformation.json"></tldraw>
+<tldraw document="doc-ast-grep-transformation" class="h-90 w-[85%]" doc="tldraw/doc-ast-grep-transformation.json"></tldraw>
 
 <!--
 看这个实际的转换例子：
@@ -350,7 +378,7 @@ layout: fact
 
 ## 循环引用演进历程
 
-<tldraw document="doc-circular-reference-evolution" class="h-80 w-[65%]" doc="tldraw/doc-circular-reference-evolution.json"></tldraw>
+<tldraw document="doc-circular-reference-evolution" class="h-80 w-[85%]" doc="tldraw/doc-circular-reference-evolution.json"></tldraw>
 
 <!--
 我们经历了三个阶段：
@@ -391,7 +419,7 @@ protobuf-es 生成的代码使用 z.lazy 来处理这种循环引用。
 
 ## z.lazy 的四大痛点
 
-<tldraw document="doc-zlazy-type-problems" class="h-90 w-[65%]" doc="tldraw/doc-zlazy-type-problems.json"></tldraw>
+<tldraw document="doc-zlazy-type-problems" class="h-90 w-[85%]" doc="tldraw/doc-zlazy-type-problems.json"></tldraw>
 
 <!--
 z.lazy 带来的问题有四个：
@@ -445,7 +473,7 @@ export const zServiceInstanceImpl = z.object({
 
 ## ast-grep 两阶段转换
 
-<tldraw document="doc-getter-two-phase-transform" class="h-80 w-[65%]" doc="tldraw/doc-getter-two-phase-transform.json"></tldraw>
+<tldraw document="doc-getter-two-phase-transform" class="h-80 w-[85%]" doc="tldraw/doc-getter-two-phase-transform.json"></tldraw>
 
 <!--
 那么如何自动将 z.lazy 转换为 getter 呢？
@@ -493,7 +521,7 @@ function removeLazyWrapper(root: SgNode) {
 
 ## OpenAPI 驱动的客户端生成
 
-<tldraw document="doc-openapi-client-generation" class="h-80 w-[65%]" doc="tldraw/doc-openapi-client-generation.json"></tldraw>
+<tldraw document="doc-openapi-client-generation" class="h-80 w-[85%]" doc="tldraw/doc-openapi-client-generation.json"></tldraw>
 
 <!--
 有了 Zod Schema 后，我们可以生成 OpenAPI 文档，然后基于 OpenAPI 生成类型安全的客户端。
@@ -556,11 +584,11 @@ const client = createCustomerClient(fetcher, {
 -->
 
 ---
-layout: section
+layout: fact
 ---
 
-# 核心优势二
-## Codec 机制
+## Codec Mechanism
+双向数据转换
 
 <!--
 接下来讲第二个核心优势：Codec 机制。
@@ -571,7 +599,7 @@ layout: section
 
 ## Codec 概念：双向转换
 
-<tldraw document="doc-codec-bidirectional-flow" class="h-80 w-[65%]" doc="tldraw/doc-codec-bidirectional-flow.json"></tldraw>
+<tldraw document="doc-codec-bidirectional-flow" class="h-80 w-[85%]" doc="tldraw/doc-codec-bidirectional-flow.json"></tldraw>
 
 <!--
 Codec 提供双向转换能力：
@@ -695,7 +723,7 @@ app.openapi(route, async (c) => {
 
 ## Codec vs Transform
 
-<tldraw document="doc-codec-vs-transform" class="h-90 w-[65%]" doc="tldraw/doc-codec-vs-transform.json"></tldraw>
+<tldraw document="doc-codec-vs-transform" class="h-90 w-[85%]" doc="tldraw/doc-codec-vs-transform.json"></tldraw>
 
 <!--
 为什么选择 Codec 而不是 Transform？
@@ -708,11 +736,11 @@ Transform 只有单向转换，无法满足我们的需求。
 -->
 
 ---
-layout: section
+layout: fact
 ---
 
-# 核心优势三
-## 开发效率
+## Development Efficiency
+自动化工具链
 
 <!--
 第三个核心优势是开发效率。
@@ -723,7 +751,7 @@ layout: section
 
 ## 自动化工作流
 
-<tldraw document="doc-automation-workflow" class="h-80 w-[65%]" doc="tldraw/doc-automation-workflow.json"></tldraw>
+<tldraw document="doc-automation-workflow" class="h-80 w-[85%]" doc="tldraw/doc-automation-workflow.json"></tldraw>
 
 <!--
 我们的自动化工作流非常简单：
@@ -764,7 +792,7 @@ $ pnpm cr  # 交互式创建
 
 ## CI/CD 流程
 
-<tldraw document="doc-cicd-pipeline" class="h-80 w-[65%]" doc="tldraw/doc-cicd-pipeline.json"></tldraw>
+<tldraw document="doc-cicd-pipeline" class="h-80 w-[85%]" doc="tldraw/doc-cicd-pipeline.json"></tldraw>
 
 <!--
 我们的 CI/CD 流程也很完善：
@@ -779,7 +807,7 @@ $ pnpm cr  # 交互式创建
 
 ## 开发效率对比
 
-<tldraw document="doc-development-efficiency-comparison" class="h-90 w-[65%]" doc="tldraw/doc-development-efficiency-comparison.json"></tldraw>
+<tldraw document="doc-development-efficiency-comparison" class="h-90 w-[85%]" doc="tldraw/doc-development-efficiency-comparison.json"></tldraw>
 
 <!--
 让我们看看具体的效率对比：
@@ -790,11 +818,11 @@ $ pnpm cr  # 交互式创建
 -->
 
 ---
-layout: section
+layout: fact
 ---
 
-# 核心优势四
-## 错误处理机制
+## Error Handling
+RESTful 风格错误处理
 
 <!--
 最后一个核心优势是错误处理机制。
@@ -843,7 +871,7 @@ export const RpcCode2HttpCode: Record<RPCStrandErrCode, HTTP_CODE> = {
 
 ## 错误类型体系
 
-<tldraw document="doc-error-handling-architecture" class="h-80 w-[65%]" doc="tldraw/doc-error-handling-architecture.json"></tldraw>
+<tldraw document="doc-error-handling-architecture" class="h-80 w-[85%]" doc="tldraw/doc-error-handling-architecture.json"></tldraw>
 
 <!--
 我们的错误类型体系包括：
@@ -898,7 +926,7 @@ export const ErrorMiddleware: ErrorHandler = (err, c) => {
 
 ## RPC vs RESTful 错误处理
 
-<tldraw document="doc-rpc-vs-restful-error" class="h-90 w-[65%]" doc="tldraw/doc-rpc-vs-restful-error.json"></tldraw>
+<tldraw document="doc-rpc-vs-restful-error" class="h-90 w-[85%]" doc="tldraw/doc-rpc-vs-restful-error.json"></tldraw>
 
 <!--
 对比传统 RPC 风格和我们的 RESTful 风格：
@@ -911,7 +939,7 @@ RESTful 风格：返回正确的 HTTP 状态码，Datadog 自动识别错误，�
 
 ## 链路追踪的优势
 
-<tldraw document="doc-error-tracing-flow" class="h-80 w-[65%]" doc="tldraw/doc-error-tracing-flow.json"></tldraw>
+<tldraw document="doc-error-tracing-flow" class="h-80 w-[85%]" doc="tldraw/doc-error-tracing-flow.json"></tldraw>
 
 <!--
 完整的错误处理流程：
@@ -936,7 +964,7 @@ layout: section
 
 ## 技术栈总览
 
-<tldraw document="doc-tech-stack-overview" class="h-90 w-[65%]" doc="tldraw/doc-tech-stack-overview.json"></tldraw>
+<tldraw document="doc-tech-stack-overview" class="h-90 w-[85%]" doc="tldraw/doc-tech-stack-overview.json"></tldraw>
 
 <!--
 我们的技术栈包括：
@@ -952,7 +980,7 @@ layout: section
 
 ## 多进程架构
 
-<tldraw document="doc-cluster-architecture" class="h-80 w-[65%]" doc="tldraw/doc-cluster-architecture.json"></tldraw>
+<tldraw document="doc-cluster-architecture" class="h-80 w-[85%]" doc="tldraw/doc-cluster-architecture.json"></tldraw>
 
 <!--
 我们的 BFF 使用多进程架构：

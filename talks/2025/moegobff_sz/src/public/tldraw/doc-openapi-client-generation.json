@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:arrow1": {
-      "x": 330,
-      "y": 190,
+      "x": 240,
+      "y": 375,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -13,7 +13,7 @@
       "index": "a6",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -30,7 +30,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -38,8 +38,8 @@
       }
     },
     "shape:arrow2": {
-      "x": 580,
-      "y": 190,
+      "x": 490,
+      "y": 375,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -50,7 +50,7 @@
       "index": "a7",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -67,7 +67,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -75,8 +75,8 @@
       }
     },
     "shape:arrow3": {
-      "x": 490,
-      "y": 230,
+      "x": 400,
+      "y": 415,
       "rotation": 1.5708,
       "isLocked": false,
       "opacity": 1,
@@ -87,7 +87,7 @@
       "index": "a8",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -104,7 +104,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -112,8 +112,8 @@
       }
     },
     "shape:arrow4": {
-      "x": 330,
-      "y": 340,
+      "x": 240,
+      "y": 525,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -124,7 +124,7 @@
       "index": "a9",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -141,7 +141,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -149,8 +149,8 @@
       }
     },
     "shape:client-gen": {
-      "x": 650,
-      "y": 150,
+      "x": 560,
+      "y": 335,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -164,7 +164,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -172,7 +172,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -195,8 +195,8 @@
       }
     },
     "shape:route": {
-      "x": 150,
-      "y": 150,
+      "x": 60,
+      "y": 335,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -210,7 +210,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -218,7 +218,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -241,8 +241,8 @@
       }
     },
     "shape:rewrite": {
-      "x": 400,
-      "y": 300,
+      "x": 310,
+      "y": 485,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -256,7 +256,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -264,7 +264,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -301,8 +301,8 @@
       "typeName": "document"
     },
     "shape:final": {
-      "x": 150,
-      "y": 300,
+      "x": 60,
+      "y": 485,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -316,7 +316,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -324,7 +324,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -347,8 +347,8 @@
       }
     },
     "shape:openapi-yaml": {
-      "x": 400,
-      "y": 150,
+      "x": 310,
+      "y": 335,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -362,7 +362,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -370,7 +370,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -393,8 +393,8 @@
       }
     },
     "shape:title": {
-      "x": 250,
-      "y": 50,
+      "x": 160,
+      "y": 235,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -408,7 +408,7 @@
         "color": "black",
         "size": "xl",
         "w": 500,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "middle",
         "autoSize": false,
         "scale": 1,

@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:problem1": {
-      "x": 100,
-      "y": 100,
+      "x": 5,
+      "y": 260,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -16,7 +16,7 @@
         "w": 230,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -24,7 +24,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -47,8 +47,8 @@
       }
     },
     "shape:problem2": {
-      "x": 380,
-      "y": 100,
+      "x": 285,
+      "y": 260,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -62,7 +62,7 @@
         "w": 230,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -70,7 +70,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -93,8 +93,8 @@
       }
     },
     "shape:problem3": {
-      "x": 660,
-      "y": 100,
+      "x": 565,
+      "y": 260,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -108,7 +108,7 @@
         "w": 230,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -116,7 +116,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -139,8 +139,8 @@
       }
     },
     "shape:problem4": {
-      "x": 100,
-      "y": 260,
+      "x": 5,
+      "y": 420,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -154,7 +154,7 @@
         "w": 230,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -162,7 +162,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -185,8 +185,8 @@
       }
     },
     "shape:solution": {
-      "x": 380,
-      "y": 260,
+      "x": 285,
+      "y": 420,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -200,7 +200,7 @@
         "w": 510,
         "h": 120,
         "geo": "ellipse",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -208,7 +208,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "l",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {

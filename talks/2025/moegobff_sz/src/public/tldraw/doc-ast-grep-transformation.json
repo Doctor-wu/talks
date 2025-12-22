@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:after": {
-      "x": 600,
-      "y": 150,
+      "x": 475,
+      "y": 275,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -16,7 +16,7 @@
         "w": 350,
         "h": 200,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -47,8 +47,8 @@
       }
     },
     "shape:arrow": {
-      "x": 400,
-      "y": 240,
+      "x": 275,
+      "y": 365,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -59,7 +59,7 @@
       "index": "a3",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "l",
         "fill": "none",
         "color": "black",
@@ -76,7 +76,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "ast-grep\n转换",
         "labelPosition": 0.5,
         "scale": 1,
@@ -84,8 +84,8 @@
       }
     },
     "shape:features": {
-      "x": 200,
-      "y": 400,
+      "x": 75,
+      "y": 525,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -99,7 +99,7 @@
         "color": "grey",
         "size": "m",
         "w": 600,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "start",
         "autoSize": false,
         "scale": 1,
@@ -123,8 +123,8 @@
       }
     },
     "shape:before": {
-      "x": 100,
-      "y": 150,
+      "x": -25,
+      "y": 275,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -138,7 +138,7 @@
         "w": 300,
         "h": 200,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,

@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:arrow1": {
-      "x": 370,
-      "y": 140,
+      "x": 355,
+      "y": 260,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -13,7 +13,7 @@
       "index": "a5",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -30,7 +30,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -38,8 +38,8 @@
       }
     },
     "shape:arrow2": {
-      "x": 370,
-      "y": 280,
+      "x": 355,
+      "y": 400,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -50,7 +50,7 @@
       "index": "a6",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -67,7 +67,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -75,8 +75,8 @@
       }
     },
     "shape:arrow3": {
-      "x": 370,
-      "y": 420,
+      "x": 355,
+      "y": 540,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -87,7 +87,7 @@
       "index": "a7",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -104,7 +104,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -112,8 +112,8 @@
       }
     },
     "shape:bff-server": {
-      "x": 500,
-      "y": 100,
+      "x": 485,
+      "y": 220,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -127,7 +127,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -135,7 +135,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -158,8 +158,8 @@
       }
     },
     "shape:frontend": {
-      "x": 500,
-      "y": 380,
+      "x": 485,
+      "y": 500,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -173,7 +173,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -181,7 +181,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -204,8 +204,8 @@
       }
     },
     "shape:source": {
-      "x": 150,
-      "y": 200,
+      "x": 135,
+      "y": 320,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -219,7 +219,7 @@
         "w": 220,
         "h": 120,
         "geo": "diamond",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -227,7 +227,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "l",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -250,8 +250,8 @@
       }
     },
     "shape:openapi": {
-      "x": 500,
-      "y": 240,
+      "x": 485,
+      "y": 360,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -265,7 +265,7 @@
         "w": 180,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -273,7 +273,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {

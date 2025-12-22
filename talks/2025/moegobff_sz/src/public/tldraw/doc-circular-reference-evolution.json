@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:arrow1": {
-      "x": 350,
-      "y": 160,
+      "x": 225,
+      "y": 370,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -13,7 +13,7 @@
       "index": "a4",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -30,7 +30,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "迭代",
         "labelPosition": 0.5,
         "scale": 1,
@@ -38,8 +38,8 @@
       }
     },
     "shape:arrow2": {
-      "x": 650,
-      "y": 160,
+      "x": 525,
+      "y": 370,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -50,7 +50,7 @@
       "index": "a5",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -67,7 +67,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "突破",
         "labelPosition": 0.5,
         "scale": 1,
@@ -75,8 +75,8 @@
       }
     },
     "shape:stage1": {
-      "x": 100,
-      "y": 100,
+      "x": -25,
+      "y": 310,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -90,7 +90,7 @@
         "w": 250,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -98,7 +98,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -121,8 +121,8 @@
       }
     },
     "shape:stage2": {
-      "x": 400,
-      "y": 100,
+      "x": 275,
+      "y": 310,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -136,7 +136,7 @@
         "w": 250,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -144,7 +144,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -167,8 +167,8 @@
       }
     },
     "shape:stage3": {
-      "x": 700,
-      "y": 100,
+      "x": 575,
+      "y": 310,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -182,7 +182,7 @@
         "w": 250,
         "h": 120,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -190,7 +190,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -227,8 +227,8 @@
       "typeName": "document"
     },
     "shape:zod4": {
-      "x": 300,
-      "y": 280,
+      "x": 175,
+      "y": 490,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -242,7 +242,7 @@
         "color": "violet",
         "size": "l",
         "w": 500,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "middle",
         "autoSize": false,
         "scale": 1,

@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:manager": {
-      "x": 350,
-      "y": 130,
+      "x": 225,
+      "y": 295,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -16,7 +16,7 @@
         "w": 250,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -24,7 +24,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -47,8 +47,8 @@
       }
     },
     "shape:features": {
-      "x": 250,
-      "y": 420,
+      "x": 125,
+      "y": 585,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -62,7 +62,7 @@
         "color": "grey",
         "size": "m",
         "w": 500,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "start",
         "autoSize": false,
         "scale": 1,
@@ -100,8 +100,8 @@
       "typeName": "document"
     },
     "shape:worker1": {
-      "x": 150,
-      "y": 280,
+      "x": 25,
+      "y": 445,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -115,7 +115,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -123,7 +123,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -146,8 +146,8 @@
       }
     },
     "shape:worker2": {
-      "x": 350,
-      "y": 280,
+      "x": 225,
+      "y": 445,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -161,7 +161,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -169,7 +169,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -192,8 +192,8 @@
       }
     },
     "shape:worker3": {
-      "x": 550,
-      "y": 280,
+      "x": 425,
+      "y": 445,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -207,7 +207,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -215,7 +215,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -238,8 +238,8 @@
       }
     },
     "shape:worker4": {
-      "x": 750,
-      "y": 280,
+      "x": 625,
+      "y": 445,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -253,7 +253,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -261,7 +261,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -284,8 +284,8 @@
       }
     },
     "shape:title": {
-      "x": 300,
-      "y": 50,
+      "x": 175,
+      "y": 215,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -299,7 +299,7 @@
         "color": "black",
         "size": "xl",
         "w": 400,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "middle",
         "autoSize": false,
         "scale": 1,

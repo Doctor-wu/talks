@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:pain1": {
-      "x": 100,
-      "y": 100,
+      "x": 50,
+      "y": 200,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -13,10 +13,10 @@
       "index": "a1",
       "type": "geo",
       "props": {
-        "w": 250,
-        "h": 150,
+        "w": 220,
+        "h": 180,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -24,7 +24,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -38,7 +38,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "❌ 痛点 1：类型不一致\n\n前后端手动维护类型\n容易出现不一致"
+                  "text": "❌ 痛点 1\n类型不一致\n\n前后端手动维护类型\n容易出现不一致"
                 }
               ]
             }
@@ -47,8 +47,8 @@
       }
     },
     "shape:pain2": {
-      "x": 400,
-      "y": 100,
+      "x": 290,
+      "y": 200,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -59,10 +59,10 @@
       "index": "a2",
       "type": "geo",
       "props": {
-        "w": 250,
-        "h": 150,
+        "w": 220,
+        "h": 180,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -70,7 +70,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -84,7 +84,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "❌ 痛点 2：重复劳动\n\nSchema 多处定义\nProto 更新需手动同步"
+                  "text": "❌ 痛点 2\n重复劳动\n\nSchema 多处定义\nProto 更新需手动同步"
                 }
               ]
             }
@@ -93,8 +93,8 @@
       }
     },
     "shape:pain3": {
-      "x": 700,
-      "y": 100,
+      "x": 530,
+      "y": 200,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -105,10 +105,10 @@
       "index": "a3",
       "type": "geo",
       "props": {
-        "w": 250,
-        "h": 150,
+        "w": 220,
+        "h": 180,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -116,7 +116,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -130,7 +130,7 @@
               "content": [
                 {
                   "type": "text",
-                  "text": "❌ 痛点 3：数据转换困难\n\nJSON ↔ gRPC 类型差异\nBigInt, Date 等处理繁琐"
+                  "text": "❌ 痛点 3\n数据转换困难\n\nJSON ↔ gRPC 类型差异\nBigInt, Date 等处理繁琐"
                 }
               ]
             }
@@ -153,8 +153,8 @@
       "typeName": "document"
     },
     "shape:impact": {
-      "x": 300,
-      "y": 350,
+      "x": 175,
+      "y": 440,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -166,7 +166,7 @@
       "type": "geo",
       "props": {
         "w": 450,
-        "h": 100,
+        "h": 80,
         "geo": "ellipse",
         "dash": "dashed",
         "growY": 0,
@@ -176,7 +176,7 @@
         "labelColor": "black",
         "fill": "none",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {

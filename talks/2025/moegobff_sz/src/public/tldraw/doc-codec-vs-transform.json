@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:transform": {
-      "x": 550,
-      "y": 150,
+      "x": 450,
+      "y": 275,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -16,7 +16,7 @@
         "w": 350,
         "h": 300,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -24,7 +24,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "start",
         "verticalAlign": "start",
         "richText": {
@@ -47,8 +47,8 @@
       }
     },
     "shape:conclusion": {
-      "x": 200,
-      "y": 500,
+      "x": 100,
+      "y": 625,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -62,7 +62,7 @@
         "color": "violet",
         "size": "l",
         "w": 600,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "middle",
         "autoSize": false,
         "scale": 1,
@@ -100,8 +100,8 @@
       "typeName": "document"
     },
     "shape:codec": {
-      "x": 100,
-      "y": 150,
+      "x": 0,
+      "y": 275,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -115,7 +115,7 @@
         "w": 350,
         "h": 300,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -123,7 +123,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "start",
         "verticalAlign": "start",
         "richText": {
@@ -146,8 +146,8 @@
       }
     },
     "shape:title": {
-      "x": 250,
-      "y": 50,
+      "x": 150,
+      "y": 175,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -161,7 +161,7 @@
         "color": "black",
         "size": "xl",
         "w": 500,
-        "font": "draw",
+        "font": "sans",
         "textAlign": "middle",
         "autoSize": false,
         "scale": 1,

@@ -1,8 +1,8 @@
 {
   "store": {
     "shape:arrow1": {
-      "x": 250,
-      "y": 240,
+      "x": 75,
+      "y": 365,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -13,7 +13,7 @@
       "index": "a6",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -30,7 +30,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -38,8 +38,8 @@
       }
     },
     "shape:arrow2": {
-      "x": 450,
-      "y": 240,
+      "x": 275,
+      "y": 365,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -50,7 +50,7 @@
       "index": "a7",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -67,7 +67,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -75,8 +75,8 @@
       }
     },
     "shape:arrow3": {
-      "x": 650,
-      "y": 240,
+      "x": 475,
+      "y": 365,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -87,7 +87,7 @@
       "index": "a8",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -104,7 +104,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -112,8 +112,8 @@
       }
     },
     "shape:arrow4": {
-      "x": 850,
-      "y": 240,
+      "x": 675,
+      "y": 365,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -124,7 +124,7 @@
       "index": "a9",
       "type": "arrow",
       "props": {
-        "dash": "draw",
+        "dash": "solid",
         "size": "m",
         "fill": "none",
         "color": "black",
@@ -141,7 +141,7 @@
         "arrowheadStart": "none",
         "arrowheadEnd": "arrow",
         "kind": "arc",
-        "font": "draw",
+        "font": "sans",
         "text": "",
         "labelPosition": 0.5,
         "scale": 1,
@@ -149,8 +149,8 @@
       }
     },
     "shape:proto": {
-      "x": 100,
-      "y": 200,
+      "x": -75,
+      "y": 325,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -164,7 +164,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -172,7 +172,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -195,8 +195,8 @@
       }
     },
     "shape:command": {
-      "x": 300,
-      "y": 350,
+      "x": 125,
+      "y": 475,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -234,8 +234,8 @@
       }
     },
     "shape:ts-to-zod": {
-      "x": 500,
-      "y": 200,
+      "x": 325,
+      "y": 325,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -249,7 +249,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -257,7 +257,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -280,8 +280,8 @@
       }
     },
     "shape:protobuf-es": {
-      "x": 300,
-      "y": 200,
+      "x": 125,
+      "y": 325,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -295,7 +295,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -303,7 +303,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -340,8 +340,8 @@
       "typeName": "document"
     },
     "shape:ast-grep": {
-      "x": 700,
-      "y": 200,
+      "x": 525,
+      "y": 325,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -355,7 +355,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -363,7 +363,7 @@
         "labelColor": "black",
         "fill": "semi",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
@@ -386,8 +386,8 @@
       }
     },
     "shape:final": {
-      "x": 900,
-      "y": 200,
+      "x": 725,
+      "y": 325,
       "rotation": 0,
       "isLocked": false,
       "opacity": 1,
@@ -401,7 +401,7 @@
         "w": 150,
         "h": 80,
         "geo": "rectangle",
-        "dash": "draw",
+        "dash": "solid",
         "growY": 0,
         "url": "",
         "scale": 1,
@@ -409,7 +409,7 @@
         "labelColor": "black",
         "fill": "solid",
         "size": "m",
-        "font": "draw",
+        "font": "sans",
         "align": "middle",
         "verticalAlign": "middle",
         "richText": {
