@@ -121,7 +121,7 @@ overrides:
 
 patchedDependencies:
   slidev-addon-tldraw@0.5.1:
-    hash: 0df1e663f03172de8eb5445305102ad09e01e9aadaee1c0856656f728469165f
+    hash: 21d5ba17b535349ee35cf8cfeddd834736fabb5305a70fe3263e7d8a5d5ff5c0
     path: patches/slidev-addon-tldraw@0.5.1.patch
 
 importers:
@@ -130,7 +130,7 @@ importers:
     dependencies:
       slidev-addon-tldraw:
         specifier: ^0.5.1
-        version: 0.5.1(patch_hash=0df1e663f03172de8eb5445305102ad09e01e9aadaee1c0856656f728469165f)(@nuxt/kit@3.14.1592(rollup@4.40.2))(@vue/compiler-sfc@3.5.16)(postcss@8.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.40.2)(vite@6.3.5(@types/node@24.0.3)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.8.0))(vue-template-compiler@2.7.16)(vue@3.5.16(typescript@5.8.3))
+        version: 0.5.1(patch_hash=21d5ba17b535349ee35cf8cfeddd834736fabb5305a70fe3263e7d8a5d5ff5c0)(@nuxt/kit@3.14.1592(rollup@4.40.2))(@vue/compiler-sfc@3.5.16)(postcss@8.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.40.2)(vite@6.3.5(@types/node@24.0.3)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.8.0))(vue-template-compiler@2.7.16)(vue@3.5.16(typescript@5.8.3))
     devDependencies:
       '@antfu/eslint-config':
         specifier: 'catalog:'
@@ -11212,7 +11212,7 @@ snapshots:
       - uuid
       - vis-util
 
-  slidev-addon-tldraw@0.5.1(patch_hash=0df1e663f03172de8eb5445305102ad09e01e9aadaee1c0856656f728469165f)(@nuxt/kit@3.14.1592(rollup@4.40.2))(@vue/compiler-sfc@3.5.16)(postcss@8.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.40.2)(vite@6.3.5(@types/node@24.0.3)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.8.0))(vue-template-compiler@2.7.16)(vue@3.5.16(typescript@5.8.3)):
+  slidev-addon-tldraw@0.5.1(patch_hash=21d5ba17b535349ee35cf8cfeddd834736fabb5305a70fe3263e7d8a5d5ff5c0)(@nuxt/kit@3.14.1592(rollup@4.40.2))(@vue/compiler-sfc@3.5.16)(postcss@8.5.3)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(rollup@4.40.2)(vite@6.3.5(@types/node@24.0.3)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.8.0))(vue-template-compiler@2.7.16)(vue@3.5.16(typescript@5.8.3)):
     dependencies:
       '@slidev/client': 51.8.2(@nuxt/kit@3.14.1592(rollup@4.40.2))(@vue/compiler-sfc@3.5.16)(postcss@8.5.3)(react@19.1.0)(rollup@4.40.2)(vite@6.3.5(@types/node@24.0.3)(jiti@2.4.2)(tsx@4.19.2)(yaml@2.8.0))(vue-template-compiler@2.7.16)
       '@vueuse/core': 14.1.0(vue@3.5.16(typescript@5.8.3))
