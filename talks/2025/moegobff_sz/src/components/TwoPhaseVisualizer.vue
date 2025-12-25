@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 mt-10">
+  <div class="flex flex-col gap-6 mt-20 mx-20">
     <!-- Phase 1 -->
     <div class="relative p-6 border border-blue-500/30 bg-blue-500/5 rounded-xl">
       <div class="absolute -top-3 left-4 px-2 bg-[#121212] text-blue-400 text-sm font-bold">
