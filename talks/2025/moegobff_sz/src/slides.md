@@ -1,4 +1,5 @@
----layout: cover
+---
+layout: cover
 highlighter: shiki
 css: unocss
 colorSchema: dark
@@ -23,36 +24,6 @@ Doctor Wu / 2025-12-26
 -->
 
 ---
-layout: intro
-class: pl-35
-glowSeed: 14
----
-
-## Doctor Wu
-
-<div class="[&>*]:important-leading-10 opacity-80">
-
-{MoeGo} 前端工程师<br>
-{Vue} {VueUse} 核心团队成员<br>
-
-</div>
-
-<div my-10 w-max flex="~ gap-1" items-center justify-center>
-  <div i-ri-user-3-line op50 ma text-xl />
-  <div><a href="https://doctorwu.me" target="_blank" class="border-none! font-300">doctorwu.me</a></div>
-  <div i-ri-github-line op50 ma text-xl ml4/>
-  <div><a href="https://github.com/Doctor-wu" target="_blank" class="border-none! font-300">Doctor-wu</a></div>
-</div>
-
-<img src="https://github.com/Doctor-wu.png" absolute top-36 right-35 w-40 rounded-full/>
-
-<!--
-我是 Doctor Wu，目前在 MoeGo 负责前端基础设施建设。
-同时也是 Vue 和 VueUse 的核心团队成员。
-今天分享的 BFF 方案是我们团队在生产环境中实践的经验总结。
--->
-
----
 layout: center
 ---
 
@@ -67,7 +38,7 @@ layout: center
 
 <div class="p-6 rounded-lg bg-green-500/10 border-2 border-green-500/30">
   <div class="text-xl mb-2">🔄 Codec 机制</div>
-  <div class="text-sm opacity-50">边界数据双向转换</div>
+  <div class="text-sm opacity-50">数据穿越边界实现双向转换</div>
 </div>
 
 <div class="p-6 rounded-lg bg-yellow-500/10 border-2 border-yellow-500/30">
@@ -77,7 +48,7 @@ layout: center
 
 <div class="p-6 rounded-lg bg-red-500/10 border-2 border-red-500/30">
   <div class="text-xl mb-2">🚨 错误处理</div>
-  <div class="text-sm opacity-50">RESTful 风格的创新</div>
+  <div class="text-sm opacity-50">RESTful 风格的错误处理</div>
 </div>
 
 </div>
@@ -100,6 +71,56 @@ Backend for Frontend
 <!--
 在开始之前，我们先明确一下 BFF 的定义。
 BFF 是 Backend for Frontend 的缩写，它是一个专门为前端服务的中间层。
+-->
+
+---
+layout: center
+---
+
+## 方案对比
+
+<div class="grid grid-cols-3 gap-4 mt-8 text-left">
+
+<div class="p-4 border-2 border-gray-500/30 rounded-lg opacity-60">
+  <div class="text-xl font-bold mb-4">🏛️ 传统方案</div>
+  <div class="text-sm font-mono mb-2">Node.js + Swagger</div>
+  <ul class="text-sm list-disc pl-4 space-y-2">
+    <li>手动编写文档</li>
+    <li>文档代码不同步</li>
+    <li>类型主要靠文档约定</li>
+    <li><span class="text-red-400">痛点：维护成本高，信赖度低</span></li>
+  </ul>
+</div>
+
+<div class="p-4 border-2 border-yellow-500/30 rounded-lg opacity-80">
+  <div class="text-xl font-bold mb-4">🚧 内部 Legacy</div>
+  <div class="text-sm font-mono mb-2">API-v3 (Proto -> TS)</div>
+  <ul class="text-sm list-disc pl-4 space-y-2">
+    <li>Proto 直转 TS 类型</li>
+    <li>需要重复编写 Proto</li>
+    <li>类型是 number, 实际返回 null</li>
+    <li><span class="text-yellow-400">痛点：类型不安全, 重复协议编写</span></li>
+  </ul>
+</div>
+
+<div class="p-4 border-2 border-green-500/50 rounded-lg bg-green-500/10">
+  <div class="text-xl font-bold mb-4 text-green-400">✨ 现有架构</div>
+  <div class="text-sm font-mono mb-2">Schema-First</div>
+  <ul class="text-sm list-disc pl-4 space-y-2">
+    <li>Proto -> Zod -> OpenAPI</li>
+    <li>端到端类型完全一致</li>
+    <li>运行时自动校验</li>
+    <li><span class="text-green-400">优势：类型绝对安全，开发高效</span></li>
+  </ul>
+</div>
+
+</div>
+
+<!--
+我们来做一个横向对比：
+1. 传统方案：靠文档堆砌，容易过时，前后端对着 Swagger 扯皮。
+2. 我们内部的上一代方案 (API-v3)：虽然用了 Proto 生成 TS，但类型转换生硬，比如 Optional 字段在 JSON 里可能是 undefined，但在 TS 定义里可能是 null，导致大量的 NPE。
+3. 现在的架构：Schema-First，从源头保证一致性，运行时强校验，彻底解决类型信任问题。
 -->
 
 ---
@@ -143,62 +164,12 @@ flowchart TB
 -->
 
 ---
-layout: center
----
-
-## 方案对比
-
-<div class="grid grid-cols-3 gap-4 mt-8 text-left">
-
-<div class="p-4 border-2 border-gray-500/30 rounded-lg opacity-60">
-  <div class="text-xl font-bold mb-4">🏛️ 传统方案</div>
-  <div class="text-sm font-mono mb-2">Node.js + Swagger</div>
-  <ul class="text-sm list-disc pl-4 space-y-2">
-    <li>手动编写文档</li>
-    <li>文档代码不同步</li>
-    <li>类型主要靠文档约定</li>
-    <li><span class="text-red-400">痛点：维护成本高，信赖度低</span></li>
-  </ul>
-</div>
-
-<div class="p-4 border-2 border-yellow-500/30 rounded-lg opacity-80">
-  <div class="text-xl font-bold mb-4">🚧 内部 Legacy</div>
-  <div class="text-sm font-mono mb-2">API-v3 (Proto -> TS)</div>
-  <ul class="text-sm list-disc pl-4 space-y-2">
-    <li>Proto 直转 TS 类型</li>
-    <li>需要重复编写 Proto</li>
-    <li>类型是 number, 实际返回 null</li>
-    <li><span class="text-yellow-400">痛点：运行时类型不安全</span></li>
-  </ul>
-</div>
-
-<div class="p-4 border-2 border-green-500/50 rounded-lg bg-green-500/10">
-  <div class="text-xl font-bold mb-4 text-green-400">✨ 现有架构</div>
-  <div class="text-sm font-mono mb-2">Schema-First</div>
-  <ul class="text-sm list-disc pl-4 space-y-2">
-    <li>Proto -> Zod -> OpenAPI</li>
-    <li>端到端类型完全一致</li>
-    <li>运行时自动校验</li>
-    <li><span class="text-green-400">优势：类型绝对安全，开发高效</span></li>
-  </ul>
-</div>
-
-</div>
-
-<!--
-我们来做一个横向对比：
-1. 传统方案：靠文档堆砌，容易过时，前后端对着 Swagger 扯皮。
-2. 我们内部的上一代方案 (API-v3)：虽然用了 Proto 生成 TS，但类型转换生硬，比如 Optional 字段在 JSON 里可能是 undefined，但在 TS 定义里可能是 null，导致大量的 NPE。
-3. 现在的架构：Schema-First，从源头保证一致性，运行时强校验，彻底解决类型信任问题。
--->
-
----
 layout: fact
 ---
 
-## End-to-End Type Safety
+## Schema Based Protocol
 
-端到端类型安全
+基于 Zod Schema 的协议定义
 
 <!--
 这一部分是整个分享的高潮，我们通过代码的演进，来展示类型是如何从后端流动到前端的。
@@ -206,7 +177,7 @@ layout: fact
 
 ---
 
-## 类型演进之旅
+## 类型演进: 登录协议制定
 
 <div mt-10></div>
 ````md magic-move {lines: true}
@@ -225,52 +196,20 @@ message LoginResponse {
 ```
 
 ```typescript
-// 2. 生成 TS 类型 (api-node-v2)
-/**
- * Login RPC 的请求消息。
- *
- * @generated from message backend.proto.authn.v1.LoginRequest
- */
-export type LoginRequest = Message<"backend.proto.authn.v1.LoginRequest"> & {
-  /**
-   * 用户的电子邮件地址。
-   *
-   * @generated from field: string email = 1;
-   */
-  email: string;
-
-  /**
-   * 用户的密码。
-   *
-   * @generated from field: string password = 2;
-   */
-  password: string;
-}
-```
-
-```typescript
-// 3. 自动生成 Zod Schema (BFF Layer)
-// 经过 ts-to-zod + ast-grep 转换
+// 2. 编写 Zod Schema
 export const zLoginRequest = z.object({
-    /**
-     * 用户的电子邮件地址。
-     *
-     * @generated from field: string email = 1;
-     */
-    email: z.string().openapi({ description: `用户的电子邮件地址。` }),
-    /**
-     * 用户的密码。
-     *
-     * @generated from field: string password = 2;
-     */
-    password: z.string().openapi({ description: `用户的密码。` }),
-}).openapi('LoginRequest');
+  email: z.string(),
+  password: z.string(),
+});
 
-// 运行时自动校验 + OpenAPI 元数据
+export const zLoginResponse = z.object({
+  sessionToken: z.string(),
+  user: z.object({...}),
+});
 ```
 
 ```typescript
-// 4. BFF 路由定义 (Server Implementation)
+// 3. BFF 路由定义 (Server Implementation)
 // login.ts
 export const loginRoute = createRoute({
   method: 'post',
@@ -283,25 +222,26 @@ export const loginRoute = createRoute({
 ```
 
 ```typescript
-// 5. 生成的前端 Client (Fully Typed)
+// 4. 前端 Client (Fully Typed)
 // 开发者直接调用，享受完整类型提示
 
 const res = await BFFLoginClient.login({
+//    ^? const res: LoginResponse
   email: "doctorwu@moego.pet",
   password: "password123",
 });
 
-// ^? const res: LoginResponse
 ```
 ````
 
 <!--
-我们来看这一段 Magic Move：
+我们先看最朴素的实现方式：
 1. 起点：后端的 Proto 文件，定义了最原始的数据结构。
-2. 转换：通过 protobuf-es 生成了基础的 TypeScript 类型。
-3. 进化：通过我们的工具链，自动生成了带有校验逻辑的 Zod Schema。
-4. 应用：在 BFF 路由定义中直接使用这个 Schema，绑定了输入输出。
-5. 终局：前端通过生成的 Client 直接调用，这里大家可以看到鼠标悬停时的类型提示（Twoslash），完全保留了所有字段信息。
+2. 手写：对照 Proto，手动编写 Zod Schema。虽然简单，但能工作。
+3. 应用：在 BFF 路由中使用这个 Schema，绑定输入输出。
+4. 终局：前端通过 Client 调用，享受类型提示。
+
+看起来不错对吧？但这里埋下了一个隐患，我们稍后会回来解决。
 -->
 
 ---
@@ -364,6 +304,179 @@ const client = createClient({
 一旦后端返回的数据不符合 Schema 定义（比如缺少必填字段），Client 会立即抛出异常并上报监控。
 这意味着我们不需要等到用户点击按钮报错时才发现问题，而是在数据到达前端的那一刻就拦截住了。
 -->
+---
+layout: fact
+---
+
+## Automatic Schema Generation
+Schema 自动化生成
+
+---
+
+## 痛点：手写 Schema 的代价
+
+<div class="mt-8">
+
+还记得之前的 Login 例子吗？
+
+````md magic-move {lines: true}
+```typescript
+// 手写版本看起来很简单...
+export const zLoginRequest = z.object({
+  email: z.string(),
+  password: z.string(),
+});
+```
+
+```typescript
+// 但实际项目中，Proto 定义远比这复杂
+// 一个真实的 LoginResponse 可能长这样：
+export const zLoginResponse = z.object({
+  sessionToken: z.string(),
+  user: z.object({
+    id: z.string(),
+    email: z.string(),
+    profile: z.object({
+      firstName: z.string(),
+      lastName: z.string(),
+      avatar: z.string().optional(),
+      // ... 20+ 个字段
+    }),
+    permissions: z.array(z.string()),
+    createdAt: z.string(),
+    // ... 还有更多
+  }),
+});
+```
+
+```typescript
+// ❌ 问题1：Proto 字段更新了，Schema 忘记同步
+// authn_service.proto 新增了 mfa_enabled 字段
+message LoginResponse {
+  string session_token = 1;
+  UserProfile user = 2;
+  bool mfa_enabled = 3;  // 新增！
+}
+
+// 但 Zod Schema 还是旧的...
+// 运行时校验会失败，或者更糟——静默丢失数据
+```
+
+```typescript
+// ❌ 问题2：200+ 个 Proto message，手写要写到什么时候？
+// customer.proto: 45 个 message
+// order.proto: 67 个 message  
+// payment.proto: 38 个 message
+// ...
+
+// 估算：平均每个 message 10 分钟
+// 200 个 × 10 分钟 = 33 小时纯手写
+// 还不算后续维护...
+```
+````
+
+</div>
+
+<v-clicks>
+
+- **同步问题**：Proto 更新后，手写的 Schema 容易遗漏
+- **规模问题**：200+ 个 message，手写不现实
+- **维护成本**：每次后端改动都要同步更新
+
+</v-clicks>
+
+<!--
+现在让我们回到之前的 Login 例子。
+手写一两个 Schema 还好，但真实项目中我们有 200+ 个 Proto message。
+更要命的是，后端经常会新增字段，如果手写 Schema 忘记同步，轻则运行时报错，重则数据丢失。
+这就是我们需要自动化的原因。
+-->
+
+---
+
+## Callback：Login 的完整演进
+
+<div mt-6></div>
+
+现在让我们看看完整的自动化版本：
+
+````md magic-move {lines: true}
+```typescript
+// 之前：手写版本 😰
+export const zLoginRequest = z.object({
+  email: z.string(),
+  password: z.string(),
+});
+// 痛点：容易与 Proto 不同步、缺少文档
+```
+
+```protobuf
+// 起点：Proto 定义 (Source of Truth)
+message LoginRequest {
+  // 用户的电子邮件地址
+  string email = 1;
+  // 用户的密码
+  string password = 2;
+}
+```
+
+```typescript
+// Step 1: protobuf-es 生成 TS 类型
+export type LoginRequest = Message<"backend.proto.authn.v1.LoginRequest"> & {
+  /**
+   * 用户的电子邮件地址。
+   * @generated from field: string email = 1;
+   */
+  email: string;
+  /**
+   * 用户的密码。
+   * @generated from field: string password = 2;
+   */
+  password: string;
+}
+```
+
+```typescript
+// Step 2: ts-to-zod + ast-grep 自动生成 ✨
+export const zLoginRequest = z.object({
+  /**
+   * 用户的电子邮件地址。
+   * @generated from field: string email = 1;
+   */
+  email: z.string()
+    .openapi({ description: `用户的电子邮件地址。` }),
+  /**
+   * 用户的密码。
+   * @generated from field: string password = 2;
+   */
+  password: z.string()
+    .openapi({ description: `用户的密码。` }),
+}).openapi('LoginRequest');
+
+// ✅ 自动同步 + 运行时校验 + OpenAPI 元数据
+```
+
+```typescript
+// 最终：前端享受完整类型提示
+const res = await BFFLoginClient.login({
+//    ^? const res: LoginResponse
+  email: "doctorwu@moego.pet",
+  password: "password123",
+});
+
+// ✅ 类型安全 + 运行时校验 + 零手写
+```
+````
+
+<!--
+让我们回顾整个演进过程：
+1. 从手写的朴素 Schema 开始
+2. 发现维护成本太高
+3. 引入自动化：Proto → TS 类型 → Zod Schema
+4. 最终：前端零手写，享受完整类型安全
+
+这就是端到端类型安全的完整链路！
+-->
 
 ---
 layout: fact
@@ -373,9 +486,8 @@ layout: fact
 Transform & Rewrite
 
 <!--
-实现了类型安全和运行时校验后，我们面临的一个巨大挑战是：
-如何把成千上万个 Proto message 自动转换为 Zod Schema？
 这时候，ast-grep 登场了。
+它将帮助我们自动把 Proto 生成的 TypeScript 类型转换为 Zod Schema，彻底解决手写的痛点。
 -->
 
 ---
@@ -385,8 +497,8 @@ Transform & Rewrite
 <div class="grid grid-cols-2 gap-8 mt-10">
 
 <div class="opacity-60">
-  <div class="text-xl mb-4">👎 Regex (文本匹配)</div>
-  <code class="block bg-black/30 p-2 rounded text-red-300">
+  <div class="text-xl mb-4">😭😵‍💫 Regex (文本匹配)</div>
+  <code class="block bg-black/30 p-2 rounded text-red-300 h-25 items-center flex">
     /message\s+(\w+)\s*{/g
   </code>
   <ul class="mt-4 text-sm list-disc pl-4">
@@ -397,7 +509,7 @@ Transform & Rewrite
 </div>
 
 <div>
-  <div class="text-xl mb-4 text-green-400">👍 AST-Grep (结构化匹配)</div>
+  <div class="text-xl mb-4 text-green-400">✨😄 AST-Grep (结构化匹配)</div>
   <code class="block bg-black/30 p-2 rounded text-green-300">
     rule:<br>
       &nbsp;&nbsp; kind: class_declaration<br>
@@ -448,7 +560,7 @@ const UserSchema = z.object({
 });
 ```
 <!-- Right: Implementation (Process) -->
-```typescript {1-11|12-18}
+```typescript {all|1-11|12-18|all}
 // 1. Capture: Fild fields following comments
 root.findAll({
   rule: {
@@ -482,6 +594,21 @@ layout: full
 <iframe 
   src="https://ast-grep.github.io/playground.html#eyJtb2RlIjoiQ29uZmlnIiwibGFuZyI6InR5cGVzY3JpcHQiLCJxdWVyeSI6IiRDOiAkVCA9IHJlbGF0aW9uc2hpcCgkJCRBLCB1c2VsaXN0PVRydWUsICQkJEIpIiwicmV3cml0ZSI6IiRDOiBMaXN0WyRUXSA9IHJlbGF0aW9uc2hpcCgkJCRBLCB1c2VsaXN0PVRydWUsICQkJEIpIiwic3RyaWN0bmVzcyI6InNtYXJ0Iiwic2VsZWN0b3IiOiIiLCJjb25maWciOiJpZDogem9kLWNvbW1lbnRcbmxhbmd1YWdlOiBUeXBlU2NyaXB0XG5ydWxlOlxuICBraW5kOiBwYWlyXG4gIHBhdHRlcm46ICRQQUlSXG4gIGZvbGxvd3M6XG4gICAga2luZDogY29tbWVudFxuICAgIHBhdHRlcm46ICRDT01NRU5UXG5cbiAgICAiLCJzb3VyY2UiOiJleHBvcnQgY29uc3QgelRpY2tldENvbW1lbnQgPSB6Lm9iamVjdCh7XG4gIC8qKlxuICAgKiBJRFxuICAgKi9cbiAgaWQ6IHpJZCxcbiAgLyoqXG4gICAqIOWkh+azqOWGheWuuVxuICAgKi9cbiAgbm90ZTogei5zdHJpbmcoKSxcbiAgLyoqXG4gICAqIOWIm+W7uuS6ulxuICAgKi9cbiAgY3JlYXRlQnk6IHoubnVtYmVyKCksXG4gIC8qKlxuICAgKiDliJvlu7rml7bpl7RcbiAgICovXG4gIGNyZWF0ZVRpbWU6IHpUaW1lc3RhbXBNaWxsaXNlY29uZHMsXG4gIC8qKlxuICAgKiDmm7TmlrDkurpcbiAgICovXG4gIHVwZGF0ZUJ5OiB6Lm51bWJlcigpLFxuICAvKipcbiAgICog5pu05paw5pe26Ze0XG4gICAqL1xuICB1cGRhdGVUaW1lOiB6VGltZXN0YW1wTWlsbGlzZWNvbmRzLFxuICAvKipcbiAgICog5Lia5YqhSURcbiAgICovXG4gIGJ1c2luZXNzSWQ6IHpJZCxcbiAgLyoqXG4gICAqIOmihOe6puaXpeacn1xuICAgKi9cbiAgYXBwb2ludG1lbnREYXRlOiB6LnN0cmluZygpLFxuICAvKipcbiAgICog6aKE57qm57uT5p2f5pel5pyfXG4gICAqL1xuICBhcHBvaW50bWVudEVuZERhdGU6IHouc3RyaW5nKCksXG4gIC8qKlxuICAgKiDmk43kvZzogIXlkI1cbiAgICovXG4gIG9wZXJhdG9yRmlyc3ROYW1lOiB6LnN0cmluZygpLFxuICAvKipcbiAgICog5pON5L2c6ICF5aeTXG4gICAqL1xuICBvcGVyYXRvckxhc3ROYW1lOiB6LnN0cmluZygpLFxuICAvKipcbiAgICog5pON5L2c6ICF5aS05YOPXG4gICAqL1xuICBvcGVyYXRvckF2YXRhcjogei5zdHJpbmcoKSxcbiAgLyoqXG4gICAqIOaTjeS9nOiAheminOiJsuS7o+eggVxuICAgKi9cbiAgb3BlcmF0b3JDb2xvckNvZGU6IHouc3RyaW5nKCksXG59KS5vcGVuYXBpKCdUaWNrZXRDb21tZW50Jyk7In0=" 
   style="width: 165%; height: 170%; transform: scale(0.6); transform-origin: top left;"
+></iframe>
+
+<style>
+.slidev-layout {
+  padding:0!important;
+}
+</style>
+
+---
+layout: full
+---
+
+<iframe 
+  src="https://go.t2.moego.dev/moego.bff/customer/docs" 
+  style="width: 165%; height: 165%; transform: scale(0.6); transform-origin: top left;"
 ></iframe>
 
 <style>
@@ -571,26 +698,12 @@ const zExtended = zServiceInstanceImpl.extend({
 
 </div>
 
-
----
-
-## 两阶段转换策略
-Two-Phase Transformation Strategy
-
-<TwoPhaseVisualizer />
-
-<!--
-我们可以将转换过程分为两个阶段：
-1. 字段转换：利用 ast-grep 检测循环引用字段，将其转换为 getter。
-2. 包装移除：检测包含 getter 的 lazy 包装，安全地移除 z.lazy，恢复类型推断。
--->
-
 ---
 
 ## 核心实现：AST-Grep 脚本
 
 <div mt-4></div>
-```typescript {|3-9|10-15|16-24}
+```typescript {all|3-9|10-15|16-24|all}
 // scripts/sync-models-to-zod.ts
 
 // 1. 深度检测循环引用
@@ -623,136 +736,540 @@ root.findAll({ rule: { pattern: 'z.lazy($FUNC)' } }).forEach(node => {
 最后，再次扫描整个文件，如果发现 lazy 内部已经有了 getter，就可以安全地把 lazy 壳拆掉。
 -->
 
+---
+layout: fact
+---
+
+## Philosophy of Isomorphic Schema
+同构 Schema 的哲学
+
 
 ---
 
-## Codec 机制：双向转换
-The Bridge between JSON and Proto
+## 传统开发的痛点
 
-<CodecVisualizer />
+<div class="grid grid-cols-3 gap-4 items-center justify-center h-full mt-[-5%]">
+
+<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5">
+  <div class="text-lg font-bold mb-3 text-red-400">😵 类型定义分散</div>
+  <ul class="text-sm list-disc pl-4 space-y-2 opacity-70">
+    <li>后端维护 Proto</li>
+    <li>BFF 维护 Schema</li>
+    <li>前端维护 TypeScript</li>
+    <li class="text-red-300">三处独立，各自为战</li>
+  </ul>
+</div>
+
+<div class="p-4 border-2 border-yellow-500/30 rounded-lg bg-yellow-500/5">
+  <div class="text-lg font-bold mb-3 text-yellow-400">🔄 同步困难</div>
+  <ul class="text-sm list-disc pl-4 space-y-2 opacity-70">
+    <li>协议变更时多处修改</li>
+    <li>容易遗漏某一端</li>
+    <li>版本不一致难排查</li>
+    <li class="text-yellow-300">改一处，漏三处</li>
+  </ul>
+</div>
+
+<div class="p-4 border-2 border-orange-500/30 rounded-lg bg-orange-500/5">
+  <div class="text-lg font-bold mb-3 text-orange-400">📝 校验逻辑重复</div>
+  <ul class="text-sm list-disc pl-4 space-y-2 opacity-70">
+    <li>BFF 写一套校验</li>
+    <li>前端再写一套校验</li>
+    <li>错误消息不一致</li>
+    <li class="text-orange-300">重复劳动，容易出错</li>
+  </ul>
+</div>
+
+</div>
 
 <!--
-BFF 作为前后端的边界层，需要处理数据格式的差异。
-我们引入了 Codec 机制：
-前端看到的也是 JSON string ("123")，后端看到的是 bigint (123n)。
-Codec 在边界处自动完成 encode/decode，就像心脏的瓣膜一样，保证血液（数据）流向正确。
+传统开发模式有三大痛点：
+1. 类型定义分散在三个地方，各自维护
+2. 协议变更时需要同步多处，容易遗漏
+3. 校验逻辑重复编写，前后端不一致
 -->
 
 ---
 
-## Codec 代码实战
+## 同构 Schema：一处定义，多处复用
 
-````md magic-move
+<div justify-center text-center py-10>
+
+```mermaid {scale: 0.7}
+flowchart TB
+    subgraph SchemasPkg ["@moego/bff-schemas"]
+        direction TB
+        Generated["自动生成 Schema<br/>(来自 Proto)"]
+        HandWritten["手写扩展 Schema"]
+        BuiltIn["内置 Codec Schema<br/>(zId, zDate...)"]
+    end
+    
+    Generated --> Export["统一导出"]
+    HandWritten --> Export
+    BuiltIn --> Export
+    
+    Export -->|"请求验证 + 响应编码"| BFF["BFF Server"]
+    Export -->|"生成类型安全 Client"| OpenAPI["@moego/bff-openapi"]
+    Export -->|"前端直接导入复用"| Frontend["Frontend Form"]
+    
+    OpenAPI -->|"API 调用"| Frontend
+```
+</div>
+
+<!--
+同构 Schema 的核心理念：
+Schema 在 @moego/bff-schemas 包中统一定义，以 TypeScript 源码形式发布。
+三个消费方：BFF Server 用于请求验证，OpenAPI 用于生成 Client，前端直接导入用于表单校验。
+真正做到一处修改，处处生效。
+-->
+
+---
+
+## Schema 的三种使用方式
+
+<div class="mt-8">
+
+| 使用场景 | 导入来源 | 用途 | Schema 形态 |
+|---------|---------|------|------------|
+| **BFF Server** | `@moego/bff-schemas` | 请求验证、响应编码 | 完整 Schema（含 Codec） |
+| **API 调用** | `@moego/bff-openapi` | 类型推断、调用 API | Strip 后的 Schema |
+| **表单校验** | `@moego/bff-schemas` | 前端运行时校验 | 完整 Schema（含校验规则） |
+
+</div>
+
+<v-clicks>
+
+- **BFF Server**: 使用完整 Schema，包含 Codec 的 encode/decode 能力
+- **OpenAPI Client**: 使用 Strip 后的 Schema，导出外部类型给前端
+- **前端表单**: 直接复用 BFF 的 Schema，校验规则和错误消息完全一致
+
+</v-clicks>
+
+<!--
+同一个 Schema 在不同场景有不同的使用方式：
+1. BFF Server 需要完整的 Codec 能力
+2. OpenAPI Client 需要 Strip 后的外部类型
+3. 前端表单可以直接复用 Schema 做校验
+-->
+
+---
+
+## 前端复用实践：表单校验
+
+<div mt-6></div>
+
+````md magic-move {lines: true}
 ```typescript
-// 问题：JSON 不支持 BigInt，直接返回会导致精度丢失
-{
-  "id": 123456789012345678901234567890 // ❌ 
+// 1. BFF 侧：在 @moego/bff-schemas 中定义 Schema
+export const CreateCustomerSchema = z.object({
+  name: z.string()
+    .min(1, '客户名称不能为空')
+    .max(100, '客户名称不能超过 100 个字符'),
+  email: z.string()
+    .email('请输入有效的邮箱地址'),
+  phone: zE164Phone,
+}).openapi('CreateCustomer');
+```
+
+```typescript
+// 2. 前端：直接导入 Schema 做表单校验
+import { CreateCustomerSchema } from '@moego/bff-schemas/customer.schema';
+
+function CustomerForm() {
+  const handleSubmit = (formData: unknown) => {
+    const result = CreateCustomerSchema.safeParse(formData);
+    
+    if (!result.success) {
+      // ✅ 错误消息与 BFF 定义完全一致！
+      const errors = result.error.flatten().fieldErrors;
+      // { name: ['客户名称不能为空'], email: ['请输入有效的邮箱地址'] }
+      setFormErrors(errors);
+      return;
+    }
+    
+    // 校验通过，提交数据
+    submitToApi(result.data);
+  };
 }
 ```
 
 ```typescript
-// 解决方案：zId Codec
-export const zId = z.codec(
-  // External (Frontend): string
-  z.string().regex(/^\d+$/), 
-  
-  // Internal (Backend): bigint
-  z.bigint(),
-  
-  {
-    encode: (val) => val.toString(), // 123n -> "123"
-    decode: (val) => BigInt(val),    // "123" -> 123n
-  }
-);
+// 3. 收益对比
+// ❌ 传统方式：前端重复定义校验规则
+const frontendValidation = {
+  name: (v) => v.length > 0 ? null : '名称不能为空',  // 可能和后端不一致
+  email: (v) => /^.+@.+$/.test(v) ? null : '邮箱格式错误',  // 正则可能不同
+};
+
+// ✅ 同构方式：直接复用 BFF Schema
+const result = CreateCustomerSchema.safeParse(formData);
+// - 校验规则 100% 一致
+// - 错误消息 100% 一致
+// - 零重复代码
 ```
 ````
 
 <!--
-这是具体的代码实现：
-z.codec 接受两个 Schema：外部（Frontend）和内部（Backend）。
-并定义 encode/decode 函数。
-这样我们就在 Schema 层面屏蔽了底层的类型差异。
--->
-
-## Codec 概念：双向转换
-
-```mermaid
-flowchart LR
-    classDef base fill:#1e293b,stroke:#475569,stroke-width:2px,color:#fff
-    classDef boundary fill:#0f172a,stroke:#3b82f6,stroke-width:2px,stroke-dasharray: 5 5,color:#fff
-    classDef green fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    classDef orange fill:#7c2d12,stroke:#f97316,stroke-width:2px,color:#fff
-    
-    subgraph Frontend ["Front-end World (JSON Friendly)"]
-        F_Data["String: '123'"]:::green
-    end
-
-    subgraph Backend ["Back-end World (Proto Friendly)"]
-        B_Data["BigInt: 123n"]:::orange
-    end
-
-    BFF_Boundary{{"BFF Boundary"}}:::boundary
-
-    F_Data -->|"Request (Decode)"| BFF_Boundary
-    BFF_Boundary -->|"Becomes Internal Type"| B_Data
-    
-    B_Data -->|"Response (Encode)"| BFF_Boundary
-    BFF_Boundary -->|"Becomes External Type"| F_Data
-```
-
-<!--
-Codec 提供双向转换能力：
-- decode：外部输入（JSON string）→ 内部类型（bigint）用于请求解析
-- encode：内部类型（bigint）→ 外部输出（JSON string）用于响应格式化
-它在 Frontend、BFF 和 Backend 之间起到桥梁作用。
+这是同构 Schema 最直观的好处：
+前端直接导入 BFF 的 Schema，用于表单校验。
+校验规则、错误消息都和 BFF 完全一致，零重复代码。
+再也不用担心前后端校验逻辑不一致的问题了。
 -->
 
 ---
 
-## 内置 Codec: zId
+## Enum 复用：避免类型不兼容
 
-````md magic-move
+<div mt-4></div>
+
+````md magic-move {lines: true}
 ```typescript
-// 问题：JSON 不支持 BigInt
-{
-  "id": 123456789012345678901234567890  // ❌ 精度丢失
+// ❌ 问题：TypeScript 中两个相同值的 Enum 类型不兼容
+// @moego/bff-schemas 中定义
+enum AppointmentStatus {
+  UPCOMING = 'UPCOMING',
+  PAST = 'PAST',
 }
+
+// @moego/bff-openapi 生成时重新创建了同样的 enum
+enum AppointmentStatus {  // 相同的值
+  UPCOMING = 'UPCOMING',
+  PAST = 'PAST',
+}
+
+// 但在 TypeScript 类型系统中它们是不兼容的！
 ```
 
 ```typescript
-// 解决方案：Codec
+// ❌ 类型不兼容导致的问题
+import { AppointmentStatus } from '@moego/bff-schemas';
+import { updateAppointment } from '@moego/bff-openapi';
+
+// 类型错误！两个 enum 虽然值相同，但类型不同
+updateAppointment({
+  status: AppointmentStatus.UPCOMING,  
+  // TS Error: Type 'AppointmentStatus' is not assignable 
+  // to type 'AppointmentStatus_Generated'
+});
+```
+
+```typescript
+// ✅ 解决方案：createNativeEnum 标记来源
+// packages/schemas/src/appointment.schema.ts
+import { createNativeEnum } from './utils/createNativeEnum';
+
+export enum AppointmentStatusEnum {
+  UPCOMING = 'UPCOMING',
+  PAST = 'PAST',
+}
+
+export const AppointmentStatus = createNativeEnum(
+  'AppointmentStatus',      // Schema 名称
+  z.nativeEnum(AppointmentStatusEnum)
+);
+// 自动推断来源：@moego/bff-schemas/appointment.schema
+```
+
+```typescript
+// ✅ 生成的 OpenAPI Client 直接导入原始 enum
+// @moego/bff-openapi/clients/client.appointment.ts (生成的代码)
+
+// 不再重新生成 enum，而是直接从源导入
+import { AppointmentStatusEnum } from '@moego/bff-schemas/appointment.schema';
+export { AppointmentStatusEnum };
+
+// 前端使用时类型完全一致
+import { AppointmentStatusEnum, updateAppointment } from '@moego/bff-openapi';
+
+updateAppointment({
+  status: AppointmentStatusEnum.UPCOMING,  // ✅ 类型完美匹配
+});
+```
+````
+
+<!--
+这是同构 Schema 的进阶用法。
+TypeScript 的 enum 有个特点：即使两个 enum 的值完全相同，它们的类型也是不兼容的。
+如果 OpenAPI Client 生成时重新创建 enum，前端使用 Schema 包的 enum 时就会报类型错误。
+createNativeEnum 通过标记 Schema 的来源路径，让生成的客户端直接导入原始 enum，
+从而保证整个链路只有一个 enum 定义，类型完全一致。
+-->
+
+---
+layout: fact
+---
+
+## Codec Mechanism
+
+<div mt-4></div>
+<CodecVisualizer />
+
+<!--
+接下来我们来看 Codec 机制。
+BFF 作为前后端的边界层，需要处理一个核心问题：数据格式的差异。
+前端使用 JSON 友好的格式，后端使用 Proto 友好的格式。
+Codec 就是在边界处自动完成双向转换的机制。
+-->
+
+---
+
+## 什么是 Codec？
+
+<div class="grid grid-cols-2 gap-8 mt-6">
+
+<div>
+  <div class="text-lg font-bold mb-4 text-cyan-400">📚 传统计算机科学中的 Codec</div>
+  <div class="p-4 bg-gray-800/50 rounded-lg border border-gray-600/30">
+    <div class="font-mono text-xl mb-2">
+      <span class="text-blue-400">Co</span>der + <span class="text-orange-400">Dec</span>oder
+    </div>
+    <div class="text-sm opacity-70 space-y-2">
+      <div>• 音视频编解码：MP3, H.264, HEVC</div>
+      <div>• 字符编码：UTF-8, Base64</div>
+      <div>• 数据压缩：gzip, zstd</div>
+    </div>
+    <div class="mt-3 text-xs opacity-50">
+      核心思想：在不同格式之间进行<span class="text-cyan-400">双向转换</span>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="text-lg font-bold mb-4 text-green-400">✨ Zod 4 引入的 z.codec()</div>
+  <div class="p-4 bg-gray-800/50 rounded-lg border border-green-500/30">
+    <div class="font-mono text-sm mb-3">
+      <span class="text-purple-400">z.codec</span>(external, internal, {<br/>
+      <span class="pl-4 text-blue-400">encode</span>: internal → external,<br/>
+      <span class="pl-4 text-orange-400">decode</span>: external → internal,<br/>
+      })
+    </div>
+    <div class="text-sm opacity-70 space-y-2">
+      <div>• <span class="text-blue-400">外部类型</span>：前端/API 看到的</div>
+      <div>• <span class="text-orange-400">内部类型</span>：后端/系统使用的</div>
+    </div>
+    <div class="mt-3 text-xs opacity-50">
+      将 Codec 思想引入 <span class="text-green-400">Schema 验证</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!--
+Codec 这个词来自传统计算机科学，是 Coder + Decoder 的缩写。
+我们熟悉的 MP3、H.264 都是 Codec，它们在不同格式之间进行双向转换。
+
+Zod 4 将这个概念引入了 Schema 验证领域。
+z.codec() 定义了外部类型和内部类型之间的双向转换规则。
+这完美契合了 BFF 边界数据转换的需求。
+-->
+
+---
+
+## BFF 边界的数据差异
+
+<div class="grid grid-cols-2 gap-6 mt-6">
+
+<div class="p-4 border-2 border-blue-500/30 rounded-lg bg-blue-500/5">
+  <div class="text-lg font-bold mb-3 text-blue-400">🌐 前端世界 (JSON)</div>
+  <div class="font-mono text-sm bg-black/30 p-3 rounded space-y-2">
+    <div><span class="text-gray-400">id:</span> <span class="text-green-400">"123456789"</span></div>
+    <div><span class="text-gray-400">date:</span> <span class="text-green-400">"2024-01-15"</span></div>
+    <div><span class="text-gray-400">time:</span> <span class="text-green-400">1705286400000</span></div>
+  </div>
+  <div class="text-xs mt-3 opacity-60">JSON 只支持基础类型</div>
+</div>
+
+<div class="p-4 border-2 border-orange-500/30 rounded-lg bg-orange-500/5">
+  <div class="text-lg font-bold mb-3 text-orange-400">⚙️ 后端世界 (Proto)</div>
+  <div class="font-mono text-sm bg-black/30 p-3 rounded space-y-2">
+    <div><span class="text-gray-400">id:</span> <span class="text-yellow-400">123456789n</span> <span class="text-xs opacity-40">(bigint)</span></div>
+    <div><span class="text-gray-400">date:</span> <span class="text-yellow-400">{year, month, day}</span></div>
+    <div><span class="text-gray-400">time:</span> <span class="text-yellow-400">{seconds, nanos}</span></div>
+  </div>
+  <div class="text-xs mt-3 opacity-60">Proto 使用丰富的结构化类型</div>
+</div>
+
+</div>
+
+<div class="mt-6 text-center">
+  <div class="inline-block px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+    <span class="text-cyan-400 font-bold">z.codec()</span>
+    <span class="opacity-60 ml-2">= BFF 边界的双向数据转换</span>
+  </div>
+</div>
+
+<!--
+问题很清晰：
+- 前端：JSON 不支持 BigInt、只有字符串和数字
+- 后端：gRPC/Proto 有丰富的类型，比如 bigint、GoogleDate、Timestamp
+- 这两个世界的数据格式完全不同
+
+z.codec() 正好解决了这个问题，让我们能在 Schema 层面定义转换规则。
+-->
+
+---
+
+## z.codec() API：三要素
+
+<div mt-6></div>
+
+````md magic-move {lines: true}
+```typescript
+// z.codec() 的核心结构
+z.codec(
+  externalSchema,  // 1️⃣ 外部类型：前端看到的
+  internalSchema,  // 2️⃣ 内部类型：后端使用的
+  {
+    encode,        // 3️⃣ 内部 → 外部（响应时）
+    decode,        // 3️⃣ 外部 → 内部（请求时）
+  }
+)
+```
+
+```typescript
+// 实际例子：zId
 export const zId = z.codec(
-  z.coerce.string().regex(/^-?\d+$/),  // 外部：JSON string
-  z.bigint(),                          // 内部：JS bigint
+  z.coerce.string().regex(/^-?\d+$/),  // 外部：string
+  z.bigint(),                          // 内部：bigint
+  {
+    encode: (value) => value.toString(),  // 123n → "123"
+    decode: (value) => BigInt(value),     // "123" → 123n
+  }
+);
+```
+
+```typescript
+// 数据流向示意
+// 
+// 请求时 (decode)：
+// 前端发送 { id: "123" } → BFF 收到 { id: 123n }
+//
+// 响应时 (encode)：  
+// 后端返回 { id: 123n } → 前端收到 { id: "123" }
+```
+````
+
+<!--
+z.codec 接受三个核心参数：
+1. 外部 Schema：定义前端看到的类型
+2. 内部 Schema：定义后端使用的类型
+3. encode/decode 函数：定义如何在两种类型之间转换
+
+这样我们就在 Schema 层面屏蔽了底层的类型差异，开发者无需手动处理转换。
+-->
+
+---
+
+## 内置 Codec：解决真实痛点
+
+<div class="grid grid-cols-3 gap-4 mt-6">
+
+<div class="p-3 border border-blue-500/30 rounded-lg bg-blue-500/5">
+  <div class="text-base font-bold mb-2 text-blue-400">zId</div>
+  <div class="text-xs opacity-60 mb-2">大整数 ID 转换</div>
+  <div class="font-mono text-xs bg-black/30 p-2 rounded">
+    <div><span class="text-green-400">"123"</span> ↔ <span class="text-yellow-400">123n</span></div>
+  </div>
+  <div class="text-xs mt-2 text-red-400/80">解决：JSON BigInt 精度丢失</div>
+</div>
+
+<div class="p-3 border border-green-500/30 rounded-lg bg-green-500/5">
+  <div class="text-base font-bold mb-2 text-green-400">zDate</div>
+  <div class="text-xs opacity-60 mb-2">日期格式转换</div>
+  <div class="font-mono text-xs bg-black/30 p-2 rounded">
+    <div><span class="text-green-400">"2024-1-15"</span></div>
+    <div class="text-center opacity-40">↕</div>
+    <div><span class="text-yellow-400">{year, month, day}</span></div>
+  </div>
+  <div class="text-xs mt-2 text-red-400/80">解决：GoogleDate 对象转换</div>
+</div>
+
+<div class="p-3 border border-purple-500/30 rounded-lg bg-purple-500/5">
+  <div class="text-base font-bold mb-2 text-purple-400">zTimestamp</div>
+  <div class="text-xs opacity-60 mb-2">时间戳转换</div>
+  <div class="font-mono text-xs bg-black/30 p-2 rounded">
+    <div><span class="text-green-400">1705286400000</span></div>
+    <div class="text-center opacity-40">↕</div>
+    <div><span class="text-yellow-400">{seconds, nanos}</span></div>
+  </div>
+  <div class="text-xs mt-2 text-red-400/80">解决：Protobuf Timestamp</div>
+</div>
+
+</div>
+
+<!--
+我们内置了三种最常用的 Codec：
+1. zId：解决 JSON 不支持 BigInt 导致的精度丢失
+2. zDate：前端 ISO 字符串与 GoogleDate 对象的转换
+3. zTimestamp：毫秒数与 Protobuf Timestamp 的转换
+
+这些都是在实际项目中遇到的真实痛点，通过 Codec 机制优雅解决。
+-->
+
+---
+
+## 实战：zId 代码实现
+
+```typescript
+// packages/schemas/src/shared/id.ts
+export const zId = z.codec(
+  z.coerce.string().regex(/^-?\d+$/),  // 外部：匹配数字字符串
+  z.bigint(),                          // 内部：JavaScript bigint
   {
     encode: (value) => value.toString(),  // bigint → "123"
     decode: (value) => BigInt(value),     // "123" → 123n
   }
 );
+
+// 还有变体：允许空字符串
+export const zIdAllowEmpty = z.codec(z.string(), z.bigint(), {
+  encode: (value) => value === 0n ? '' : value.toString(),
+  decode: (value) => BigInt(value),
+});
 ```
-````
+
+<v-click>
+
+<div class="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+  <div class="text-sm space-y-1">
+    <div>
+      <span class="text-yellow-400 font-bold">💡 为什么外部类型用 string 而不是 number？</span>
+    </div>
+    <div class="opacity-70 text-xs">
+      <span class="text-red-400">①</span> JSON 规范不支持 bigint，只有 number 类型<br/>
+      <span class="text-red-400">②</span> JS Number 最大安全整数是 2<sup>53</sup>，后端 ID 常超过此限制<br/>
+      <span class="text-red-400">③</span> 用 string 传输可保证任意大小的整数不丢失精度
+    </div>
+  </div>
+</div>
+
+</v-click>
 
 <!--
-zId 是我们的第一个内置 Codec。
-问题是 JSON 不支持 BigInt，大数值会精度丢失。
-我们的解决方案是：
-- 外部用 string 表示
-- 内部用 bigint 计算
-- Codec 自动处理双向转换
+这是 zId 的实际代码。
+为什么用 string？
+1. JSON 规范本身不支持 bigint 类型，只有 number
+2. JavaScript 的 Number 类型最大安全整数是 2^53，后端的雪花 ID 等常常超过这个限制
+3. 用 string 传输可以保证任意大小的整数都不会丢失精度
+
+zIdAllowEmpty 是一个变体，处理空 ID 的场景。
 -->
 
 ---
 
-## 内置 Codec: zDate
+## 实战：zDate 代码实现
 
 ```typescript
-// 问题：前端 ISO 字符串 vs 后端 GoogleDate
-const DateString = z.string().regex(/^\d{4}-\d{1,2}-\d{1,2}$/);
+// packages/schemas/src/shared/date.ts
+const DateString = z.string().regex(/^\d{4}-\d{1,2}-\d{1,2}$/)
+  .openapi('DateString');
+
 const GoogleDate = z.object({
   year: z.number(),
   month: z.number().min(1).max(12),
   day: z.number().min(1).max(31),
-});
+}).openapi('GoogleDate');
 
 export const zDate = z.codec(DateString, GoogleDate, {
   encode: (value) => `${value.year}-${value.month}-${value.day}`,
@@ -764,26 +1281,56 @@ export const zDate = z.codec(DateString, GoogleDate, {
 ```
 
 <!--
-zDate 是第二个内置 Codec。
-问题是前端习惯用 ISO 字符串（2024-01-01），后端 gRPC 用 GoogleDate 对象。
-Codec 自动处理两种格式的转换，开发者不需要关心底层细节。
+zDate 处理日期格式转换。
+前端习惯用 ISO 字符串格式，后端 gRPC 使用 GoogleDate 对象。
+通过 Codec，开发者只需要传入/接收字符串，底层转换完全透明。
 -->
 
 ---
 
-## Route 中的 Codec 使用
+## 实战：zTimestamp 代码实现
 
-````md magic-move
 ```typescript
+// packages/schemas/src/appointment.schema.ts
+export const zTimestampMilliseconds = z.codec(
+  z.number().int().openapi({ description: '时间戳（毫秒数）' }),
+  zTimestamp,  // { seconds: bigint, nanos: number }
+  {
+    encode: (ts) => {
+      // Timestamp 对象 → 毫秒数
+      return (Number(ts.seconds) * 1000) + (ts.nanos / 1000000);
+    },
+    decode: (milliseconds) => {
+      // 毫秒数 → Timestamp 对象
+      const seconds = BigInt(Math.floor(milliseconds / 1000));
+      const nanos = (milliseconds % 1000) * 1000000;
+      return { seconds, nanos };
+    },
+  },
+).openapi('TimestampMilliseconds');
+```
+
+<!--
+zTimestamp 处理 Protobuf 的 Timestamp 类型。
+前端习惯用毫秒级时间戳，后端 Proto 用的是 seconds + nanos 的组合。
+这种转换如果每次手写会非常繁琐，Codec 让它变得完全透明。
+-->
+
+---
+
+## Route 中的使用
+
+````md magic-move {lines: true}
+```typescript
+// 请求时：decode 自动触发
 app.openapi(route, async (c) => {
-  // ✅ decode 自动生效
   const { customerId } = c.req.valid('json');
-  // customerId 已经是 bigint 类型
+  //       ^? bigint - 已经自动从 "123" 转换为 123n
   
   const result = await c.callService(
     CustomerServiceClient,
     'getCustomer',
-    { id: customerId }  // 直接使用 bigint
+    { id: customerId }  // 直接传给后端
   );
   
   return c.json(result, HTTP_CODE.SUCCESS);
@@ -791,20 +1338,20 @@ app.openapi(route, async (c) => {
 ```
 
 ```typescript
+// 响应时：encode 需要显式调用
 app.openapi(route, async (c) => {
-  // ✅ decode 自动生效
   const { customerId } = c.req.valid('json');
-  // customerId 已经是 bigint 类型
   
   const result = await c.callService(
     CustomerServiceClient,
-    'getCustomer',
-    { id: customerId }  // 直接使用 bigint
+    'getCustomer', 
+    { id: customerId }
   );
   
-  // ⚠️ encode 需要手动调用
+  // 响应的 schema 可能有多个，框架无法自动推断
+  // 因此需要显式指定用哪个 schema 来 encode
   return c.json(
-    ResponseSchema.encode(result),  // bigint → string
+    ResponseSchema.encode(result),  // ✍🏻 显式调用
     HTTP_CODE.SUCCESS
   );
 });
@@ -813,45 +1360,313 @@ app.openapi(route, async (c) => {
 
 <!--
 在 Route 中使用 Codec：
-1. decode 是自动的：请求进来时自动将 string 转为 bigint
-2. encode 需要手动调用：响应时需要显式调用 .encode() 将 bigint 转为 string
-这样设计是为了让开发者明确知道什么时候发生了数据转换。
+1. decode 是自动的：c.req.valid('json') 会自动触发 decode
+2. encode 需要显式调用
+
+为什么 encode 要显式调用？
+- 返回的数据对应的 schema 可能不同，框架无法自动推断
+- 类比 request：也需要显式指定 valid('json') 来告诉框架用哪个 schema
+- 这种设计让类型转换更加可控和明确
 -->
 
 ---
 
-## Codec vs Transform
+## Codec vs Transform：为什么选择 Codec？
 
-```mermaid
-graph TB
-    classDef codec fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#fff
-    classDef trans fill:#7f1d1d,stroke:#f87171,stroke-width:2px,color:#fff
-    classDef item fill:#1e293b,stroke:#cbd5e1,stroke-width:1px,color:#fff
-    
-    subgraph Codec
-        C1["双向转换 (Encode/Decode)"]:::item
-        C2[支持响应格式化]:::item
-        C3[OpenAPI 导出外部类型]:::item
-    end
-    
-    subgraph Transform
-        T1["单向转换 (Input only)"]:::item
-        T2[响应无法自动处理]:::item
-        T3[OpenAPI 导出内部类型]:::item
-    end
-    
-    class Codec codec
-    class Transform trans
-```
+<div class="grid grid-cols-2 gap-6 mt-8">
+
+<div class="p-4 border-2 border-green-500/40 rounded-lg bg-green-500/5">
+  <div class="text-xl font-bold mb-4 text-green-400">✅ Codec</div>
+  <ul class="space-y-3 text-sm">
+    <li class="flex items-start gap-2">
+      <span class="text-green-400">✓</span>
+      <div><span class="font-bold">双向转换</span><br/><span class="opacity-60">encode + decode</span></div>
+    </li>
+    <li class="flex items-start gap-2">
+      <span class="text-green-400">✓</span>
+      <div><span class="font-bold">OpenAPI 导出外部类型</span><br/><span class="opacity-60">前端看到 string</span></div>
+    </li>
+    <li class="flex items-start gap-2">
+      <span class="text-green-400">✓</span>
+      <div><span class="font-bold">响应格式化</span><br/><span class="opacity-60">.encode() 方法</span></div>
+    </li>
+  </ul>
+</div>
+
+<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5 opacity-70">
+  <div class="text-xl font-bold mb-4 text-red-400">❌ Transform</div>
+  <ul class="space-y-3 text-sm">
+    <li class="flex items-start gap-2">
+      <span class="text-red-400">✗</span>
+      <div><span class="font-bold">单向转换</span><br/><span class="opacity-60">只有 input 方向</span></div>
+    </li>
+    <li class="flex items-start gap-2">
+      <span class="text-red-400">✗</span>
+      <div><span class="font-bold">OpenAPI 导出内部类型</span><br/><span class="opacity-60">前端看到 bigint（无法序列化）</span></div>
+    </li>
+    <li class="flex items-start gap-2">
+      <span class="text-red-400">✗</span>
+      <div><span class="font-bold">响应无法处理</span><br/><span class="opacity-60">没有反向转换能力</span></div>
+    </li>
+  </ul>
+</div>
+
+</div>
 
 <!--
 为什么选择 Codec 而不是 Transform？
-Codec 的优势：
-1. 双向转换，支持 encode 和 decode
-2. 响应格式化支持，有 .encode() 方法
-3. OpenAPI 导出的是外部类型（前端看到的是 string）
-4. 前端使用友好，传入原始类型即可
-Transform 只有单向转换，无法满足我们的需求。
+
+Codec 的核心优势：
+1. 双向转换 - Transform 只能处理输入
+2. OpenAPI 导出外部类型 - 前端看到的是 string，可以正常序列化
+3. 有 .encode() 方法 - 响应时可以转换数据
+
+Transform 的问题是它会把内部类型（如 bigint）暴露到 OpenAPI，前端根本无法使用。
+-->
+
+---
+layout: fact
+---
+
+## Error Handling
+RESTful 风格错误处理
+
+<!--
+接下来我们来看错误处理机制。
+BFF 作为前后端的桥梁，需要将后端的 gRPC 错误优雅地转换为前端友好的 HTTP 错误。
+这不仅关乎用户体验，更关乎系统的可观测性。
+-->
+
+---
+
+## 为什么选择 RESTful 风格？
+
+<div class="grid grid-cols-2 gap-8 mt-8">
+
+<div class="p-4 border border-red-500/30 bg-red-500/5 rounded-lg text-left">
+  <div class="text-xl font-bold mb-4 text-red-400">Legacy: RPC Style</div>
+  <div class="font-mono text-sm bg-black/30 p-2 rounded mb-2">HTTP 200 OK</div>
+  <pre class="text-xs text-gray-400">
+{
+  "code": 50001,
+  "message": "Invalid Password",
+  "data": null
+}
+  </pre>
+  <ul class="text-sm mt-4 list-disc pl-4 text-gray-400">
+    <li>监控无法自动识别错误</li>
+    <li>网关层无法感知</li>
+    <li>前端需手动判断 code</li>
+  </ul>
+</div>
+
+<div class="p-4 border border-green-500/30 bg-green-500/5 rounded-lg text-left">
+  <div class="text-xl font-bold mb-4 text-green-400">Current: RESTful Style</div>
+  <div class="font-mono text-sm bg-black/30 p-2 rounded mb-2">HTTP 400 Bad Request</div>
+  <pre class="text-xs text-gray-400">
+{
+  "code": 50001,
+  "message": "Invalid email or password."
+}
+  </pre>
+  <ul class="text-sm mt-4 list-disc pl-4 text-gray-400">
+    <li>Datadog 自动标红告警</li>
+    <li>网关自动拦截异常流量</li>
+    <li>HTTP 语义清晰标准</li>
+  </ul>
+</div>
+
+</div>
+
+<!--
+我们从以前的 RPC 风格（永远返回 200）迁移到了标准的 RESTful 风格。
+核心收益是可观测性的提升：
+监控系统（Datadog）天然只能识别 HTTP 状态码，
+RESTful 风格让我们能直接利用基础设施的能力，自动统计错误率，进行链路追踪。
+-->
+
+---
+
+## 错误码自动映射
+
+<div class="mt-6">
+
+```typescript
+// packages/schemas/src/shared/code.ts
+export const RpcCode2HttpCode: Record<RPCStrandErrCode, HTTP_CODE> = {
+  [RPCStrandErrCode.OK]: HTTP_CODE.SUCCESS,                    // 0 → 200
+  [RPCStrandErrCode.InvalidArgument]: HTTP_CODE.BAD_REQUEST,   // 3 → 400
+  [RPCStrandErrCode.NotFound]: HTTP_CODE.NOT_FOUND,            // 5 → 404
+  [RPCStrandErrCode.PermissionDenied]: HTTP_CODE.FORBIDDEN,    // 7 → 403
+  [RPCStrandErrCode.Unauthenticated]: HTTP_CODE.UNAUTHORIZED,  // 16 → 401
+  [RPCStrandErrCode.ResourceExhausted]: HTTP_CODE.TOO_MANY_REQUESTS, // 8 → 429
+  [RPCStrandErrCode.Internal]: HTTP_CODE.INTERNAL_SERVER_ERROR, // 13 → 500
+  [RPCStrandErrCode.Unavailable]: HTTP_CODE.SERVICE_UNAVAILABLE, // 14 → 503
+  // ... 完整映射
+};
+```
+
+</div>
+
+<v-click>
+
+<div class="mt-4 p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+  <span class="text-blue-400 font-bold">自动映射</span>
+  <span class="opacity-70 ml-2">后端 gRPC 错误码 → 标准 HTTP 状态码，无需手动处理</span>
+</div>
+
+</v-click>
+
+<!--
+我们定义了完整的 gRPC 错误码到 HTTP 状态码的映射表。
+这样 BFF 就可以自动将后端的 gRPC 错误转换为标准的 HTTP 错误码。
+开发者无需关心底层的转换逻辑。
+-->
+
+---
+
+## 业务错误码处理
+
+<div class="mt-4"></div>
+
+````md magic-move {lines: true}
+```typescript
+// 1. 标准 gRPC 错误码：自动映射
+// InvalidArgument (3) → HTTP 400
+// NotFound (5) → HTTP 404
+// PermissionDenied (7) → HTTP 403
+```
+
+```typescript
+// 2. 业务错误码（> 100000）：特殊处理
+// 业务错误码由后端定义，表示具体的业务异常
+// 例如：100001 = 邮箱已存在，100002 = 密码强度不足
+
+if (grpcStatus > MIN_BIZ_ERROR_CODE) {  // MIN_BIZ_ERROR_CODE = 100000
+  return c.json({
+    code: grpcStatus,
+    message: err.rawMessage,
+  }, HTTP_CODE.INTERNAL_SERVER_ERROR);  // 统一返回 500
+}
+```
+
+```typescript
+// 3. 自定义业务错误映射：精细化控制
+export const CommonAuthnErrors = {
+  [ErrorCode.EMAIL_PASSWORD_MISMATCH]: { 
+    httpCode: HTTP_CODE.BAD_REQUEST,   // → 400
+    message: 'Invalid email or password.' 
+  },
+  [ErrorCode.ACCOUNT_FROZEN]: { 
+    httpCode: HTTP_CODE.FORBIDDEN,     // → 403
+    message: 'Account has been frozen.' 
+  },
+  [ErrorCode.SESSION_EXPIRED]: { 
+    httpCode: HTTP_CODE.UNAUTHORIZED,  // → 401
+    message: 'Session expired, please login again.' 
+  },
+};
+```
+````
+
+<!--
+错误码处理分为三层：
+1. 标准 gRPC 错误码：自动映射到对应的 HTTP 状态码
+2. 业务错误码（大于 100000）：默认返回 500，表示服务端错误
+3. 自定义业务错误映射：针对特定场景，可以精细化配置 HTTP 状态码和友好文案
+-->
+
+---
+
+## 全局错误处理中间件
+
+```typescript {all|3-4|6-14|16-20|all}
+// server/middleware/error-wrap.middleware.ts
+export const ErrorMiddleware: ErrorHandler = (err, c) => {
+  // 1. 记录链路追踪，Datadog 可追溯
+  span?.setTag('error', err);
+  
+  // 2. gRPC 服务调用异常处理
+  if (err instanceof SvcInvokeException) {
+    const grpcStatus = err.code;
+    
+    // 业务错误码（> 100000）→ 500
+    if (grpcStatus > MIN_BIZ_ERROR_CODE) {
+      return c.json({ code: grpcStatus, message: err.rawMessage }, 
+        HTTP_CODE.INTERNAL_SERVER_ERROR);
+    }
+    
+    // 标准 gRPC 错误码 → 对应 HTTP 状态码
+    return c.json({ code: grpcStatus, message: err.rawMessage }, 
+      RpcCode2HttpCode[grpcStatus] ?? HTTP_CODE.INTERNAL_SERVER_ERROR);
+  }
+  
+  // 3. 其他错误类型处理...
+};
+```
+
+<!--
+全局错误处理中间件的核心逻辑：
+1. 首先记录链路追踪信息，确保 Datadog 能追溯到错误
+2. 判断是否是 gRPC 服务调用异常
+3. 区分业务错误码和标准 gRPC 错误码，分别处理
+4. 返回格式化的 JSON 响应，包含错误码和错误信息
+-->
+
+---
+
+## 核心收益
+
+<div class="grid grid-cols-3 gap-6 mt-6">
+
+<div class="p-5 border border-blue-500/30 bg-blue-500/5 rounded-lg">
+  <div class="text-3xl mb-3">📊</div>
+  <div class="text-lg font-bold text-blue-400">可观测性</div>
+  <div class="text-sm opacity-80 mt-3 leading-relaxed">
+    Datadog 自动识别 4xx/5xx 错误
+  </div>
+  <div class="text-xs opacity-50 mt-2">
+    无需额外配置即可告警、统计错误率
+  </div>
+</div>
+
+<div class="p-5 border border-green-500/30 bg-green-500/5 rounded-lg">
+  <div class="text-3xl mb-3">📦</div>
+  <div class="text-lg font-bold text-green-400">统一响应格式</div>
+  <div class="text-sm opacity-80 mt-3 leading-relaxed">
+    zResponseError Schema 标准错误结构
+  </div>
+  <div class="text-xs opacity-50 mt-2">
+    前端统一处理，减少样板代码
+  </div>
+</div>
+
+<div class="p-5 border border-yellow-500/30 bg-yellow-500/5 rounded-lg">
+  <div class="text-3xl mb-3">🔗</div>
+  <div class="text-lg font-bold text-yellow-400">全链路追踪</div>
+  <div class="text-sm opacity-80 mt-3 leading-relaxed">
+    span.setTag 记录完整错误上下文
+  </div>
+  <div class="text-xs opacity-50 mt-2">
+    问题定位效率提升 10x
+  </div>
+</div>
+
+</div>
+
+<div class="mt-8 text-center">
+  <div class="inline-block px-6 py-3 bg-gradient-to-r from-blue-500/20 via-green-500/20 to-yellow-500/20 rounded-full border border-white/10">
+    <span class="opacity-70">RESTful 风格 + 自动映射 + 全局中间件</span>
+    <span class="mx-2">=</span>
+    <span class="font-bold">生产级错误处理</span>
+  </div>
+</div>
+
+<!--
+错误处理机制带来的三个核心收益：
+1. 可观测性：RESTful 风格让监控系统天然识别错误
+2. 统一响应格式：前端只需要处理一种错误结构
+3. 全链路追踪：从前端到后端的错误都可追溯
 -->
 
 ---
@@ -870,6 +1685,8 @@ layout: fact
 
 ## 自动化工作流
 
+<div mt-4></div>
+
 ```mermaid
 sequenceDiagram
     participant Dev as Developer
@@ -883,6 +1700,9 @@ sequenceDiagram
     Client-->>Dev: Ready to use!
 ```
 
+<div class="mt-8 flex justify-center">
+  <PR link="https://github.com/MoeGolibrary/moego-bff/actions/workflows/update-api.yaml" title="Update API Pipeline (update zod & openapi in ci)" />
+</div>
 <!--
 我们的自动化工作流非常简单：
 1. pnpm update-api：更新后端 Proto
@@ -893,183 +1713,380 @@ sequenceDiagram
 
 ---
 
-## 创建新路由
+## Vision
+Automated Release Flow
+
+<div class="flex justify-center items-center w-full h-full mt-[-60px]">
+
+```mermaid {scale: 0.5}
+flowchart LR
+    subgraph trigger ["Trigger"]
+        Tag["Push Tag"]
+        ProtoUpdate["Proto 更新"]
+    end
+    
+    subgraph build ["CI Build"]
+        UpdateAPI["pnpm update-api"]
+        GenZod["generate:zod"]
+        GenOpenAPI["generate:openapi"]
+        Test["Test & Lint"]
+    end
+    
+    subgraph publish ["Publish"]
+        NPM["NPM Registry"]
+        Docker["Docker Registry"]
+    end
+    
+    subgraph notify ["Notify"]
+        Slack["Slack Channel"]
+    end
+    
+    Tag --> build
+    ProtoUpdate --> UpdateAPI
+    UpdateAPI --> GenZod --> GenOpenAPI --> Test
+    Test --> NPM & Docker
+    NPM & Docker --> Slack
+```
+
+</div>
+
+<div v-click class="mt-4 p-3 bg-orange-500/10 rounded-lg text-sm">
+后端 Proto 更新 → 自动触发 Schema 生成 → 发布 NPM 包 → 前端无感升级
+</div>
+
+<!--
+CI/CD 流程确保自动化：
+1. Push tag 或后端 Proto 更新触发流水线
+2. 自动运行 update-api、generate:zod、generate:openapi
+3. 测试通过后发布到 NPM 和 Docker Registry
+4. Slack 通知团队
+前端只需更新依赖版本，即可获取最新类型。
+-->
+
+---
+---
+
+## 创建新领域
 
 ```bash
 $ pnpm cr  # 交互式创建
 
-? 请输入 realm 名称: customer
-? 请输入 route 名称: get-customer-detail
-? 请选择 HTTP 方法: GET
+? 请输入路由名称 (例如: book, user): customer
+? 是否生成示例路由? Yes
 
-✅ 已创建 Schema 文件：packages/bff-schemas/src/customer/get-customer-detail.ts
-✅ 已创建 Route 文件：server/routes/customer/get-customer-detail.ts
-✅ 已注册到路由索引：server/routes/customer/index.ts
+✅ 已创建目录：server/routes/customer/
+✅ 已创建 Schema：packages/schemas/src/customer.schema.ts
+✅ 已生成示例路由：server/routes/customer/getCustomer.ts
+✅ 已注册到路由入口
 
-🎉 新路由创建完成！
+🎉 新领域创建完成！
 ```
 
 <!--
-创建新路由也很简单，运行 pnpm cr 命令：
-1. 交互式输入 realm 名称、route 名称、HTTP 方法
-2. 自动生成 Schema 文件
-3. 自动生成 Route 文件
-4. 自动注册到路由索引
+创建新领域也很简单，运行 pnpm cr 命令：
+1. 输入领域名称（如 customer、order）
+2. 选择是否生成示例路由
+3. 自动创建目录结构、Schema 文件、示例路由
+4. 自动注册到路由入口
 整个过程不到 1 分钟。
 -->
 
 ---
-
-## CI/CD 流程
-
-```mermaid
-gitGraph
-    commit
-    commit id: "Schema Change"
-    branch ci
-    checkout ci
-    commit id: "Generate OpenAPI"
-    commit id: "Type Check"
-    checkout main
-    merge ci
-    commit id: "Deploy"
-```
-
-<!--
-我们的 CI/CD 流程也很完善：
-1. Schema 变更后提交代码
-2. CI 自动执行 generate:openapi
-3. 自动发布 npm 包 @moego/bff-openapi
-4. 前端更新依赖后立即感知变更
-这样前端可以第一时间知道 API 的变化。
--->
-
----
-
-## 开发效率对比
-
-<tldraw document="doc-development-efficiency-comparison" class="h-90 w-[85%]" doc="tldraw/doc-development-efficiency-comparison.json"></tldraw>
-
-<!--
-让我们看看具体的效率对比：
-后端 API 更新：传统方案 30 分钟，我们的方案 2 分钟
-新增接口：传统方案 20 分钟，我们的方案 5 分钟
-类型不一致检测：传统方案运行时报错，我们的方案编译时就发现
-效率提升 10 倍！
--->
-
-
 layout: fact
 ---
 
-## 同构 Schema 哲学 (Isomorphic Schema)
-Single Source of Truth
+## Architecture & Artifacts
+从协议到调用的完整链路
+
+<div class="mt-8 text-lg opacity-70">
+
+**Proto** → **Zod Schema** → **BFF Route** → **OpenAPI Client** → **Frontend**
+
+</div>
 
 <!--
-最后单独谈谈我们的同构 Schema 哲学。
-我们把 Schema 放在一个独立的 npm 包中。
+接下来我们进入架构和产物章节。
+我会以一个完整的链路来串讲：从后端提供 Proto 协议开始，到最终前端调用 BFF Client。
+在这个过程中，我们也会回顾前面讲过的各项技术。
 -->
 
 ---
 
-## 真正的全栈类型复用
+## 全景流水线
+End-to-End Type Safety Pipeline
 
-```mermaid
-flowchart TB
-    classDef pkg fill:#1e293b,stroke:#64748b,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
-    classDef source fill:#0f766e,stroke:#2dd4bf,stroke-width:2px,color:#fff
-    classDef consumer fill:#1e3a8a,stroke:#60a5fa,stroke-width:2px,color:#fff
-    
-    subgraph SchemasPkg ["@moego/bff-schemas"]
-        Source[["Schema Definition"]]:::source
+<div class="flex justify-center items-center w-full h-[380px]">
+
+```mermaid {scale: 0.5}
+flowchart LR
+    subgraph Source ["Source of Truth"]
+        Proto["Proto 协议"]
     end
     
-    SchemasPkg -->|Runtime Check| BFF["BFF Server"]:::consumer
-    SchemasPkg -->|Type & Valid| FE["Frontend Form"]:::consumer
-    SchemasPkg -->|Gen Client| SDK["OpenAPI Client"]:::consumer
+    subgraph Transform ["Schema Generation"]
+        ProtobufES["protobuf-es"]
+        TsToZod["ts-to-zod"]
+        AstGrep["ast-grep"]
+    end
     
-    class SchemasPkg pkg
+    subgraph Artifacts ["产物"]
+        Schemas["@moego/bff-schemas"]
+        Server["BFF Server"]
+        OpenAPI["@moego/bff-openapi"]
+    end
+    
+    subgraph Consumer ["消费者"]
+        Frontend["Frontend"]
+    end
+    
+    Proto --> ProtobufES
+    ProtobufES --> TsToZod
+    TsToZod --> AstGrep
+    AstGrep --> Schemas
+    Schemas --> Server
+    Server --> OpenAPI
+    OpenAPI --> Frontend
 ```
 
+</div>
+
 <!--
-这个独立的 Schema 包 (@moego/bff-schemas) 被三方引用：
-1. BFF Server：用于请求体校验。
-2. Frontend：直接用于 React Hook Form / VeeValidate 表单校验。
-3. SDK 生成：用于生成 OpenAPI Client。
-做到了一处修改，处处生效。
+这是我们的完整流水线全景图。
+从 Proto 协议出发，经过 protobuf-es 生成 TS 类型，
+再通过 ts-to-zod 和 ast-grep 转换为 Zod Schema，
+最终产出三个核心产物：Schemas 包、BFF Server 和 OpenAPI Client。
+整条链路保证端到端的类型安全。
 -->
 
 ---
-layout: fact
----
 
-## 错误处理：RPC vs RESTful
-RESTful 风格错误处理
+## 三大核心产物
+Build Artifacts Overview
 
-<div class="grid grid-cols-2 gap-8 mt-8">
+<div class="grid grid-cols-3 gap-6 mt-8">
 
-<div class="p-4 border border-red-500/30 bg-red-500/5 rounded-lg">
-  <div class="text-xl font-bold mb-4 text-red-400">Legacy: RPC Style</div>
-  <div class="font-mono text-sm bg-black/30 p-2 rounded mb-2">HTTP 200 OK</div>
-  <pre class="text-xs text-gray-400">
-{
-  "code": 50001,
-  "msg": "Invalid Password",
-  "data": null
-}
-  </pre>
-  <ul class="text-sm mt-4 list-disc pl-4 text-gray-400">
-    <li>监控无法自动识别错误</li>
-    <li>网关层无法感知</li>
-    <li>前端需手动判断 code</li>
-  </ul>
+<div class="p-5 bg-blue-500/15 rounded-xl border border-blue-500/30">
+  <div class="text-3xl mb-3">🐳</div>
+  <div class="text-lg font-bold mb-2">Runtime Server</div>
+  <div class="text-sm opacity-60 mb-3">Docker Image</div>
+  <div class="text-xs bg-black/30 p-2 rounded font-mono">
+    K8S 部署<br/>
+    多进程架构<br/>
+    链路追踪
+  </div>
 </div>
 
-<div class="p-4 border border-green-500/30 bg-green-500/5 rounded-lg">
-  <div class="text-xl font-bold mb-4 text-green-400">Current: RESTful Style</div>
-  <div class="font-mono text-sm bg-black/30 p-2 rounded mb-2">HTTP 400 Bad Request</div>
-  <pre class="text-xs text-gray-400">
-{
-  "error": {
-    "code": "INVALID_PASSWORD",
-    "docs": "..."
-  }
-}
-  </pre>
-  <ul class="text-sm mt-4 list-disc pl-4 text-gray-400">
-    <li>🚫 Datadog 自动标红</li>
-    <li>✅ 网关自动拦截</li>
-    <li>✅ 语义清晰标准</li>
-  </ul>
+<div class="p-5 bg-green-500/15 rounded-xl border border-green-500/30">
+  <div class="text-3xl mb-3">📦</div>
+  <div class="text-lg font-bold mb-2">@moego/bff-schemas</div>
+  <div class="text-sm opacity-60 mb-3">NPM Package (TS 源码)</div>
+  <div class="text-xs bg-black/30 p-2 rounded font-mono">
+    运行时校验<br/>
+    前端复用<br/>
+    Codec 机制
+  </div>
+</div>
+
+<div class="p-5 bg-purple-500/15 rounded-xl border border-purple-500/30">
+  <div class="text-3xl mb-3">🔗</div>
+  <div class="text-lg font-bold mb-2">@moego/bff-openapi</div>
+  <div class="text-sm opacity-60 mb-3">NPM Package</div>
+  <div class="text-xs bg-black/30 p-2 rounded font-mono">
+    类型安全 Client<br/>
+    响应校验 Hooks<br/>
+    质量左移
+  </div>
 </div>
 
 </div>
 
 <!--
-我们从以前的 RPC 风格（永远返回 200）迁移到了标准的 RESTful 风格。
-最大的好处是可观测性的提升：
-监控系统（Datadog）天然只能识别 HTTP 状态码，
-RESTful 风格让我们能直接利用基础设施的能力，自动统计错误率，进行链路追踪。
+我们的构建产出三个核心产物：
+1. Docker 镜像用于 K8S 部署
+2. bff-schemas 包含所有 Zod Schema，供 BFF Server 和前端复用
+3. bff-openapi 提供类型安全的 API Client
+接下来我们以登录功能为例，走一遍完整链路。
 -->
 
 ---
 
-## 实践：错误码映射 (Mapping)
+## Step 1/5: 后端定义 Proto
+Source of Truth → <span class="text-blue-400 text-sm">Proto 协议</span>
+
+<div class="mt-6">
+
+```protobuf {all|3-5|7-10|all}
+// backend/proto/authn/v1/authn_service.proto
+
+message LoginRequest {
+  string email = 1;           // 用户邮箱
+  string password = 2;        // 用户密码
+  AccountSource source = 3;   // 业务来源
+  
+  // MFA 相关字段
+  optional string challenge_token = 4;
+  optional string challenge_code = 5;
+}
+
+message LoginResponse {
+  optional string session_token = 1;  // 会话令牌
+  bool require_mfa = 5;               // 是否需要 MFA
+  optional AuthenticationFactor factor = 7;
+}
+```
+
+</div>
+
+<div v-click class="mt-4 p-3 bg-blue-500/10 rounded-lg text-sm">
+<strong>Recap:</strong> Proto 是类型的 <span class="text-blue-400 font-bold">Source of Truth</span>，所有下游类型都从这里派生
+</div>
+
+<!--
+第一步，后端团队定义 Proto 协议。
+这是登录接口的 Request 和 Response 定义。
+注意：Proto 是我们整个系统的 Source of Truth，所有类型都从这里派生。
+-->
+
+---
+
+## Step 2/5: Proto → Zod Schema
+<span class="text-gray-400 text-sm">Proto</span> → <span class="text-green-400 text-sm">Zod Schema</span> → BFF → OpenAPI → Frontend
+
+````md magic-move
+```typescript
+// protobuf-es 生成的 TS 类型
+export interface LoginRequest {
+  email: string;
+  password: string;
+  source: AccountSource;
+  challengeToken?: string;
+  challengeCode?: string;
+}
+```
 
 ```typescript
-// packages/schemas/src/shared/code.ts
-export const RpcCode2HttpCode: Record<RPCStrandErrCode, HTTP_CODE> = {
-  [RPCStrandErrCode.OK]: HTTP_CODE.SUCCESS,               // 0 → 200
-  [RPCStrandErrCode.InvalidArgument]: HTTP_CODE.BAD_REQUEST,  // 3 → 400
-  [RPCStrandErrCode.NotFound]: HTTP_CODE.NOT_FOUND,       // 5 → 404
-  [RPCStrandErrCode.PermissionDenied]: HTTP_CODE.FORBIDDEN, // 7 → 403
-  [RPCStrandErrCode.Unauthenticated]: HTTP_CODE.UNAUTHORIZED, // 16 → 401
-  // ...
-};
+// ts-to-zod 初步转换
+export const zLoginRequest = z.object({
+  email: z.string(),
+  password: z.string(),
+  source: z.nativeEnum(AccountSource),
+  challengeToken: z.string().optional(),
+  challengeCode: z.string().optional(),
+});
+```
 
-// authn/utils.ts
-export const CommonAuthnErrors = {
-  // 业务错误映射
+```typescript
+// ast-grep 增强后的最终产物
+export const zLoginRequest = z.object({
+  email: z.string()
+    .openapi({ description: '用户的电子邮件地址。' }),  // 添加 OpenAPI 元数据
+  password: z.string()
+    .openapi({ description: '用户的密码。' }),
+  source: z.nativeEnum(AccountSource)
+    .openapi("AccountSource", {                         // Enum 类型增强
+      type: 'string',
+      enum: Object.values(AccountSource).filter(v => typeof v === 'string'),
+    }),
+  challengeToken: z.string().optional()
+    .openapi({ description: '用于进行中的 MFA 质询的令牌。' }),
+  challengeCode: z.string().optional()
+    .openapi({ description: '用户收到的 MFA 验证码。' }),
+}).openapi("LoginRequest");
+```
+````
+
+<div v-click class="mt-4 p-3 bg-green-500/10 rounded-lg text-sm">
+<strong>Recap:</strong> <span class="text-green-400">ast-grep</span> 结构化转换 + <span class="text-green-400">.openapi()</span> 元数据注入 + <span class="text-green-400">getter</span> 解决循环引用
+</div>
+
+<!--
+第二步，自动转换 Proto 到 Zod Schema。
+这是一个 magic-move 动画，展示转换过程：
+1. protobuf-es 先生成 TS 类型
+2. ts-to-zod 转换为基础 Zod Schema
+3. ast-grep 增强：添加 .openapi() 元数据、处理 Enum 导出
+回顾前面讲的：ast-grep 做结构化转换，getter 处理循环引用。
+-->
+
+---
+
+## Step 3/5: Schema 裁剪
+<span class="text-gray-400 text-sm">Proto → Zod</span> → <span class="text-yellow-400 text-sm">Schema 裁剪</span> → BFF Route → OpenAPI → Frontend
+
+```typescript {all|2-6|8-12|all}
+// authn.schema.ts - 在路由定义前，先裁剪 Schema
+export const zLoginResponseSchema = zLoginResponse
+  .omit({ 
+    sessionToken: true,  // 敏感字段不暴露给前端
+    sessionMaxAge: true 
+  })
+  .openapi('LoginResponse');
+
+// 请求 Schema 也需要裁剪
+export const zLoginRequestSchema = zLoginRequest
+  .omit({
+    ip: true,          // 由 BFF 自动注入
+    userAgent: true,   // 由 BFF 自动注入
+  });
+```
+
+<div v-click class="mt-4 p-3 bg-yellow-500/10 rounded-lg text-sm">
+<strong>Recap:</strong> <span class="text-yellow-400">.omit()</span> 裁剪敏感字段 - Response 隐藏 token，Request 移除 BFF 注入字段
+</div>
+
+<!--
+Schema 生成后、路由定义前，我们需要做 Schema 裁剪：
+- Response 端：移除 sessionToken 等敏感字段，不暴露给前端
+- Request 端：移除 ip、userAgent 等字段，这些由 BFF 自动注入
+裁剪后的 Schema 才是面向前端的 API 契约。
+-->
+
+---
+
+## Step 3.1: BFF Route 定义
+<span class="text-gray-400 text-sm">Proto → Zod → 裁剪</span> → <span class="text-cyan-400 text-sm">BFF Route</span> → OpenAPI → Frontend
+
+```typescript {all|1-3|5-10|all}
+// server/routes/authn/login.ts
+import { zLoginRequestSchema, zLoginResponseSchema } from '@moego/bff-schemas/authn.schema';
+import { HTTP_CODE } from '@moego/bff-schemas';
+
+// 路由定义 - 使用裁剪后的 Schema
+const login = createRoute({
+  method: 'post',
+  path: '/login',
+  request: createJsonRequest(zLoginRequestSchema),
+  responses: createJsonResponse(HTTP_CODE.SUCCESS, zLoginResponseSchema, 'Login'),
+});
+```
+
+<div v-click class="mt-4 p-3 bg-cyan-500/10 rounded-lg text-sm">
+<strong>Recap:</strong> <span class="text-cyan-400">Schema 同构复用</span> - 导入裁剪后的 Schema，createRoute 自动校验请求/响应
+</div>
+
+<!--
+路由定义非常简洁：
+1. 导入裁剪后的 Schema
+2. createRoute 定义路由元信息
+3. Schema 同时用于运行时校验和 OpenAPI 文档生成
+这就是"同构 Schema"的核心：一处定义，多处复用。
+-->
+
+---
+
+## Step 3.2: BFF Route 实现
+<span class="text-gray-400 text-sm">Proto → Zod → 裁剪 → 定义</span> → <span class="text-cyan-400 text-sm">BFF 实现</span> → OpenAPI → Frontend
+
+```typescript {all|2|3-4|5|all}
+app.openapi(login, async (c) => {
+  const params = c.req.valid('json');  // Codec decode: string → bigint
+  const [err, res] = await c.invokeSvcMethod(AuthnServiceClient, 'login', params);
+  if (err) handleAuthnServiceError(c, err, errorMap);  // 错误码映射
+  return c.json(zLoginResponseSchema.encode(res));  // Codec encode: bigint → string
+});
+
+// 错误码映射表
+const errorMap: Partial<Record<ErrorCode, ErrorConfig>> = {
   [ErrorCode.EMAIL_PASSWORD_MISMATCH]: { 
     httpCode: HTTP_CODE.BAD_REQUEST, 
     message: 'Invalid email or password.' 
@@ -1077,322 +2094,215 @@ export const CommonAuthnErrors = {
 };
 ```
 
-<!--
-我们维护了两层映射：
-1. 基础映射：标准 gRPC 错误码 -> HTTP 状态码
-2. 业务映射：特定业务错误码 -> HTTP 状态码 + 友好文案
--->
-
----
-
-## 实践：全局中间件 (Middleware)
-
-```typescript {all|4-7|all}
-// server/middleware/error-wrap.middleware.ts
-export const ErrorMiddleware: ErrorHandler = (err, c) => {
-  // 1. 记录链路追踪
-  span?.setTag('error', err);
-  
-  // 2. gRPC 错误 → HTTP 错误
-  if (err instanceof SvcInvokeException) {
-    const grpcStatus = err.code;
-    
-    // 优先匹配业务错误，否则回退到标准映射
-    return c.json({
-      code: grpcStatus,
-      message: err.rawMessage,
-      }, RpcCode2HttpCode[grpcStatus] ?? HTTP_CODE.INTERNAL_SERVER_ERROR);
-  }
-};
-```
-
-<!--
-全局中间件负责最终的转换和记录。
-span.setTag 让 Datadog 能够追踪到这个错误。
--->
-
----
-layout: fact
----
-
-## 与后端大仓的错误码协作
-RESTful 风格的创新
-
-<!--
-我们的 BFF 和后端大仓合作制定了错误码的规范。
-后端大仓定义服务的业务错误码，BFF 消费业务错误码，返回对应的 HTTP Status Code 和用户友好的报错文案。
-相比于 RPC 风格永远返回 200，更加贴合 RESTful 风格。
--->
-
----
-
-## 错误码映射规范
-
-```typescript
-// packages/schemas/src/shared/code.ts
-export const RpcCode2HttpCode: Record<RPCStrandErrCode, HTTP_CODE> = {
-  [RPCStrandErrCode.OK]: HTTP_CODE.SUCCESS,               // 0 → 200
-  [RPCStrandErrCode.InvalidArgument]: HTTP_CODE.BAD_REQUEST,  // 3 → 400
-  [RPCStrandErrCode.NotFound]: HTTP_CODE.NOT_FOUND,       // 5 → 404
-  [RPCStrandErrCode.PermissionDenied]: HTTP_CODE.FORBIDDEN, // 7 → 403
-  [RPCStrandErrCode.Unauthenticated]: HTTP_CODE.UNAUTHORIZED, // 16 → 401
-  [RPCStrandErrCode.ResourceExhausted]: HTTP_CODE.TOO_MANY_REQUESTS, // 8 → 429
-  [RPCStrandErrCode.Unimplemented]: HTTP_CODE.NOT_IMPLEMENTED, // 12 → 501
-  [RPCStrandErrCode.Internal]: HTTP_CODE.INTERNAL_SERVER_ERROR, // 13 → 500
-  [RPCStrandErrCode.Unavailable]: HTTP_CODE.SERVICE_UNAVAILABLE, // 14 → 503
-  // ... 完整映射
-};
-```
-
-<!--
-我们定义了完整的 gRPC 错误码到 HTTP 状态码的映射表。
-这样 BFF 就可以将后端的 gRPC 错误转换为标准的 HTTP 错误码。
--->
-
----
-
-## 错误类型体系
-
-<tldraw document="doc-error-handling-architecture" class="h-80 w-[85%]" doc="tldraw/doc-error-handling-architecture.json"></tldraw>
-
-<!--
-我们的错误类型体系包括：
-1. LogicException：业务逻辑错误，带有可选的错误码
-2. SvcInvokeException：gRPC 服务调用错误，包含 gRPC code 和原始消息
-这些错误都会被全局错误处理中间件捕获并统一处理。
--->
-
----
-
-## 全局错误处理中间件
-
-```typescript{all|5-8|10-22|all}
-// server/middleware/error-wrap.middleware.ts
-export const ErrorMiddleware: ErrorHandler = (err, c) => {
-  // 记录链路追踪
-  span?.setTag('error', err);
-  
-  // gRPC 错误 → HTTP 错误
-  if (err instanceof SvcInvokeException) {
-    const grpcStatus = err.code;
-    
-    // 业务错误码（> 100000）→ 500
-    if (grpcStatus > MIN_BIZ_ERROR_CODE) {
-      return c.json({
-        code: grpcStatus,
-        message: err.rawMessage,
-      }, HTTP_CODE.INTERNAL_SERVER_ERROR);
-    }
-    
-    // 标准 gRPC 错误码 → 对应 HTTP 状态码
-    return c.json({
-      code: grpcStatus,
-      message: err.rawMessage,
-    }, RpcCode2HttpCode[grpcStatus] ?? HTTP_CODE.INTERNAL_SERVER_ERROR);
-  }
-  
-  // 其他错误处理...
-};
-```
-
-<!--
-全局错误处理中间件的逻辑：
-1. 记录链路追踪信息
-2. 判断 gRPC 错误类型
-3. 业务错误码（大于 100000）统一返回 500
-4. 标准 gRPC 错误码映射到对应的 HTTP 状态码
-5. 返回格式化的 JSON 响应
--->
-
----
-
-## 错误处理：RPC vs RESTful
-
-<div class="grid grid-cols-2 gap-8 mt-8">
-
-<div class="p-4 border border-red-500/30 bg-red-500/5 rounded-lg">
-  <div class="text-xl font-bold mb-4 text-red-400">传统 RPC 风格 (Legacy)</div>
-  <div class="font-mono text-sm bg-black/30 p-2 rounded mb-2">HTTP 200 OK</div>
-  <pre class="text-xs text-gray-400">
-{
-  "code": 50001,
-  "msg": "Invalid Password",
-  "data": null
-}
-  </pre>
-  <ul class="text-sm mt-4 list-disc pl-4 text-gray-400">
-    <li>监控无法自动识别错误</li>
-    <li>网关层无法感知</li>
-    <li>前端需手动判断 code</li>
-  </ul>
+<div v-click class="mt-4 p-3 bg-cyan-500/10 rounded-lg text-sm">
+<strong>Recap:</strong> <span class="text-cyan-400">Codec decode</span> (string→bigint) + <span class="text-cyan-400">schema.encode()</span> (bigint→string) + <span class="text-cyan-400">错误映射</span>
 </div>
 
-<div class="p-4 border border-green-500/30 bg-green-500/5 rounded-lg">
-  <div class="text-xl font-bold mb-4 text-green-400">RESTful 风格 (Current)</div>
-  <div class="font-mono text-sm bg-black/30 p-2 rounded mb-2">HTTP 400 Bad Request</div>
-  <pre class="text-xs text-gray-400">
-{
-  "error": {
-    "code": "INVALID_PASSWORD",
-    "docs": "..."
-  }
-}
-  </pre>
-  <ul class="text-sm mt-4 list-disc pl-4 text-gray-400">
-    <li>🚫 Datadog 自动标红</li>
-    <li>✅ 网关自动拦截</li>
-    <li>✅ 语义清晰标准</li>
-  </ul>
+<!--
+路由实现包含三个核心机制：
+1. c.req.valid('json') 触发 Codec decode，将前端传来的 string 转为 bigint
+2. 返回前需手动调用 schema.encode() 将 bigint 转回 string
+3. handleAuthnServiceError 将 gRPC 错误码映射为 RESTful HTTP 响应
+decode 自动，encode 手动，确保类型安全。
+-->
+
+---
+
+## Step 4/5: 生成 OpenAPI Client
+<span class="text-gray-400 text-sm">Proto → Zod → BFF</span> → <span class="text-purple-400 text-sm">OpenAPI Client</span> → Frontend
+
+<div class="grid grid-cols-2 gap-6 mt-6">
+
+<div>
+
+```bash
+# 生成命令
+pnpm generate:openapi authn
+```
+
+```yaml
+# docs/openapi.authn.yaml
+paths:
+  /moego.bff/authn/login:
+    post:
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+```
+
+</div>
+
+<div>
+
+```
+packages/openapi/
+├── docs/
+│   └── openapi.authn.yaml   # OpenAPI 文档
+└── clients/
+    └── client.authn.ts      # 类型安全 Client
+```
+
+<div v-click class="mt-4 p-3 bg-purple-500/10 rounded-lg text-sm">
+<strong>Recap:</strong>
+- Schema <span class="text-purple-400">strip</span> 移除 transform
+- Enum 从 <span class="text-purple-400">Proto 导入</span>
+- 运行时 <span class="text-purple-400">校验 hooks</span>
+</div>
+
 </div>
 
 </div>
 
 <!--
-我们从以前的 RPC 风格（永远返回 200）迁移到了标准的 RESTful 风格。
-最大的好处是可观测性的提升：
-监控系统（Datadog）天然只能识别 HTTP 状态码，
-RESTful 风格让我们能直接利用基础设施的能力，自动统计错误率，进行链路追踪。
+第四步，生成 OpenAPI Client。
+一条命令生成两个产物：
+1. OpenAPI YAML 文档 - 可用于 Swagger UI
+2. TypeScript Client - 类型安全的 API 调用
+回顾：Schema strip 移除内部类型、Enum 直接导入避免重复定义。
 -->
 
 ---
 
-## 全链路错误追踪 Implementation
+## Step 5/5: 前端调用
+<span class="text-gray-400 text-sm">Proto → Zod → BFF → OpenAPI</span> → <span class="text-teal-400 text-sm">Frontend</span> ✅
 
-```typescript
-// authn/utils.ts
-export const CommonAuthnErrors = {
-  // 映射：RPC Error Code -> HTTP Status
-  [ErrorCode.EMAIL_PASSWORD_MISMATCH]: { 
-    httpCode: HTTP_CODE.BAD_REQUEST, 
-    message: 'Invalid email or password.' 
-  },
-  [ErrorCode.ACCOUNT_FROZEN]: { 
-    httpCode: HTTP_CODE.FORBIDDEN, 
-    message: 'Account frozen.' 
-  },
-};
+```typescript {all|1-3|5-11|13-17|all}
+// Frontend - 导入 Client
+import { authnClientFactory, type LoginResponse } from '@moego/bff-openapi';
+const authnClient = authnClientFactory(fetcher);
 
-// Route Handler
-if (err) {
-  // 自动查找映射，抛出对应 HTTP 异常
-  handleAuthnServiceError(c, err, CommonAuthnErrors);
+// 调用 API - 完整类型提示
+const response = await authnClient.login({
+  email: 'user@example.com',
+  password: '******',
+  source: AccountSource.WEB,  // Enum 类型提示
+});
+//    ^? LoginResponse
+
+// 类型安全的响应处理
+if (response.requireMfa) {
+  const factor = response.factor;
+  //    ^? AuthenticationFactor | undefined
 }
 ```
 
+<div v-click class="mt-4 p-3 bg-teal-500/10 rounded-lg text-sm">
+<strong>Recap:</strong> 质量左移 - <span class="text-teal-400">onValidateResponseError</span> 在开发环境检测后端返回不一致
+</div>
+
 <!--
-实现上，我们维护了一个映射表。
-当捕获到后端的 gRPC 错误时，根据 Error Code 查找配置，
-自动转换为对应的 HTTP 状态码和前端友好的错误信息。
-这既保留了后端的精确错误码，又适配了 Web 标准。
+最后一步，前端调用。
+导入 Client，获得完整的类型提示：
+- 请求参数有类型检查
+- 响应数据有自动补全
+- Enum 值可以直接使用
+质量左移：开发环境下 onValidateResponseError 会检测响应是否符合 Schema。
 -->
 
+---
 
+## 多进程架构
+Cluster-Based Architecture
 
-## 架构与 DevOps
-Infrastructure & Efficiency
+<div class="flex justify-center mt-6">
 
-<div class="flex justify-center mt-8">
-
-```mermaid {scale: 0.8}
+```mermaid {scale: 0.6}
 flowchart TB
-    subgraph Master ["Cluster Manager"]
-        M1[Master Process]
+    subgraph master ["Cluster Manager"]
+        M[Master Process]
+        M --> |Fork| W1
+        M --> |Fork| W2
+        M --> |Fork| W3
+        M --> |Fork| W4
     end
-
-    subgraph Workers ["Worker Pool"]
-        direction TB
-        W1[Worker 1] --- W2[Worker 2] --- W3[Worker 3] --- W4[Worker 4]
+    
+    subgraph workers ["Worker Pool"]
+        W1[Worker 1]
+        W2[Worker 2]
+        W3[Worker 3]
+        W4[Worker 4]
     end
-
-    M1 -->|Fork & Monitor| Workers
-    Workers -->|Connect RPC| Backend["Backend Services"]
-
-    style Master fill:#1e293b,stroke:#fff,color:#fff
-    style Workers fill:#0f766e,stroke:#fff,color:#fff
+    
+    LB[Load Balancer] --> master
+    W1 & W2 & W3 & W4 --> Backend["Backend gRPC Services"]
 ```
 
 </div>
 
+<div class="grid grid-cols-2 gap-4 mt-4 text-sm">
+<div class="p-3 bg-blue-500/10 rounded-lg">
+<strong>Worker 进程:</strong> 根据 CPU 核数自动创建，处理 HTTP 请求
+</div>
+<div class="p-3 bg-green-500/10 rounded-lg">
+<strong>链路追踪:</strong> span.setTag('cluster.id', process.pid)
+</div>
+</div>
+
 <!--
-除了代码层面的设计，基础设施也至关重要。
-我们实现了基于 Node.js Cluster 的多进程架构，充分利用服务器的多核性能。
+运行时架构采用 Node.js Cluster 模式。
+Master 进程负责管理，根据 CPU 核数 fork Worker 进程。
+每个 Worker 独立处理请求，通过 gRPC 连接后端服务。
+链路追踪会记录 cluster.id，方便排查问题。
 -->
 
 ---
-
-## 极致的研发效能
-Automated Pipelines
-
-<div class="grid grid-cols-2 gap-8 mt-10">
-
-<div class="p-4 bg-blue-500/10 rounded-lg">
-  <div class="text-xl font-bold mb-2">🚀 Rapid Route Creation</div>
-  <div class="text-sm opacity-70">
-    <code class="block mt-2 bg-black/30 p-2 rounded">pnpm create:route user/login</code>
-    <ul class="list-disc pl-4 mt-2 space-y-1">
-      <li>自动生成文件结构</li>
-      <li>自动注册路由</li>
-      <li>自动生成测试模版</li>
-    </ul>
-  </div>
-</div>
-
-<div class="p-4 bg-purple-500/10 rounded-lg">
-  <div class="text-xl font-bold mb-2">🔄 Auto-Update Pipeline</div>
-  <div class="text-sm opacity-70">
-    <code class="block mt-2 bg-black/30 p-2 rounded">GitHub Actions Trigger</code>
-    <ul class="list-disc pl-4 mt-2 space-y-1">
-      <li>监听后端 Proto 变更</li>
-      <li>自动运行 generate:zod</li>
-      <li>自动发布 npm 包</li>
-      <li>Slack 通知变更</li>
-    </ul>
-  </div>
-</div>
-
-</div>
-
-<!--
-为了进一步提升效率，我们构建了完整的自动化流水线。
-1. 只需要一个命令，就能生成标准的路由模版，包含测试用例。
-2. 后端 Proto 一更新，CI 流水线会自动触发，生成新的 Schema 包并发布，前端无感升级。
--->
-
 
 
 ## Recap: 核心收益
+What We Achieved
 
-<div class="grid grid-cols-2 gap-4 mt-8">
+<div class="grid grid-cols-2 gap-4 mt-6">
 
 <div class="p-4 border-l-4 border-blue-400 bg-gray-500/10">
   <div class="text-lg font-bold">1. 端到端类型安全</div>
-  <div class="text-sm opacity-60">Proto → Zod → Client，100% 类型一致</div>
+  <div class="text-sm opacity-60 mt-2">
+    Proto → Zod → Client<br/>
+    从后端协议到前端调用，100% 类型一致
+  </div>
 </div>
 
 <div class="p-4 border-l-4 border-green-400 bg-gray-500/10">
   <div class="text-lg font-bold">2. 质量左移</div>
-  <div class="text-sm opacity-60">运行时校验 + 编译时检查，拒绝 NPE</div>
+  <div class="text-sm opacity-60 mt-2">
+    编译时检查 + 运行时校验<br/>
+    onValidateResponseError 及早发现问题
+  </div>
 </div>
 
 <div class="p-4 border-l-4 border-yellow-400 bg-gray-500/10">
   <div class="text-lg font-bold">3. 优雅的转换</div>
-  <div class="text-sm opacity-60">ast-grep 驱动 + Codec 机制 + getter 延迟求值</div>
+  <div class="text-sm opacity-60 mt-2">
+    ast-grep 结构化转换<br/>
+    Codec 机制 + getter 延迟求值
+  </div>
 </div>
 
 <div class="p-4 border-l-4 border-red-400 bg-gray-500/10">
   <div class="text-lg font-bold">4. 标准化运维</div>
-  <div class="text-sm opacity-60">RESTful 错误规范 + 自动化流水线</div>
+  <div class="text-sm opacity-60 mt-2">
+    RESTful 错误规范<br/>
+    自动化流水线 + 多进程架构
+  </div>
 </div>
 
 </div>
 
 <!--
-最后总结一下今天分享的四个核心点：
-1. 极致的类型安全
-2. 质量保障体系
-3. 优雅的代码转换技术
-4. 标准化的运维规范
-希望这些实践能给大家带来一些启发。
+回顾今天分享的四个核心收益：
+1. 端到端类型安全 - 从 Proto 到前端调用，类型一脉相承
+2. 质量左移 - 编译时和运行时双重保障
+3. 优雅的转换 - ast-grep、Codec、getter 三板斧
+4. 标准化运维 - 错误规范 + 自动化流水线
+这就是 MoeGo BFF 的架构全貌。
 -->
 
 
@@ -1403,9 +2313,10 @@ class: text-center
 
 # Q & A
 
-<div class="mt-10">
+<div class="mt-10 text-center">
   <div class="text-4xl mb-4">🙋‍♂️</div>
-  <div class="text-xl opacity-70">欢迎提问与交流</div>
+  <div class="text-xl opacity-70">Join #moego-bff</div>
+  <div class="text-xl opacity-70">欢迎交流提问</div>
 </div>
 
 <!--
