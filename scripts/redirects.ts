@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 import fg from 'fast-glob'
 
-const packageFiles = (await fg('*/src/package.json', {
+const packageFiles = (await fg('talks/**/*/src/package.json', {
   onlyFiles: true,
 })).sort()
 
@@ -55,7 +55,7 @@ status = 302`)
 
     parts.push(`
 [[redirects]]
-from = "${dir}"
+from = "/${dir}"
 to = "https://talks.doctorwu.me${base}"
 status = 301
 

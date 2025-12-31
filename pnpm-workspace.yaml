@@ -1,5 +1,5 @@
 packages:
-  - '*/src'
+  - 'talks/**/*/src'
 
 catalog:
   '@antfu/eslint-config': ^4.16.1
@@ -48,4 +48,4 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 patchedDependencies:
-  slidev-addon-tldraw: patches/slidev-addon-tldraw.patch
+  slidev-addon-tldraw@0.5.1: patches/slidev-addon-tldraw@0.5.1.patch

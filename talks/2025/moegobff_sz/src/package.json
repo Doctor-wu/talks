@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "slidev",
+    "build": "slidev build --base /2025_moegobff_sz/ --out ../../../../dist/2025_moegobff_sz",
+    "export": "slidev export --per-slide --output ../moegobff_sz.pdf"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@eslint/config-inspector": "catalog:",
+    "eslint": "catalog:",
+    "vis-timeline": "catalog:"
+  }
+}

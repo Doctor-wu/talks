@@ -1,0 +1,46 @@
+diff --git a/components/Tldraw.vue b/components/Tldraw.vue
+index 2651f8a85c05f806bcd5b2f29281118f6c584ae4..9b57bc2ca3d03506742a8fe42a68b585c94dcfdc 100644
+--- a/components/Tldraw.vue
++++ b/components/Tldraw.vue
+@@ -92,13 +92,19 @@ const state = reactive<State>({
+ // create store
+ const store = useStore();
+ 
++// prevent overwriting existing docs before the initial snapshot has been loaded
++const isSnapshotReady = ref(false);
++
+ const fetchSnapshot = async (doc: string) => {
+-  const res = await fetch("/" + doc);
++  const res = await fetch("./" + doc);
+   const snapshot = await res.json();
+   loadSnapshot(store, snapshot);
+ 
+   // zoom to fit after snapshot is loaded
+   updateZoom();
++
++  // allow saving only after initial snapshot load completed
++  isSnapshotReady.value = true;
+ };
+ 
+ // unique doc path based on simple unique id
+@@ -111,9 +117,11 @@ if (props.doc) {
+     console.error("[slidev-addon-tldraw] Failed to load snapshot", e);
+     // fallback to new doc, else the failed document is overwritten later
+     state.doc = createUniqueDocPath();
++    isSnapshotReady.value = true;
+   });
+ } else {
+   state.doc = createUniqueDocPath();
++  isSnapshotReady.value = true;
+ }
+ 
+ // customize/disable several UI components
+@@ -237,7 +245,7 @@ const onMount = (editor: Editor) => {
+     store.listen(
+       () => {
+         // if still mounted, save snapshot after debounce period
+-        if (isMounted.value) {
++        if (isMounted.value && isEditable.value && isSnapshotReady.value) {
+           debouncedSaveSnapshot();
+         }
+       },
