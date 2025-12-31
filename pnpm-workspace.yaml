@@ -1,5 +1,5 @@
 packages:
-  - '*/src'
+  - 'talks/**/*/src'
 
 catalog:
   '@antfu/eslint-config': ^4.16.1

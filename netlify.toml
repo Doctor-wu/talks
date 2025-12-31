@@ -7,35 +7,44 @@ command = "pnpm run build"
 NODE_VERSION = "22"
 PLAYWRIGHT_BROWSERS_PATH = "0"
 
-
 [[redirects]]
-from = "/conf_vue2025/src"
-to = "https://github.com/Doctor-wu/talks/tree/main/conf_vue2025"
-status = 302
-
-[[redirects]]
-from = "conf_vue2025"
-to = "https://talks.doctorwu.me/conf_vue2025/"
-status = 301
-
-[[redirects]]
-from = "/conf_vue2025/*"
-to = "/conf_vue2025/index.html"
-status = 200
-
-[[redirects]]
-from = "/moegobff_sz/src"
+from = "/2025_moegobff_sz/src"
 to = "https://github.com/Doctor-wu/talks/tree/main/talks/2025/moegobff_sz"
 status = 302
 
 [[redirects]]
-from = "moegobff_sz"
-to = "https://talks.doctorwu.me/moegobff_sz/"
+from = "/talks/2025/moegobff_sz"
+to = "https://talks.doctorwu.me/2025_moegobff_sz/"
 status = 301
 
 [[redirects]]
-from = "/moegobff_sz/*"
-to = "/moegobff_sz/index.html"
+from = "/2025_moegobff_sz/*"
+to = "/2025_moegobff_sz/index.html"
+status = 200
+
+[[redirects]]
+from = "/2025_conf_vue/pdf"
+to = "https://github.com/Doctor-wu/talks/blob/main/talks/2025/vueconf_sz/conf_vue2025.pdf?raw=true"
+status = 302
+
+[[redirects]]
+from = "/talks/2025/vueconf_sz/pdf"
+to = "https://github.com/Doctor-wu/talks/blob/main/talks/2025/vueconf_sz/conf_vue2025.pdf?raw=true"
+status = 302
+
+[[redirects]]
+from = "/2025_conf_vue/src"
+to = "https://github.com/Doctor-wu/talks/tree/main/talks/2025/vueconf_sz"
+status = 302
+
+[[redirects]]
+from = "/talks/2025/vueconf_sz"
+to = "https://talks.doctorwu.me/2025_conf_vue/"
+status = 301
+
+[[redirects]]
+from = "/2025_conf_vue/*"
+to = "/2025_conf_vue/index.html"
 status = 200
 
 [[redirects]]
