@@ -24,6 +24,21 @@ to = "/conf_vue2025/index.html"
 status = 200
 
 [[redirects]]
+from = "/moegobff_sz/src"
+to = "https://github.com/Doctor-wu/talks/tree/main/talks/2025/moegobff_sz"
+status = 302
+
+[[redirects]]
+from = "moegobff_sz"
+to = "https://talks.doctorwu.me/moegobff_sz/"
+status = 301
+
+[[redirects]]
+from = "/moegobff_sz/*"
+to = "/moegobff_sz/index.html"
+status = 200
+
+[[redirects]]
 from = "/"
 to = "https://doctorwu.me/talks"
 status = 302
