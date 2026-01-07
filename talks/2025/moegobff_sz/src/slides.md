@@ -248,76 +248,13 @@ const res = await BFFLoginClient.login({
 layout: fact
 ---
 
-## Quality Shift Left
-质量左移
-
-<!--
-除了编译时的类型检查，运行时的校验也同样重要。
-我们引入了 "Quality Shift Left"（质量左移）的概念。
--->
-
----
-
-## 运行时检查：拒绝 NPE
-
-<div mt-10></div>
-````md magic-move {lines: true}
-```typescript
-// packages/client-utils/src/client.ts
-const client = createClient({
-  baseUrl: '/api',
-  // ⚡️ 运行时自动检查不符合 Schema 的响应
-  onValidateResponseError: ({ error, request, response }) => {
-    // 当返回检验不通过时, 触发 hooks
-  }
-});
-```
-
-```typescript
-// packages/client-utils/src/client.ts
-const client = createClient({
-  baseUrl: '/api',
-  // ⚡️ 运行时自动检查不符合 Schema 的响应
-  onValidateResponseError: ({ error, request, response }) => {
-    console.error('Data Integrity Error!', error);
-    
-    // 1. 上报 Sentry / Datadog
-    reportError(error);
-    
-    // return true 表示不中止请求
-    return true;
-  }
-});
-```
-````
-
-<v-clicks>
-
-- **🛡️ 自动识别**：只要后端返回的数据与 Schema 不符, 立马触发 hooks
-- **📊 监控告警**：第一时间发现后端 API 的非兼容性变更
-- **🚫 拒绝 NPE**：从源头杜绝 "Cannot read property of undefined"
-
-</v-clicks>
-
-<!--
-我们在 Client 初始化时配置了 onValidateResponseError 钩子。
-一旦后端返回的数据不符合 Schema 定义（比如缺少必填字段），Client 会立即抛出异常并上报监控。
-这意味着我们不需要等到用户点击按钮报错时才发现问题，而是在数据到达前端的那一刻就拦截住了。
--->
----
-layout: fact
----
-
-## Automatic Schema Generation
-Schema 自动化生成
-
+## 这样就够了吗?
 ---
 
 ## 痛点：手写 Schema 的代价
 
 <div class="mt-8">
 
-还记得之前的 Login 例子吗？
 
 ````md magic-move {lines: true}
 ```typescript
@@ -393,6 +330,18 @@ message LoginResponse {
 -->
 
 ---
+layout: fact
+---
+
+## Automatic Schema Generation
+Schema 自动化生成
+
+<!--
+既然手写不可行，那就让机器来帮我们生成。
+接下来我们看看如何实现 Proto 到 Zod Schema 的自动化转换。
+-->
+
+---
 
 ## Callback：Login 的完整演进
 
@@ -443,21 +392,33 @@ export const zLoginRequest = z.object({
    * 用户的电子邮件地址。
    * @generated from field: string email = 1;
    */
-  email: z.string()
-    .openapi({ description: `用户的电子邮件地址。` }),
+  email: z.string(),
   /**
    * 用户的密码。
    * @generated from field: string password = 2;
    */
-  password: z.string()
-    .openapi({ description: `用户的密码。` }),
+  password: z.string(),
 }).openapi('LoginRequest');
 
 // ✅ 自动同步 + 运行时校验 + OpenAPI 元数据
 ```
 
 ```typescript
-// 最终：前端享受完整类型提示
+// Step 3: BFF 路由直接引用生成的 Schema
+import { zLoginRequest, zLoginResponse } from '@moego/bff-schemas';
+
+export const loginRoute = createRoute({
+  method: 'post',
+  path: '/login',
+  request: createJsonRequest(zLoginRequest),
+  responses: createJsonResponse(HTTP_CODE.SUCCESS, zLoginResponse),
+});
+
+// ✅ Schema 即契约，路由定义零重复
+```
+
+```typescript
+// Step 4: 前端享受完整类型提示
 const res = await BFFLoginClient.login({
 //    ^? const res: LoginResponse
   email: "doctorwu@moego.pet",
@@ -473,9 +434,199 @@ const res = await BFFLoginClient.login({
 1. 从手写的朴素 Schema 开始
 2. 发现维护成本太高
 3. 引入自动化：Proto → TS 类型 → Zod Schema
-4. 最终：前端零手写，享受完整类型安全
+4. BFF 路由直接引用生成的 Schema，零重复定义
+5. 最终：前端零手写，享受完整类型安全
 
 这就是端到端类型安全的完整链路！
+-->
+
+---
+
+## 派生 Schema：灵活组合
+
+<div class="grid grid-cols-2 gap-6 mt-4">
+
+<div class="p-4 border-2 border-green-500/30 rounded-lg bg-green-500/5">
+  <div class="text-lg font-bold mb-3 text-green-400">✨ Zod Schema 派生</div>
+
+```typescript
+// 基于生成的 Schema 快速派生
+const zCreateUser = zUser.omit({ 
+  id: true, 
+  createdAt: true 
+});
+
+const zUpdateUser = zUser.pick({ 
+  name: true, 
+  email: true 
+}).partial();
+
+const zUserWithPets = zUser.extend({ 
+  pets: z.array(zPet) 
+});
+```
+
+  <div class="text-xs mt-3 text-green-300">✅ 一行代码，类型自动推导</div>
+</div>
+
+<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5 opacity-70">
+  <div class="text-lg font-bold mb-3 text-red-400">😵 Protobuf 对等实现</div>
+
+```protobuf
+// 需要手动定义每个变体...
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  // 手动复制，容易遗漏字段
+}
+
+message UpdateUserRequest {
+  optional string name = 1;
+  optional string email = 2;
+  // 每个字段都要加 optional
+}
+```
+
+  <div class="text-xs mt-3 text-red-300">❌ 重复定义，同步维护噩梦</div>
+</div>
+
+</div>
+
+<v-click>
+<div class="mt-4 text-center">
+  <div class="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-lg text-sm">
+    <span class="text-blue-400 font-bold">Zod Schema 优势：</span>
+    <span class="opacity-70 ml-2">组合能力强 + 类型推导准确 + 永远与源 Schema 同步</span>
+  </div>
+</div>
+</v-click>
+
+<!--
+这是 Zod Schema 相比 Protobuf 的一个巨大优势。
+
+在 Protobuf 的世界里，如果你想要一个"创建用户"的请求体（不包含 id 和 createdAt），
+你需要手动定义一个新的 message，手动复制字段。
+如果原 message 新增了字段，你还得记得同步到所有变体。
+
+而在 Zod 的世界里，一行 .omit() 就搞定了，类型自动推导，永远和原 Schema 保持同步。
+这就是选择 Zod Schema 作为协议定义的核心原因之一：强大的组合和派生能力。
+-->
+
+---
+layout: fact
+---
+## 还能更好吗?
+---
+
+## 新目标：让 OpenAPI 拥有字段描述
+
+<div class="grid grid-cols-2 gap-6 mt-6">
+
+<div class="p-4 border-2 border-gray-500/30 rounded-lg">
+  <div class="text-lg font-bold mb-3 text-gray-400">📝 当前状态</div>
+  <div class="text-xs opacity-60 mb-2">注释仅存在于代码中，OpenAPI 文档没有字段描述</div>
+
+```typescript
+export const zUserSchema = z.object({
+  /** 用户昵称 */
+  nickname: z.string(),
+  /** 注册时间 */
+  createdAt: zDate,
+});
+```
+
+</div>
+
+<div class="p-4 border-2 border-green-500/30 rounded-lg bg-green-500/5">
+  <div class="text-lg font-bold mb-3 text-green-400">🎯 目标状态</div>
+  <div class="text-xs opacity-60 mb-2">注释被提取到 .openapi() 中，生成的文档有描述</div>
+
+```typescript
+export const zUserSchema = z.object({
+  /** 用户昵称 */
+  nickname: z.string()
+    .openapi({ description: "用户昵称" }),
+  /** 注册时间 */
+  createdAt: zDate
+    .openapi({ description: "注册时间" }),
+});
+```
+
+</div>
+
+</div>
+
+<v-click>
+<div class="mt-6 text-center">
+  <div class="inline-block px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+    <span class="text-blue-400 font-bold">Goal:</span>
+    <span class="opacity-70 ml-2">自动把注释转换为 OpenAPI description</span>
+  </div>
+</div>
+</v-click>
+
+<!--
+在完成了 Proto 到 Zod 的自动转换后，我们遇到了一个新问题：
+虽然 Proto 的注释已经保留到了生成的 TS 类型中，但 OpenAPI 文档里却没有字段描述。
+
+我们的目标是：把这些注释自动提取出来，添加到每个字段的 .openapi() 调用中。
+这样生成的 API 文档就会有完整的字段说明，大大提升可读性。
+-->
+
+---
+
+## 如何实现？传统方案的困境
+
+<div class="grid grid-cols-2 gap-6 mt-8">
+
+<div class="p-4 border-2 border-yellow-500/30 rounded-lg bg-yellow-500/5">
+  <div class="text-xl font-bold mb-3 text-yellow-400">✋ 方案一：手动添加</div>
+  <ul class="text-sm list-disc pl-4 space-y-2 opacity-80">
+    <li>200+ 个 Schema 文件</li>
+    <li>上千个字段需要处理</li>
+    <li>纯体力活，容易遗漏</li>
+    <li class="text-yellow-300">后续维护同样痛苦</li>
+  </ul>
+  <div class="mt-4 text-center text-2xl">😵‍💫</div>
+</div>
+
+<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5">
+  <div class="text-xl font-bold mb-3 text-red-400">🔧 方案二：正则表达式</div>
+  <code class="block bg-black/30 p-2 rounded text-red-300 text-xs mb-3 break-all">
+    /\/\*\*[\s\S]*?\*\/\s*(\w+):\s*(z\.\w+)/g
+  </code>
+  <ul class="text-sm list-disc pl-4 space-y-2 opacity-80">
+    <li>无法准确匹配"紧邻"关系</li>
+    <li>多行注释处理困难</li>
+    <li>格式稍变就失效</li>
+    <li class="text-red-300">嵌套结构？噩梦开始</li>
+  </ul>
+</div>
+
+</div>
+
+<v-click>
+<div class="mt-6 text-center">
+  <div class="inline-block px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+    <span class="opacity-70">我们需要一个</span>
+    <span class="text-cyan-400 font-bold mx-2">理解代码结构</span>
+    <span class="opacity-70">的工具...</span>
+  </div>
+</div>
+</v-click>
+
+<!--
+那么如何实现这个目标呢？
+
+方案一：手动添加。200 多个 Schema，上千个字段，纯粹的体力活。
+而且后续 Proto 更新后，还得继续手动维护，完全不可持续。
+
+方案二：正则表达式。看看这个正则，是不是已经开始头疼了？
+问题在于正则是基于文本匹配的，它无法理解代码的结构。
+比如注释和字段之间的"紧邻"关系，多行注释的边界，嵌套的对象结构...
+这些用正则处理都是噩梦。
+
+我们需要一个能够真正理解代码结构的工具。
 -->
 
 ---
@@ -486,8 +637,9 @@ layout: fact
 Transform & Rewrite
 
 <!--
-这时候，ast-grep 登场了。
-它将帮助我们自动把 Proto 生成的 TypeScript 类型转换为 Zod Schema，彻底解决手写的痛点。
+这时候，ast-grep 登场了！
+它不是基于文本匹配，而是基于 AST（抽象语法树）来搜索和替换代码。
+就像用 CSS 选择器操作 DOM 一样，ast-grep 让我们可以精准地定位代码结构。
 -->
 
 ---
@@ -619,84 +771,175 @@ layout: full
 
 ---
 
-## 攻克难点：循环引用的自动化处理
+## 新问题：循环引用导致类型失效
+
+<div class="grid grid-cols-2 gap-6 mt-6">
+
+<div class="p-4 border-2 border-yellow-500/30 rounded-lg bg-yellow-500/5">
+  <div class="text-lg font-bold mb-3 text-yellow-400">🔄 什么是循环引用？</div>
+  <div class="text-sm opacity-80 mb-3">Schema 中的字段引用了自身类型</div>
+
+```typescript
+// 服务实例包含子服务（套餐）
+const zServiceInstance = z.object({
+  id: zId,
+  name: z.string(),
+  // 👇 addons 是 ServiceInstance 数组
+  addons: z.array(zServiceInstance), 
+});
+```
+
+  <div class="text-xs mt-2 opacity-60">常见场景：树形结构、评论回复、组织架构...</div>
+</div>
+
+<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5">
+  <div class="text-lg font-bold mb-3 text-red-400">❌ 传统方案 z.lazy 的痛点</div>
+
+```typescript
+// 必须用 z.lazy 包装 + 手写类型断言
+const zServiceInstance = z.lazy(() =>
+  z.object({
+    addons: z.array(zServiceInstance),
+  })
+) as unknown as z.ZodSchema<ServiceInstance>;
+//              👆 类型推断完全失效！
+```
+
+  <div class="text-xs mt-3 space-y-1">
+    <div class="text-red-300">• z.infer 失效，必须手写 Interface</div>
+    <div class="text-red-300">• .extend() / .pick() 无法使用</div>
+    <div class="text-red-300">• 派生 Schema 需要多重断言</div>
+  </div>
+</div>
+
+</div>
+
+<!--
+在自动生成 Schema 的过程中，我们遇到了一个棘手的问题：循环引用。
+
+什么是循环引用？比如"服务实例"包含"子服务"，子服务本身也是服务实例，形成了自引用。
+树形结构、评论回复、组织架构等场景都会遇到。
+
+传统的解决方案是用 z.lazy 包装，但这会导致类型推断完全失效，
+你必须手写 Interface，而且刚才讲的 .extend() / .pick() 这些派生能力也全都用不了。
+-->
+
+---
+
+## z.lazy 扩展之痛
+
+```typescript
+// 想要基于 zServiceInstance 扩展一个字段？
+// ❌ 必须 unwrap + 多重断言 + 手写 Interface
+const zExtended = ((zServiceInstance as any)
+  .unwrap() as z.ZodObject<any>)
+  .extend({
+    extra: z.string()
+  }) as unknown as z.ZodType<ExtendedServiceInstance>;
+
+// 😱 这还只是扩展一个字段...
+// 如果要 pick / omit / merge 呢？
+```
+
+<v-click>
+<div class="mt-6 text-center">
+  <div class="inline-block px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+    <span class="opacity-70">我们需要一种方案：</span>
+    <span class="text-cyan-400 font-bold mx-2">既能处理循环引用，又能保留类型推断</span>
+  </div>
+</div>
+</v-click>
+
+<!--
+如果你想基于 z.lazy 包装的 Schema 做扩展，看看这段代码有多恐怖。
+unwrap、多重类型断言、手写 Interface...
+这还只是扩展一个字段，如果要做 pick、omit、merge 呢？
+
+我们需要找到一种方案，既能处理循环引用，又能保留 Zod 的类型推断能力。
+-->
+
+---
+
+## 解决方案：Getter 延迟求值
 
 <div class="mt-4">
 
 ````md magic-move {lines: true}
 ```typescript
-// 1. 旧方案：z.lazy 定义
-// ❌ 类型 infer 失效，必须手动断言
-export const zServiceInstanceImpl = z.lazy(() =>
+// 问题回顾：z.lazy 导致类型推断失效
+export const zServiceInstance = z.lazy(() =>
   z.object({
     serviceInstanceId: zId,
     name: z.string(),
-    addons: z.array(zServiceInstanceImpl),
+    addons: z.array(zServiceInstance),
   })
-) as unknown as z.ZodSchema<ServiceInstanceImpl>;
+) as unknown as z.ZodSchema<ServiceInstance>;
+// ❌ 类型推断失效，派生困难
 ```
 
 ```typescript
-// 2. 痛点：尝试扩展字段 (Extend)
-// ❌ 必须 unwrap + 多重断言 + 手写 Interface
-const zExtended = ((zServiceInstanceImpl as any)
-  .unwrap() as z.ZodObject)
-  .extend({
-    extra: z.string()
-  }) as unknown as z.ZodType<ExtendedType>;
-```
-
-```typescript
-// 3. 改造 Phase 1：转换字段为 Getter
-export const zServiceInstanceImpl = z.lazy(() =>
+// Phase 1：将自引用字段转换为 Getter
+export const zServiceInstance = z.lazy(() =>
   z.object({
     serviceInstanceId: zId,
     name: z.string(),
-    // 自动转换为 getter 形式
+    // ✨ 自动转换为 getter 形式
     get addons() {
-      return z.array(zServiceInstanceImpl);
+      return z.array(zServiceInstance);
     },
   })
-) as unknown as z.ZodSchema<ServiceInstanceImpl>;
+) as unknown as z.ZodSchema<ServiceInstance>;
 ```
 
 ```typescript
-// 4. 改造 Phase 2：移除 z.lazy 包装
-// ✅ 恢复 z.object，能够自动推断类型
-export const zServiceInstanceImpl = z.object({
+// Phase 2：移除 z.lazy 包装
+// ✅ 恢复 z.object，类型自动推断！
+export const zServiceInstance = z.object({
   serviceInstanceId: zId,
   name: z.string(),
   // ✅ 利用 getter 延迟求值 (Zod 4+)
   get addons() {
-    return z.array(zServiceInstanceImpl);
+    return z.array(zServiceInstance);
   },
 });
+// 👆 z.infer<typeof zServiceInstance> 正常工作！
 ```
 
 ```typescript
-// 5. 收益：扩展字段变得无比简单
+// 收益：派生 Schema 变得无比简单
 // ✅ 直接 extend，类型完美保留
-const zExtended = zServiceInstanceImpl.extend({
+const zExtended = zServiceInstance.extend({
   extra: z.string(),
   // 覆盖 getter 以支持新的递归类型
   get addons() {
     return z.array(zExtended); 
   }
 });
+// 🎉 .pick() / .omit() / .merge() 全都能用！
 ```
 ````
 
 <v-clicks>
 
-- **Defect**: 旧方案 `z.lazy` 导致类型推断失效，维护成本高
-- **Pain**: 扩展字段需要 `unwrap` 和大量手写类型断言
-- **Phase 1**: 识别循环引用字段，自动转换为 `getter` 形式
-- **Phase 2**: 移除外层 `z.lazy` 包装，恢复 `z.infer` 自动推断能力
-- **Benefit**: 扩展 Schema 就像扩展普通对象一样简单
+- **Phase 1**: ast-grep 识别自引用字段，自动转换为 `getter` 形式
+- **Phase 2**: 移除外层 `z.lazy` 包装，恢复 `z.infer` 类型推断
+- **Benefit**: 派生 Schema 就像操作普通对象一样简单
 
 </v-clicks>
 
 </div>
+
+<!--
+我们的解决方案利用了 JavaScript getter 的延迟求值特性。
+
+Phase 1：用 ast-grep 识别所有自引用的字段，自动转换为 getter 形式。
+getter 的特点是：只有在访问时才会执行，这样就避免了初始化时的循环引用问题。
+
+Phase 2：既然循环引用已经通过 getter 解决了，就可以移除外层的 z.lazy 包装。
+一旦移除 z.lazy，z.infer 就能正常工作，所有的派生能力都恢复了！
+
+这个改造完全由 ast-grep 自动完成，开发者无需关心底层细节。
+-->
 
 ---
 
@@ -833,7 +1076,7 @@ Schema 在 @moego/bff-schemas 包中统一定义，以 TypeScript 源码形式�
 |---------|---------|------|------------|
 | **BFF Server** | `@moego/bff-schemas` | 请求验证、响应编码 | 完整 Schema（含 Codec） |
 | **API 调用** | `@moego/bff-openapi` | 类型推断、调用 API | Strip 后的 Schema |
-| **表单校验** | `@moego/bff-schemas` | 前端运行时校验 | 完整 Schema（含校验规则） |
+| **前端运行时** | `@moego/bff-schemas` | 表单校验 | 完整 Schema（含校验规则） |
 
 </div>
 
@@ -918,43 +1161,105 @@ const result = CreateCustomerSchema.safeParse(formData);
 
 ---
 
-## Enum 复用：避免类型不兼容
+## 问题：Enum 类型不兼容
 
 <div mt-4></div>
 
 ````md magic-move {lines: true}
 ```typescript
-// ❌ 问题：TypeScript 中两个相同值的 Enum 类型不兼容
-// @moego/bff-schemas 中定义
-enum AppointmentStatus {
+// Step 1: 我们在 @moego/bff-schemas 定义了 Enum
+// packages/schemas/src/appointment.schema.ts
+
+export enum AppointmentStatus {
   UPCOMING = 'UPCOMING',
-  PAST = 'PAST',
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
 }
 
-// @moego/bff-openapi 生成时重新创建了同样的 enum
-enum AppointmentStatus {  // 相同的值
-  UPCOMING = 'UPCOMING',
-  PAST = 'PAST',
-}
-
-// 但在 TypeScript 类型系统中它们是不兼容的！
+// ✅ 前端可以导入使用
 ```
 
 ```typescript
-// ❌ 类型不兼容导致的问题
+// Step 2: 生成 OpenAPI Client 时，也创建了同样的 Enum
+// @moego/bff-openapi/clients/client.appointment.ts (生成的代码)
+
+// 生成器看到 Schema 用了 enum，于是也生成一份
+export enum AppointmentStatus {  // 同样的名字
+  UPCOMING = 'UPCOMING',         // 同样的值
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
+}
+
+export function updateAppointment(data: {
+  status: AppointmentStatus;  // 👈 用的是生成的 enum
+}): Promise<void>;
+```
+
+```typescript
+// Step 3: 前端想要复用 Schema 的 Enum 来调用 API
 import { AppointmentStatus } from '@moego/bff-schemas';
 import { updateAppointment } from '@moego/bff-openapi';
 
-// 类型错误！两个 enum 虽然值相同，但类型不同
+// 看起来很合理对吧？
+updateAppointment({
+  status: AppointmentStatus.UPCOMING,
+});
+```
+
+```typescript
+// Step 4: 💥 TypeScript 报错了！
+import { AppointmentStatus } from '@moego/bff-schemas';
+import { updateAppointment } from '@moego/bff-openapi';
+
+updateAppointment({
+  status: AppointmentStatus.UPCOMING,
+  //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  // ❌ TS Error: Type 'AppointmentStatus' is not assignable 
+  //    to type 'AppointmentStatus'.
+  //    Two different types with this name exist, but they are unrelated.
+});
+
+// 😱 两个 enum 值完全相同，但 TypeScript 认为它们是不同类型！
+```
+````
+
+<!--
+让我们一步步来看这个问题是怎么产生的。
+
+首先，我们在 bff-schemas 包里定义了一个 AppointmentStatus 枚举。
+
+然后，生成 OpenAPI Client 时，生成器看到 Schema 里用了这个 enum，
+于是也生成了一份完全相同的 enum 定义。
+
+接下来，前端开发者想要复用 Schema 包的 enum 来调用 API，
+这看起来很合理，毕竟都是同一个业务概念。
+
+但是 TypeScript 报错了！虽然两个 enum 的值完全相同，
+但它们是两个独立的类型定义，TypeScript 认为它们是不兼容的。
+这是 TypeScript 的设计特性，用来防止不同来源的枚举混用。
+-->
+
+---
+
+## 解决方案：Enum 来源标记
+
+<div mt-4></div>
+
+````md magic-move {lines: true}
+```typescript
+// 问题回顾：前端使用 Schema 的 enum 调用 API
+import { AppointmentStatus } from '@moego/bff-schemas';
+import { updateAppointment } from '@moego/bff-openapi';
+
 updateAppointment({
   status: AppointmentStatus.UPCOMING,  
-  // TS Error: Type 'AppointmentStatus' is not assignable 
+  // ❌ TS Error: Type 'AppointmentStatus' is not assignable 
   // to type 'AppointmentStatus_Generated'
 });
 ```
 
 ```typescript
-// ✅ 解决方案：createNativeEnum 标记来源
+// 解决方案：createNativeEnum 标记来源
 // packages/schemas/src/appointment.schema.ts
 import { createNativeEnum } from './utils/createNativeEnum';
 
@@ -964,17 +1269,17 @@ export enum AppointmentStatusEnum {
 }
 
 export const AppointmentStatus = createNativeEnum(
-  'AppointmentStatus',      // Schema 名称
+  'AppointmentStatusEnum',      // Enum export 变量名称
   z.nativeEnum(AppointmentStatusEnum)
 );
-// 自动推断来源：@moego/bff-schemas/appointment.schema
+// 👆 自动记录来源：@moego/bff-schemas/appointment.schema
 ```
 
 ```typescript
-// ✅ 生成的 OpenAPI Client 直接导入原始 enum
+// 生成的 OpenAPI Client 直接导入原始 enum
 // @moego/bff-openapi/clients/client.appointment.ts (生成的代码)
 
-// 不再重新生成 enum，而是直接从源导入
+// ✨ 不再重新生成 enum，而是直接从源导入
 import { AppointmentStatusEnum } from '@moego/bff-schemas/appointment.schema';
 export { AppointmentStatusEnum };
 
@@ -987,12 +1292,24 @@ updateAppointment({
 ```
 ````
 
+<v-click>
+<div class="mt-4 text-center">
+  <div class="inline-block px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-lg text-sm">
+    <span class="text-green-400 font-bold">核心思路：</span>
+    <span class="opacity-70 ml-2">整个链路只有一个 enum 定义，生成的 Client 直接导入而非重新创建</span>
+  </div>
+</div>
+</v-click>
+
 <!--
-这是同构 Schema 的进阶用法。
-TypeScript 的 enum 有个特点：即使两个 enum 的值完全相同，它们的类型也是不兼容的。
-如果 OpenAPI Client 生成时重新创建 enum，前端使用 Schema 包的 enum 时就会报类型错误。
-createNativeEnum 通过标记 Schema 的来源路径，让生成的客户端直接导入原始 enum，
-从而保证整个链路只有一个 enum 定义，类型完全一致。
+解决方案是 createNativeEnum 工具函数。
+
+它的作用是在定义 enum 时标记来源路径。
+这样在生成 OpenAPI Client 时，生成器就知道这个 enum 来自哪里，
+直接 import 原始 enum 而不是重新创建一个新的。
+
+最终效果：整个链路只有一个 enum 定义，从 bff-schemas 到 bff-openapi 到前端，
+类型完全一致，不会出现不兼容的问题。
 -->
 
 ---
@@ -2206,6 +2523,70 @@ if (response.requireMfa) {
 - 响应数据有自动补全
 - Enum 值可以直接使用
 质量左移：开发环境下 onValidateResponseError 会检测响应是否符合 Schema。
+-->
+
+---
+layout: fact
+---
+
+## Quality Shift Left
+质量左移
+
+<!--
+刚才提到了质量左移，这里我们详细展开。
+除了编译时的类型检查，运行时的校验也同样重要。
+-->
+
+---
+
+## 运行时检查：拒绝 NPE
+
+<div mt-10></div>
+
+````md magic-move {lines: true}
+```typescript
+// packages/client-utils/src/client.ts
+const client = createClient({
+  baseUrl: '/api',
+  // ⚡️ 运行时自动检查不符合 Schema 的响应
+  onValidateResponseError: ({ error, request, response }) => {
+    // 当返回检验不通过时, 触发 hooks
+  }
+});
+```
+
+```typescript
+// packages/client-utils/src/client.ts
+const client = createClient({
+  baseUrl: '/api',
+  // ⚡️ 运行时自动检查不符合 Schema 的响应
+  onValidateResponseError: ({ error, request, response }) => {
+    console.error('Data Integrity Error!', error);
+    
+    // 1. 上报 Sentry / Datadog
+    reportError(error);
+    
+    // return true 表示不中止请求
+    return true;
+  }
+});
+```
+````
+
+<v-clicks>
+
+- **🛡️ 自动识别**：只要后端返回的数据与 Schema 不符, 立马触发 hooks
+- **📊 监控告警**：第一时间发现后端 API 的非兼容性变更
+- **🚫 拒绝 NPE**：从源头杜绝 "Cannot read property of undefined"
+
+</v-clicks>
+
+<!--
+我们在 Client 初始化时配置了 onValidateResponseError 钩子。
+一旦后端返回的数据不符合 Schema 定义（比如缺少必填字段），Client 会立即抛出异常并上报监控。
+这意味着我们不需要等到用户点击按钮报错时才发现问题，而是在数据到达前端的那一刻就拦截住了。
+
+这就是"质量左移"的核心思想：把问题发现的时机尽可能提前，而不是等到生产环境用户反馈。
 -->
 
 ---
