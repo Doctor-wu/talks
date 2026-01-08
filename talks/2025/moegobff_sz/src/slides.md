@@ -74,6 +74,223 @@ BFF 是 Backend for Frontend 的缩写，它是一个专门为前端服务的中
 -->
 
 ---
+
+## BFF 的核心价值
+
+<div class="grid grid-cols-2 gap-6 mt-8">
+
+<div class="p-5 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/5 border border-blue-500/30">
+  <div class="text-2xl mb-3">🎯 专属定制</div>
+  <div class="text-sm opacity-80 leading-relaxed">
+    为特定前端量身定制 API，不同终端（Web/App/小程序）可以有不同的 BFF 实例，满足各自的数据需求
+  </div>
+</div>
+
+<div class="p-5 rounded-lg bg-gradient-to-br from-green-500/20 to-green-600/5 border border-green-500/30">
+  <div class="text-2xl mb-3">🔗 聚合编排</div>
+  <div class="text-sm opacity-80 leading-relaxed">
+    一次请求聚合多个微服务数据，减少前端请求次数，降低网络延迟，提升用户体验
+  </div>
+</div>
+
+<div class="p-5 rounded-lg bg-gradient-to-br from-yellow-500/20 to-yellow-600/5 border border-yellow-500/30">
+  <div class="text-2xl mb-3">🛡️ 解耦屏障</div>
+  <div class="text-sm opacity-80 leading-relaxed">
+    隔离后端服务变更，后端微服务演进不影响前端，BFF 作为缓冲层吸收变化
+  </div>
+</div>
+
+<div class="p-5 rounded-lg bg-gradient-to-br from-purple-500/20 to-purple-600/5 border border-purple-500/30">
+  <div class="text-2xl mb-3">🔐 统一安全</div>
+  <div class="text-sm opacity-80 leading-relaxed">
+    集中处理认证鉴权、限流熔断、日志追踪，让前端无需关心复杂的安全细节
+  </div>
+</div>
+
+</div>
+
+<!--
+BFF 的核心价值可以概括为四点：
+1. 专属定制：不同终端有不同的数据展示需求，BFF 可以为每个前端定制最合适的 API
+2. 聚合编排：一个页面可能需要调用多个微服务，BFF 在服务端聚合，大幅减少前端请求
+3. 解耦屏障：后端服务重构、拆分、合并时，BFF 充当缓冲层，前端代码无需改动
+4. 统一安全：认证、鉴权、限流这些横切关注点在 BFF 统一处理，避免前端重复实现
+-->
+
+---
+
+## 微服务架构下的挑战
+
+<div class="mt-6 flex justify-center">
+
+```mermaid {scale: 0.45}
+flowchart LR
+    subgraph Frontend ["前端应用"]
+        F["Web App"]
+    end
+
+    subgraph Services ["后端微服务 (不同领域模型)"]
+        direction TB
+        S1["🐱 Pet Service<br/><span style='font-size:12px'>宠物领域</span>"]
+        S2["👤 Customer Service<br/><span style='font-size:12px'>客户领域</span>"]
+        S3["📋 Order Service<br/><span style='font-size:12px'>订单领域</span>"]
+        S4["💳 Payment Service<br/><span style='font-size:12px'>支付领域</span>"]
+        S5["📦 Inventory Service<br/><span style='font-size:12px'>库存领域</span>"]
+    end
+
+    F -->|"❌ 多次请求"| S1
+    F -->|"❌ 不同协议"| S2
+    F -->|"❌ 领域模型不匹配"| S3
+    F -->|"❌ 重复鉴权逻辑"| S4
+    F -->|"❌ 耦合严重"| S5
+
+    style Frontend fill:#1e3a5f,stroke:#3b82f6,color:#93c5fd
+    style Services fill:#422006,stroke:#f59e0b,color:#fcd34d
+```
+
+</div>
+
+<div class="grid grid-cols-3 gap-4 mt-4 text-sm">
+  <div class="p-3 bg-red-500/10 rounded border border-red-500/30">
+    <span class="text-red-400 font-bold">N+1 请求问题</span>
+    <div class="opacity-70 mt-1">一个页面发起数十个请求</div>
+  </div>
+  <div class="p-3 bg-red-500/10 rounded border border-red-500/30">
+    <span class="text-red-400 font-bold">领域模型泄露</span>
+    <div class="opacity-70 mt-1">前端被迫理解后端实现</div>
+  </div>
+  <div class="p-3 bg-red-500/10 rounded border border-red-500/30">
+    <span class="text-red-400 font-bold">协议碎片化</span>
+    <div class="opacity-70 mt-1">gRPC/REST/GraphQL 混杂</div>
+  </div>
+</div>
+
+<!--
+在微服务架构下，前端直连后端会面临诸多挑战：
+1. N+1 请求问题：展示一个订单详情页，可能需要调用订单、客户、支付、宠物等多个服务
+2. 领域模型泄露：每个微服务有自己的领域模型，前端需要理解所有后端的数据结构
+3. 协议碎片化：有的服务用 gRPC，有的用 REST，前端需要适配多种协议
+这些问题在团队规模变大、服务数量增多时会急剧恶化。
+-->
+
+---
+
+## BFF: 微服务架构的桥梁
+
+<div class="mt-4 flex justify-center">
+
+```mermaid {scale: 0.5}
+flowchart LR
+    subgraph Frontend ["前端应用"]
+        F["Web App"]
+    end
+
+    subgraph BFF ["BFF 层"]
+        direction TB
+        B["🌉 BFF<br/><span style='font-size:12px'>统一网关 + 数据编排</span>"]
+    end
+
+    subgraph Services ["后端微服务 (不同领域模型)"]
+        direction TB
+        S1["🐱 Pet Service"]
+        S2["👤 Customer Service"]
+        S3["📋 Order Service"]
+        S4["💳 Payment Service"]
+        S5["📦 Inventory Service"]
+    end
+
+    F -->|"✅ 单一入口<br/>REST + OpenAPI"| B
+    B -->|"gRPC"| S1
+    B -->|"gRPC"| S2
+    B -->|"gRPC"| S3
+    B -->|"gRPC"| S4
+    B -->|"gRPC"| S5
+
+    style Frontend fill:#1e3a5f,stroke:#3b82f6,color:#93c5fd
+    style BFF fill:#14532d,stroke:#22c55e,color:#86efac
+    style Services fill:#422006,stroke:#f59e0b,color:#fcd34d
+```
+
+</div>
+
+<div class="grid grid-cols-3 gap-4 mt-2 text-sm">
+  <div class="p-3 bg-green-500/10 rounded border border-green-500/30">
+    <span class="text-green-400 font-bold">✓ 请求聚合</span>
+    <div class="opacity-70 mt-1">BFF 并发调用，前端单次请求</div>
+  </div>
+  <div class="p-3 bg-green-500/10 rounded border border-green-500/30">
+    <span class="text-green-400 font-bold">✓ 模型转换</span>
+    <div class="opacity-70 mt-1">领域模型 → 视图模型</div>
+  </div>
+  <div class="p-3 bg-green-500/10 rounded border border-green-500/30">
+    <span class="text-green-400 font-bold">✓ 协议统一</span>
+    <div class="opacity-70 mt-1">对外 REST，对内 gRPC</div>
+  </div>
+</div>
+
+<!--
+引入 BFF 后，架构变得清晰：
+1. 请求聚合：BFF 在服务端并发调用多个微服务，前端只需要一次请求
+2. 模型转换：BFF 将后端领域模型转换为前端友好的视图模型，前端不再关心后端实现
+3. 协议统一：对前端暴露标准的 REST API，内部使用高性能的 gRPC 通信
+BFF 就像一座桥梁，连接了前端的体验需求和后端的领域边界。
+-->
+
+---
+
+## 多领域模型下的 BFF 定位
+
+<div class="flex justify-center mt-6">
+
+```mermaid {scale: 0.55}
+flowchart TB
+    subgraph FE ["前端视图模型 (View Model)"]
+        direction LR
+        VM1["📱 订单详情页<br/><span style='font-size:11px'>聚合展示所需的一切</span>"]
+        VM2["📊 数据看板<br/><span style='font-size:11px'>跨服务统计聚合</span>"]
+    end
+
+    subgraph BFF ["BFF 转换层"]
+        direction LR
+        T1["🔄 数据聚合"]
+        T2["🔄 模型映射"]
+        T3["🔄 字段裁剪"]
+    end
+
+    subgraph BE ["后端领域模型"]
+        direction LR
+        DM1["Order Aggregate<br/><span style='font-size:11px'>订单聚合根</span>"]
+        DM2["Customer Entity<br/><span style='font-size:11px'>客户实体</span>"]
+        DM3["Pet Entity<br/><span style='font-size:11px'>宠物实体</span>"]
+        DM4["Payment VO<br/><span style='font-size:11px'>支付值对象</span>"]
+    end
+
+    VM1 & VM2 --> BFF
+    BFF --> DM1 & DM2 & DM3 & DM4
+
+    style FE fill:#1e3a5f,stroke:#3b82f6,color:#93c5fd
+    style BFF fill:#14532d,stroke:#22c55e,color:#86efac
+    style BE fill:#422006,stroke:#f59e0b,color:#fcd34d
+```
+
+</div>
+
+<div class="text-center mt-4 text-lg">
+  <span class="text-green-400">BFF 是 DDD 领域边界与前端体验之间的</span>
+  <span class="text-yellow-400 font-bold">「防腐层」</span>
+</div>
+
+<!--
+在 DDD 驱动的微服务架构中，每个服务都有自己的限界上下文和领域模型。
+但前端关心的是用户体验，需要的是视图模型。
+BFF 作为「防腐层」，完成两个世界的翻译：
+- 将后端严谨的领域模型转换为前端友好的视图模型
+- 保护前端不受后端领域演进的影响
+- 保护后端不被前端的频繁需求变更所干扰
+这就是 BFF 在多领域模型架构中的核心定位。
+-->
+
+---
 layout: center
 ---
 
@@ -125,42 +342,244 @@ layout: center
 
 ---
 
-## BFF 整体架构
+## 历史包袱
 
-<div class="flex justify-center mt-14">
+<div class="grid grid-cols-2 gap-6 mt-6">
 
-```mermaid {scale: 0.55}
-flowchart TB
-    subgraph Frontend ["前端应用"]
-        direction LR
-        F1["B Web"] --- F2["B App"] --- F3["Client Portal"] --- F4["..."]
-    end
+<div>
 
-    Frontend -->|"REST API (JSON)<br/>类型安全的 OpenAPI Client"| BFF
+### 🔄 字段裁剪 → 重写协议
 
-    subgraph BFF ["BFF 层"]
-        direction LR
-        Auth["统一鉴权"] --- Agg["接口聚合"] --- Trans["数据转换"] --- Err["错误处理"]
-    end
-
-    BFF -->|"gRPC (Connect RPC)"| Backend
-
-    subgraph Backend ["后端微服务集群"]
-        direction LR
-        S1[Customer] --- S2[Payment] --- S3[Order] --- S4[Pet] --- S5[...]
-    end
-
-    style Frontend fill:#1e3a5f,stroke:#3b82f6,color:#93c5fd
-    style BFF fill:#14532d,stroke:#22c55e,color:#86efac
-    style Backend fill:#422006,stroke:#f59e0b,color:#fcd34d
+```protobuf
+// 后端 Proto（包含内部字段）
+message Pet {
+  int64 id = 1;
+  string name = 2;
+  string internal_notes = 3;   // 内部备注
+  int64 cost_price = 4;        // 成本价（敏感）
+  string supplier_id = 5;      // 供应商ID
+}
 ```
+
+```protobuf
+// BFF 需要裁剪敏感字段，必须重写
+message BffPetResponse {
+  int64 id = 1;
+  string name = 2;
+  // 不能暴露 internal_notes, cost_price...
+}
+```
+
+<div class="text-sm text-red-400 mt-2">
+⚠️ 每次字段变更都要同步修改两边 Proto
+</div>
+
+</div>
+
+<div>
+
+### 🔄 协议同步容易遗漏
+
+```protobuf
+// 后端 pet.proto（已更新）
+message Pet {
+  int64 id = 1;
+  string name = 2;
+  string vaccination_date = 3;  // 新增 ✅
+}
+```
+
+```protobuf
+// BFF bff_pet.proto（忘记同步）
+message BffPetResponse {
+  int64 id = 1;
+  string name = 2;
+  // vaccination_date 哪去了？❌
+}
+```
+
+<div class="text-sm text-red-400 mt-2">
+⚠️ 同步流程繁琐，协议多了容易漏
+</div>
+
+</div>
 
 </div>
 
 <!--
-这是 BFF 在整个系统中的位置。
-核心链路：前端通过类型安全的 OpenAPI Client 调用 BFF，BFF 通过 gRPC 聚合后端微服务。
-关键点在于中间的 BFF 层充当了“胶水”和“翻译官”的角色，同时负责了类型安全和协议转换。
+API-v3 架构的第一个问题是字段裁剪导致重写协议。
+后端 Proto 可能包含敏感字段，比如成本价、供应商信息、内部备注，这些不能暴露给前端。
+BFF 需要裁剪这些字段，就必须重新定义一套 Proto，无法直接复用后端的定义。
+
+第二个问题是协议同步流程繁琐。
+后端加了字段，BFF 的 Proto 要手动同步更新，步骤多了自然容易漏。
+简化流程才能从根本上减少遗漏的可能。
+-->
+
+---
+
+## Proto → TypeScript 的概念鸿沟
+
+<div class="mt-6">
+
+| Proto 概念 | 生成的 TypeScript | 实际 JSON | 问题 |
+|-----------|------------------|-----------|------|
+| `message Pet pet = 1` | `pet: Pet` | `null` | **message 默认 optional，TS 却显示必有** |
+| `int64 id = 1` | `id: string` | `"12345..."` | **大整数只能用 string，JSON 不支持** |
+| ... | ... | ... | **还有很多类似的概念差异** |
+
+</div>
+
+<div class="mt-8 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold mb-2">💥 核心矛盾</div>
+  <div class="text-sm">
+    Proto 是为 <span class="text-yellow-400">二进制 RPC</span> 设计的，TypeScript 是为 <span class="text-blue-400">JSON REST</span> 设计的。<br/>
+    两者的类型系统存在根本性差异，机械转换必然产生「概念鸿沟」。
+  </div>
+</div>
+
+<!--
+这是 API-v3 最致命的问题：Proto 和 TypeScript 之间存在概念鸿沟。
+
+最典型的两个例子：
+1. Proto 的 message 字段默认是 optional 的，但生成的 TS 类型显示是必有的，前端直接访问就会 NPE
+2. Proto 的 int64 生成 string，因为 JSON 不支持大整数，这个 Schema 方案也一样，没办法
+
+类似的差异还有很多，这些都会导致前端拿到的类型定义和实际运行时数据不匹配。
+-->
+
+---
+
+## 真实案例：线上 NPE 事故
+
+<div class="grid grid-cols-2 gap-6 mt-6">
+
+<div>
+
+### 类型定义
+
+```typescript
+// Proto 生成的类型定义
+interface GetPetResponse {
+  pet: Pet;          // 看起来一定有值
+  owner: Customer;   // 看起来一定有值
+}
+
+interface Pet {
+  id: number;
+  vaccination: Vaccination; // 嵌套 message
+}
+```
+
+```typescript
+// 前端代码（相信类型定义）
+const { pet, owner } = await getPet(id);
+
+// 💥 运行时: Cannot read 'id' of undefined
+console.log(pet.id);
+
+// 💥 运行时: Cannot read 'date' of null
+console.log(pet.vaccination.date);
+```
+
+</div>
+
+<div>
+
+### 实际 JSON 响应
+
+```json
+{
+  "pet": null,
+  "owner": null
+}
+```
+
+或者
+
+```json
+{
+  "pet": {
+    "id": 123,
+    "vaccination": null
+  }
+}
+```
+
+<div class="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded">
+  <div class="text-yellow-400 font-bold text-sm">问题根源</div>
+  <div class="text-xs mt-1 opacity-80">
+    Proto 的 message 字段默认是 optional，<br/>
+    但生成的 TS 类型没有体现这一点
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<!--
+这是我们线上真实发生过的事故。
+
+Proto 生成的类型定义显示 pet 和 owner 一定有值，但实际 JSON 响应里可能是 null。
+前端开发者相信类型定义，直接访问 pet.id，结果线上 NPE。
+
+更隐蔽的是 birthDate 字段，类型是 number，但实际可能是 null。
+这种 bug 在开发和测试环境不一定能发现，往往到了线上才暴露。
+
+Proto 的 message 字段默认是 optional 的，这个语义在转成 TypeScript 时丢失了。
+-->
+
+---
+
+## 我们需要什么？
+
+<div class="grid grid-cols-2 gap-8 mt-8">
+
+<div class="space-y-4">
+
+<div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold">❌ 不要</div>
+  <ul class="text-sm mt-2 space-y-1 opacity-80">
+    <li>重复编写协议定义</li>
+    <li>机械的类型转换</li>
+    <li>运行时类型与定义不符</li>
+    <li>Proto 概念泄露到前端</li>
+  </ul>
+</div>
+
+</div>
+
+<div class="space-y-4">
+
+<div class="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+  <div class="text-green-400 font-bold">✅ 需要</div>
+  <ul class="text-sm mt-2 space-y-1 opacity-80">
+    <li>单一数据源，自动同步</li>
+    <li>灵活的字段级转换能力</li>
+    <li>运行时校验保证类型安全</li>
+    <li>前端友好的 JSON 类型系统</li>
+  </ul>
+</div>
+
+</div>
+
+</div>
+
+<div class="text-center mt-8">
+  <div class="text-2xl">👇</div>
+  <div class="text-xl text-green-400 font-bold mt-2">Schema-First 架构</div>
+  <div class="text-sm opacity-60 mt-1">用 Zod Schema 作为 BFF 层的协议定义语言</div>
+</div>
+
+<!--
+总结一下我们的诉求：
+不要重复编写协议，不要机械转换，不要运行时和类型定义不符，不要把 Proto 概念泄露给前端。
+
+我们需要的是：
+单一数据源自动同步，灵活的字段级转换，运行时校验，以及前端友好的类型系统。
+
+这就引出了我们的解决方案：Schema-First 架构，用 Zod Schema 作为 BFF 层的协议定义语言。
 -->
 
 ---
@@ -580,27 +999,27 @@ export const zUserSchema = z.object({
 <div class="grid grid-cols-2 gap-6 mt-8">
 
 <div class="p-4 border-2 border-yellow-500/30 rounded-lg bg-yellow-500/5">
-  <div class="text-xl font-bold mb-3 text-yellow-400">✋ 方案一：手动添加</div>
-  <ul class="text-sm list-disc pl-4 space-y-2 opacity-80">
-    <li>200+ 个 Schema 文件</li>
-    <li>上千个字段需要处理</li>
-    <li>纯体力活，容易遗漏</li>
-    <li class="text-yellow-300">后续维护同样痛苦</li>
-  </ul>
-  <div class="mt-4 text-center text-2xl">😵‍💫</div>
-</div>
-
-<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5">
-  <div class="text-xl font-bold mb-3 text-red-400">🔧 方案二：正则表达式</div>
-  <code class="block bg-black/30 p-2 rounded text-red-300 text-xs mb-3 break-all">
+  <div class="text-xl font-bold mb-3 text-yellow-400">🔧 方案一：正则表达式</div>
+  <code class="block bg-black/30 p-2 rounded text-yellow-300 text-xs mb-3 break-all">
     /\/\*\*[\s\S]*?\*\/\s*(\w+):\s*(z\.\w+)/g
   </code>
   <ul class="text-sm list-disc pl-4 space-y-2 opacity-80">
     <li>无法准确匹配"紧邻"关系</li>
     <li>多行注释处理困难</li>
     <li>格式稍变就失效</li>
-    <li class="text-red-300">嵌套结构？噩梦开始</li>
+    <li class="text-yellow-300">嵌套结构？噩梦开始</li>
   </ul>
+</div>
+
+<div class="p-4 border-2 border-red-500/30 rounded-lg bg-red-500/5">
+  <div class="text-xl font-bold mb-3 text-red-400">🏗️ 方案二：TS Compiler API</div>
+  <ul class="text-sm list-disc pl-4 space-y-2 opacity-80">
+    <li>完整的 AST 解析能力</li>
+    <li>能理解代码结构</li>
+    <li class="text-red-300">但 API 复杂，学习成本高</li>
+    <li class="text-red-300">写个转换脚本要几百行</li>
+  </ul>
+  <div class="mt-4 text-center text-2xl">🤯</div>
 </div>
 
 </div>
@@ -608,9 +1027,9 @@ export const zUserSchema = z.object({
 <v-click>
 <div class="mt-6 text-center">
   <div class="inline-block px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
-    <span class="opacity-70">我们需要一个</span>
-    <span class="text-cyan-400 font-bold mx-2">理解代码结构</span>
-    <span class="opacity-70">的工具...</span>
+    <span class="opacity-70">有没有</span>
+    <span class="text-cyan-400 font-bold mx-2">轻量又强大</span>
+    <span class="opacity-70">的方案？</span>
   </div>
 </div>
 </v-click>
@@ -618,15 +1037,16 @@ export const zUserSchema = z.object({
 <!--
 那么如何实现这个目标呢？
 
-方案一：手动添加。200 多个 Schema，上千个字段，纯粹的体力活。
-而且后续 Proto 更新后，还得继续手动维护，完全不可持续。
-
-方案二：正则表达式。看看这个正则，是不是已经开始头疼了？
+方案一：正则表达式。看看这个正则，是不是已经开始头疼了？
 问题在于正则是基于文本匹配的，它无法理解代码的结构。
 比如注释和字段之间的"紧邻"关系，多行注释的边界，嵌套的对象结构...
 这些用正则处理都是噩梦。
 
-我们需要一个能够真正理解代码结构的工具。
+方案二：TypeScript Compiler API。它确实能完整解析 AST，理解代码结构。
+但问题是 API 太复杂了，光是遍历 AST、处理各种节点类型，就要写几百行代码。
+杀鸡用牛刀，维护成本也很高。
+
+有没有既能理解代码结构，又足够轻量的方案呢？
 -->
 
 ---
@@ -634,7 +1054,7 @@ layout: fact
 ---
 
 ## {AstGrep}
-Transform & Rewrite
+Grep & Rewrite
 
 <!--
 这时候，ast-grep 登场了！
@@ -860,13 +1280,459 @@ unwrap、多重类型断言、手写 Interface...
 
 ---
 
-## 解决方案：Getter 延迟求值
+## 💡 灵光一闪
+
+<div class="mt-8 text-center">
+
+<div class="text-xl opacity-70 mb-6">被 z.lazy 的类型问题困扰时，我突然想起...</div>
+
+<div class="inline-block p-6 bg-cyan-500/10 border-2 border-cyan-500/30 rounded-xl">
+  <div class="text-2xl mb-2">🤔</div>
+  <div class="text-xl">Zod4 好像新支持了 <span class="text-cyan-400 font-bold">Getter 属性</span>？</div>
+</div>
+
+</div>
+
+<v-click>
+
+<div class="mt-8 text-center">
+  <div class="text-lg opacity-60">不如试试看...</div>
+</div>
+
+</v-click>
+
+<!--
+被 z.lazy 的类型推断问题困扰了很久。
+有一天，我突然想起来 Zod4 新支持了 Getter 属性语法。
+
+虽然不确定能不能解决问题，但不如试试看...
+-->
+
+---
+
+## 实验：渐进式改造
 
 <div class="mt-4">
 
 ````md magic-move {lines: true}
 ```typescript
-// 问题回顾：z.lazy 导致类型推断失效
+// 原来的写法：z.lazy + 普通属性
+const zServiceInstance = z.lazy(() => z.object({
+  id: z.string(),
+  addons: z.array(zServiceInstance),
+})) as unknown as z.ZodSchema<ServiceInstance>;
+// ❌ 类型推断失效
+```
+
+```typescript
+// 尝试 1：换成 Getter
+const zServiceInstance = z.lazy(() => z.object({
+  id: z.string(),
+  get addons() { return z.array(zServiceInstance); },
+})) as unknown as z.ZodSchema<ServiceInstance>;
+// 🤔 试试看...
+```
+
+```typescript
+// 尝试 1：换成 Getter
+const zServiceInstance = z.lazy(() => z.object({
+  id: z.string(),
+  get addons() { return z.array(zServiceInstance); },
+}));
+// ✅ 类型推断正常了！不需要 as 断言！
+```
+
+```typescript
+// 尝试 2：大胆一点，去掉 z.lazy？
+const zServiceInstance = z.object({
+  id: z.string(),
+  get addons() { return z.array(zServiceInstance); },
+});
+// 🤔 没有 z.lazy 包装...
+```
+
+```typescript
+// 尝试 2：大胆一点，去掉 z.lazy？
+const zServiceInstance = z.object({
+  id: z.string(),
+  get addons() { return z.array(zServiceInstance); },
+});
+// 🎉 居然也可以！
+```
+````
+
+</div>
+
+<v-click>
+
+<div class="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+  <div class="grid grid-cols-3 gap-4 text-sm text-center">
+    <div class="p-2 bg-green-500/10 rounded">
+      <div class="text-green-400">✅ 类型推断</div>
+      <div class="opacity-70">z.infer 正常</div>
+    </div>
+    <div class="p-2 bg-green-500/10 rounded">
+      <div class="text-green-400">✅ 派生能力</div>
+      <div class="opacity-70">.extend() 可用</div>
+    </div>
+    <div class="p-2 bg-green-500/10 rounded">
+      <div class="text-green-400">✅ 运行时</div>
+      <div class="opacity-70">校验正常</div>
+    </div>
+  </div>
+</div>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-4 text-center">
+  <div class="inline-block px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+    <span class="text-yellow-400 font-bold">等等，为什么这样可以？🤔</span>
+  </div>
+</div>
+
+</v-click>
+
+<!--
+让我们做个实验，渐进式地改造这段代码。
+
+首先，把自引用字段换成 Getter... 类型推断正常了！
+
+然后大胆一点，把 z.lazy 也去掉... 居然也可以！
+
+类型推断正常，派生能力恢复，运行时校验也没问题。
+但这就引出了一个问题：为什么这样可以？
+-->
+
+---
+layout: fact
+---
+
+## 探究原理
+
+为什么 Getter 可以，普通属性不行？
+
+<!--
+现在让我们来研究一下背后的原理。
+为什么 Getter 可以解决循环引用的类型推断问题，而普通属性不行？
+-->
+
+---
+
+## 普通属性：编译器的困境
+
+<div class="grid grid-cols-2 gap-6">
+<div class="mt-6">
+
+```typescript
+const zServiceInstance = z.object({
+  id: z.string(),
+  addons: z.array(zServiceInstance),
+  //             ^^^^^^^^^^^^^^^^
+});
+```
+
+</div>
+
+<div class="mt-6 flex justify-center">
+
+```mermaid {scale: 0.65}
+sequenceDiagram
+    participant TS as TypeScript 编译器
+    participant Code as 代码
+
+    TS->>Code: 分析 zServiceInstance 的类型
+    Code->>TS: 这是一个 z.object({...})
+    TS->>Code: 分析 addons 属性的值
+    Code->>TS: 值是 z.array(zServiceInstance)
+    TS->>Code: zServiceInstance 的类型是？
+    Code--xTS: ❌ 还在定义中，未知！
+    Note over TS: 死锁！推断失败
+```
+
+</div>
+</div>
+
+<!--
+当编译器分析普通属性时，它必须立刻求出属性值的类型。
+
+编译器问：addons 的类型是什么？
+代码说：是 z.array(zServiceInstance)
+编译器问：那 zServiceInstance 的类型是什么？
+代码说：呃...还在定义中...
+
+死锁了！编译器无法在定义一个变量的同时，读取这个变量的类型。
+-->
+
+---
+
+## Function：编译器的特殊待遇
+
+<div class="grid grid-cols-2 gap-6">
+<div class="mt-6">
+
+```typescript
+const zServiceInstance = z.object({
+  id: z.string(),
+  get addons() { return z.array(zServiceInstance); },
+  //  ^^^^^^ 这是一个函数定义
+});
+```
+
+</div>
+
+<div class="mt-6 flex justify-center">
+
+```mermaid {scale: 0.5}
+sequenceDiagram
+    participant TS as TypeScript 编译器
+    participant Code as 代码
+
+    TS->>Code: 分析 zServiceInstance 的类型
+    Code->>TS: 这是一个 z.object({...})
+    TS->>Code: 分析 addons 属性
+    Code->>TS: 这是一个 Getter 函数
+    TS->>TS: 标记：addons 类型 = ReturnType<getter>
+    Note over TS: 先占位，稍后解析函数体
+    TS->>TS: 完成 zServiceInstance 类型定义
+    TS->>Code: 现在解析 getter 函数体
+    Code->>TS: 返回 z.array(zServiceInstance)
+    TS->>TS: ✅ zServiceInstance 已定义，可以引用！
+```
+
+</div>
+</div>
+
+<!--
+但 Getter 不一样，它是一个函数定义。
+
+编译器看到 Getter 时，不会立刻分析函数体内部。
+它先用 ReturnType 占个位：addons 的类型等于这个 getter 的返回类型。
+
+等整个 zServiceInstance 定义完成后，编译器再回来解析 getter 函数体。
+这时候 zServiceInstance 已经定义好了，可以正常引用！
+
+这就是 Getter 的特殊待遇：延迟解析函数体。
+-->
+
+---
+
+## 那 z.lazy 的箭头函数呢？
+
+<div class="mt-4 text-center text-lg opacity-70">
+z.lazy 外面不也包了一层箭头函数吗？为什么不能延迟？
+</div>
+
+<v-click>
+
+<div class="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+  <div class="text-yellow-400 font-bold mb-2">先看 z.lazy 的类型签名</div>
+
+```typescript
+// T 是我们要推导的目标类型
+function lazy<T>(builder: () => T): ZodLazy<T> { ... }
+```
+
+  <div class="text-sm opacity-80 mt-3">
+    TS 的任务：通过分析 <code>builder</code> 函数的<span class="text-yellow-400 font-bold">返回值</span>，推导出 <code>T</code> 是什么
+  </div>
+</div>
+
+</v-click>
+
+<v-click>
+
+<div class="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold mb-2">问题来了</div>
+  <div class="text-sm opacity-80">
+    为了推导 <code>T</code>，TS 必须<span class="text-red-400 font-bold">深入分析</span>箭头函数内部的 <code>z.object({...})</code><br/>
+    箭头函数只是<span class="text-red-400 font-bold">运行时延迟</span>，不是<span class="text-red-400 font-bold">类型推导延迟</span>！
+  </div>
+</div>
+
+</v-click>
+
+<!--
+先看 z.lazy 的类型签名。
+
+z.lazy 是一个泛型函数，T 是我们要推导的目标类型。
+TS 的任务是：通过分析 builder 函数的返回值，解出 T 等于什么。
+
+所以即使外面包了一层箭头函数，TS 还是要深入分析里面的内容。
+箭头函数解决的是运行时的延迟执行问题，不是类型推导的延迟问题。
+-->
+
+---
+
+## z.lazy 推导过程：求值依赖
+
+<div class="grid grid-cols-2 gap-6">
+<div class="mt-4">
+
+```typescript
+const zService = z.lazy(() => z.object({
+  addons: z.array(zServiceInstance)
+}));
+```
+
+<div class="mt-3 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm">
+  <span class="text-red-400 font-bold">求值依赖</span>：要算出 T，先要知道参数类型；要知道参数类型，先要算出 T
+</div>
+
+</div>
+
+<div class="mt-4 flex justify-center">
+
+```mermaid {scale: 0.7}
+sequenceDiagram
+    participant TS as TypeScript 编译器
+    participant Code as 代码
+
+    TS->>Code: 推导 z.lazy<T> 的 T
+    Code->>TS: 需要分析 builder 返回值
+    TS->>Code: 分析 z.object({...})
+    Code->>TS: addons 值是 z.array(zServiceInstance)
+    TS->>Code: zServiceInstance 的类型是？
+    Code--xTS: ❌ 就是 T，还在推导中！
+    Note over TS: 死锁！求值依赖
+```
+
+</div>
+</div>
+
+<!--
+让我们像解方程一样看这个推导过程。
+
+TS 要推导 T，就要分析 builder 的返回值。
+返回值是 z.object，那就分析每个字段。
+遇到 addons 字段，值是 z.array(zServiceInstance)。
+这是一个函数调用，要知道返回类型，先要知道参数 zServiceInstance 的类型。
+但 zServiceInstance 的类型就是 T，还在推导中！
+
+这就是"求值依赖"：要算 T 先要知道参数，要知道参数先要算 T。死锁了。
+-->
+
+---
+
+## Getter 推导过程：结构依赖
+
+<div class="grid grid-cols-2 gap-6">
+<div class="mt-4">
+
+```typescript
+const zService = z.object({
+  get addons() {
+    return z.array(zServiceInstance);
+  }
+});
+```
+
+<div class="mt-3 p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-sm">
+  <span class="text-green-400 font-bold">结构依赖</span>：先建立类型结构，再填充具体类型，允许递归引用
+</div>
+
+</div>
+
+<div class="mt-4 flex justify-center">
+
+```mermaid {scale: 0.5}
+sequenceDiagram
+    participant TS as TypeScript 编译器
+    participant Code as 代码
+
+    TS->>Code: 推导 zService 的类型
+    Code->>TS: 这是一个 z.object({...})
+    TS->>Code: 分析 addons 属性
+    Code->>TS: 这是一个 Getter 函数
+    TS->>TS: 标记 addons = ReturnType<getter>
+    Note over TS: 先占位，完成结构定义
+    TS->>TS: zService 类型定义完成 ✓
+    TS->>Code: 现在解析 getter 返回值
+    Code->>TS: z.array(zServiceInstance)
+    TS->>TS: ✅ zService 已定义，可引用！
+```
+
+</div>
+</div>
+
+<!--
+Getter 的推导过程完全不同。
+
+TS 分析 z.object，遇到 addons 是一个 Getter。
+它不需要立刻分析 Getter 内部，只需要标记：addons 的类型等于这个 Getter 的返回类型。
+这样 zService 的类型结构就建立好了。
+然后回来解析 Getter 的返回值时，zService 已经定义完成，可以正常引用。
+
+这就是"结构依赖"：先建立类型结构，再填充具体类型。TS 允许这种形式的递归。
+-->
+
+---
+
+## 总结：求值依赖 vs 结构依赖
+
+<div class="grid grid-cols-2 gap-8 mt-6">
+
+<div class="p-5 bg-red-500/10 border-2 border-red-500/30 rounded-xl">
+  <div class="text-xl font-bold text-red-400 mb-3">❌ 求值依赖</div>
+
+```typescript
+z.array(zServiceInstance)
+//      ^^^^^^^^^^^^^^^^
+//      作为参数，必须立即求值
+```
+
+  <div class="mt-3 text-sm opacity-80">
+    要算出 T → 先要知道参数类型<br/>
+    要知道参数类型 → 先要算出 T<br/>
+    <span class="text-red-400">→ 死锁！</span>
+  </div>
+</div>
+
+<div class="p-5 bg-green-500/10 border-2 border-green-500/30 rounded-xl">
+  <div class="text-xl font-bold text-green-400 mb-3">✅ 结构依赖</div>
+
+```typescript
+get addons() {
+  return z.array(zServiceInstance);
+}
+```
+
+  <div class="mt-3 text-sm opacity-80">
+    先建立类型结构（占位）<br/>
+    再填充具体类型<br/>
+    <span class="text-green-400">→ 允许递归引用！</span>
+  </div>
+</div>
+
+</div>
+
+<div class="mt-6 p-3 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-center">
+  <span class="opacity-70">Getter 把</span>
+  <span class="text-red-400 font-bold">求值依赖</span>
+  <span class="opacity-70">转换为</span>
+  <span class="text-green-400 font-bold">结构依赖</span>
+  <span class="opacity-70">，打破循环！</span>
+</div>
+
+<!--
+总结一下：核心区别是"求值依赖"和"结构依赖"。
+
+求值依赖：参数必须立即求值，形成 T 依赖参数，参数依赖 T 的死锁。
+结构依赖：先建立类型结构，再填充具体类型，TS 允许这种递归。
+
+Getter 的神奇之处就是把求值依赖转换为结构依赖，从而打破循环！
+-->
+
+---
+
+## 最终方案：两阶段转换
+
+<div class="mt-4">
+
+````md magic-move {lines: true}
+```typescript
+// 原始问题：z.lazy 导致类型推断失效
 export const zServiceInstance = z.lazy(() =>
   z.object({
     serviceInstanceId: zId,
@@ -878,44 +1744,40 @@ export const zServiceInstance = z.lazy(() =>
 ```
 
 ```typescript
-// Phase 1：将自引用字段转换为 Getter
+// Step 1：自引用字段 → Getter
 export const zServiceInstance = z.lazy(() =>
   z.object({
     serviceInstanceId: zId,
     name: z.string(),
-    // ✨ 自动转换为 getter 形式
     get addons() {
       return z.array(zServiceInstance);
     },
   })
 ) as unknown as z.ZodSchema<ServiceInstance>;
+// 类型推断恢复了！
 ```
 
 ```typescript
-// Phase 2：移除 z.lazy 包装
-// ✅ 恢复 z.object，类型自动推断！
+// Step 2：移除 z.lazy 包装
 export const zServiceInstance = z.object({
   serviceInstanceId: zId,
   name: z.string(),
-  // ✅ 利用 getter 延迟求值 (Zod 4+)
   get addons() {
     return z.array(zServiceInstance);
   },
 });
-// 👆 z.infer<typeof zServiceInstance> 正常工作！
+// ✅ z.infer 正常，派生能力完整！
 ```
 
 ```typescript
 // 收益：派生 Schema 变得无比简单
-// ✅ 直接 extend，类型完美保留
 const zExtended = zServiceInstance.extend({
   extra: z.string(),
-  // 覆盖 getter 以支持新的递归类型
   get addons() {
     return z.array(zExtended); 
   }
 });
-// 🎉 .pick() / .omit() / .merge() 全都能用！
+// 🎉 .extend() / .pick() / .omit() / .merge() 全都能用！
 ```
 ````
 
@@ -1310,6 +2172,192 @@ updateAppointment({
 
 最终效果：整个链路只有一个 enum 定义，从 bff-schemas 到 bff-openapi 到前端，
 类型完全一致，不会出现不兼容的问题。
+-->
+
+---
+layout: fact
+---
+
+## The Format Gap
+
+边界层的数据格式转换
+
+<!--
+Schema 解决了类型安全和协议定义的问题。
+但 BFF 作为边界层，还有一个避不开的挑战：数据格式转换。
+-->
+
+---
+
+## 你是否遇到过这些问题？
+
+<div class="mt-8 space-y-6">
+
+<v-click>
+<div class="p-4 bg-red-500/10 border-l-4 border-red-500 rounded-r-lg">
+  <div class="font-bold text-red-400 mb-2">💥 BigInt 序列化失败</div>
+  <div class="font-mono text-sm opacity-80">
+    TypeError: Do not know how to serialize a BigInt
+  </div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-4 bg-red-500/10 border-l-4 border-red-500 rounded-r-lg">
+  <div class="font-bold text-red-400 mb-2">📅 日期格式混乱</div>
+  <div class="font-mono text-sm opacity-80">
+    后端: <span class="text-orange-400">{year: 2024, month: 1, day: 15}</span> → 
+    前端期望: <span class="text-blue-400">"2024-01-15"</span>
+  </div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-4 bg-red-500/10 border-l-4 border-red-500 rounded-r-lg">
+  <div class="font-bold text-red-400 mb-2">⏰ 时间戳不兼容</div>
+  <div class="font-mono text-sm opacity-80">
+    Proto Timestamp: <span class="text-orange-400">{seconds: 1705286400n, nanos: 0}</span> → 
+    前端: <span class="text-blue-400">1705286400000</span>
+  </div>
+</div>
+</v-click>
+
+</div>
+
+<!--
+你是否遇到过这些问题？
+
+BigInt 无法直接 JSON 序列化，会直接报错。
+后端返回的日期是结构化对象，前端期望的是 ISO 字符串。
+Proto 的 Timestamp 和 JS 的毫秒时间戳格式完全不同。
+
+这些都是 BFF 边界层必须处理的数据格式差异。
+-->
+
+---
+
+## 手动转换的痛苦
+
+<div class="grid grid-cols-2 gap-6 mt-6">
+
+<div>
+
+```typescript
+// 每个接口都要手动转换...
+function transformPetResponse(proto: ProtoPet) {
+  return {
+    id: proto.id.toString(),  // bigint → string
+    birthDate: formatGoogleDate(proto.birthDate),
+    createdAt: timestampToMs(proto.createdAt),
+    updatedAt: timestampToMs(proto.updatedAt),
+    // ... 还有很多字段
+  };
+}
+
+function transformPetRequest(json: JsonPet) {
+  return {
+    id: BigInt(json.id),  // string → bigint
+    birthDate: parseGoogleDate(json.birthDate),
+    createdAt: msToTimestamp(json.createdAt),
+    // ... 反向转换
+  };
+}
+```
+
+</div>
+
+<div class="space-y-4">
+
+<v-click>
+<div class="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold text-sm">😩 重复劳动</div>
+  <div class="text-xs opacity-70">每个接口都要写类似的转换代码</div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold text-sm">🐛 容易出错</div>
+  <div class="text-xs opacity-70">漏转一个字段，线上就炸了</div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold text-sm">🔗 转换逻辑分散</div>
+  <div class="text-xs opacity-70">入参出参分开写，容易不一致</div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+  <div class="text-red-400 font-bold text-sm">📝 缺乏类型保证</div>
+  <div class="text-xs opacity-70">转换函数的类型签名手动维护</div>
+</div>
+</v-click>
+
+</div>
+
+</div>
+
+<!--
+传统方案是手动写转换函数。
+
+每个接口都要写 transform 函数，请求和响应分开转换。
+字段多了容易漏，逻辑分散难维护，还没有类型保证。
+
+有没有更优雅的方案？
+-->
+
+---
+
+## 我们需要什么？
+
+<div class="mt-8 grid grid-cols-3 gap-6">
+
+<v-click>
+<div class="p-6 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-center">
+  <div class="text-4xl mb-4">🔄</div>
+  <div class="font-bold text-cyan-400 mb-2">双向转换</div>
+  <div class="text-sm opacity-70">encode/decode 一体化定义</div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-6 bg-green-500/10 border border-green-500/30 rounded-xl text-center">
+  <div class="text-4xl mb-4">🎯</div>
+  <div class="font-bold text-green-400 mb-2">类型安全</div>
+  <div class="text-sm opacity-70">转换前后类型自动推导</div>
+</div>
+</v-click>
+
+<v-click>
+<div class="p-6 bg-purple-500/10 border border-purple-500/30 rounded-xl text-center">
+  <div class="text-4xl mb-4">🧩</div>
+  <div class="font-bold text-purple-400 mb-2">可组合</div>
+  <div class="text-sm opacity-70">与 Schema 无缝集成</div>
+</div>
+</v-click>
+
+</div>
+
+<v-click>
+
+<div class="mt-10 text-center">
+  <div class="inline-block px-6 py-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+    <span class="text-yellow-400 font-bold text-lg">Zod 4 的答案：z.codec()</span>
+  </div>
+</div>
+
+</v-click>
+
+<!--
+我们需要的是：
+1. 双向转换一体化定义，不用分开写 encode 和 decode
+2. 类型安全，转换前后的类型自动推导
+3. 可组合，与现有的 Schema 体系无缝集成
+
+Zod 4 给出了答案：z.codec()
 -->
 
 ---
@@ -2033,7 +3081,7 @@ sequenceDiagram
 ## Vision
 Automated Release Flow
 
-<div class="flex justify-center items-center w-full h-full mt-[-60px]">
+<div class="flex flex-col justify-center items-center w-full h-full mt-[-60px]">
 
 ```mermaid {scale: 0.5}
 flowchart LR
@@ -2065,10 +3113,11 @@ flowchart LR
     NPM & Docker --> Slack
 ```
 
-</div>
 
 <div v-click class="mt-4 p-3 bg-orange-500/10 rounded-lg text-sm">
 后端 Proto 更新 → 自动触发 Schema 生成 → 发布 NPM 包 → 前端无感升级
+</div>
+
 </div>
 
 <!--
@@ -2106,6 +3155,53 @@ $ pnpm cr  # 交互式创建
 3. 自动创建目录结构、Schema 文件、示例路由
 4. 自动注册到路由入口
 整个过程不到 1 分钟。
+-->
+
+---
+---
+
+## 多进程架构
+Cluster-Based Architecture
+
+<div class="flex justify-center mt-6">
+
+```mermaid {scale: 0.6}
+flowchart TB
+    subgraph master ["Cluster Manager"]
+        M[Master Process]
+        M --> |Fork| W1
+        M --> |Fork| W2
+        M --> |Fork| W3
+        M --> |Fork| W4
+    end
+    
+    subgraph workers ["Worker Pool"]
+        W1[Worker 1]
+        W2[Worker 2]
+        W3[Worker 3]
+        W4[Worker 4]
+    end
+    
+    LB[Load Balancer] --> master
+    W1 & W2 & W3 & W4 --> Backend["Backend gRPC Services"]
+```
+
+</div>
+
+<div class="grid grid-cols-2 gap-4 mt-4 text-sm">
+<div class="p-3 bg-blue-500/10 rounded-lg">
+<strong>Worker 进程:</strong> 根据 CPU 核数自动创建，处理 HTTP 请求
+</div>
+<div class="p-3 bg-green-500/10 rounded-lg">
+<strong>链路追踪:</strong> span.setTag('cluster.id', process.pid)
+</div>
+</div>
+
+<!--
+运行时架构采用 Node.js Cluster 模式。
+Master 进程负责管理，根据 CPU 核数 fork Worker 进程。
+每个 Worker 独立处理请求，通过 gRPC 连接后端服务。
+链路追踪会记录 cluster.id，方便排查问题。
 -->
 
 ---
@@ -2299,11 +3395,7 @@ export const zLoginRequest = z.object({
     .openapi({ description: '用户的电子邮件地址。' }),  // 添加 OpenAPI 元数据
   password: z.string()
     .openapi({ description: '用户的密码。' }),
-  source: z.nativeEnum(AccountSource)
-    .openapi("AccountSource", {                         // Enum 类型增强
-      type: 'string',
-      enum: Object.values(AccountSource).filter(v => typeof v === 'string'),
-    }),
+  source: createNativeEnum(AccountSource), // Enum 类型增强
   challengeToken: z.string().optional()
     .openapi({ description: '用于进行中的 MFA 质询的令牌。' }),
   challengeCode: z.string().optional()
@@ -2330,7 +3422,7 @@ export const zLoginRequest = z.object({
 ## Step 3/5: Schema 裁剪
 <span class="text-gray-400 text-sm">Proto → Zod</span> → <span class="text-yellow-400 text-sm">Schema 裁剪</span> → BFF Route → OpenAPI → Frontend
 
-```typescript {all|2-6|8-12|all}
+```typescript
 // authn.schema.ts - 在路由定义前，先裁剪 Schema
 export const zLoginResponseSchema = zLoginResponse
   .omit({ 
@@ -2363,7 +3455,7 @@ Schema 生成后、路由定义前，我们需要做 Schema 裁剪：
 ## Step 3.1: BFF Route 定义
 <span class="text-gray-400 text-sm">Proto → Zod → 裁剪</span> → <span class="text-cyan-400 text-sm">BFF Route</span> → OpenAPI → Frontend
 
-```typescript {all|1-3|5-10|all}
+```typescript
 // server/routes/authn/login.ts
 import { zLoginRequestSchema, zLoginResponseSchema } from '@moego/bff-schemas/authn.schema';
 import { HTTP_CODE } from '@moego/bff-schemas';
@@ -2394,7 +3486,7 @@ const login = createRoute({
 ## Step 3.2: BFF Route 实现
 <span class="text-gray-400 text-sm">Proto → Zod → 裁剪 → 定义</span> → <span class="text-cyan-400 text-sm">BFF 实现</span> → OpenAPI → Frontend
 
-```typescript {all|2|3-4|5|all}
+```typescript
 app.openapi(login, async (c) => {
   const params = c.req.valid('json');  // Codec decode: string → bigint
   const [err, res] = await c.invokeSvcMethod(AuthnServiceClient, 'login', params);
@@ -2492,7 +3584,7 @@ packages/openapi/
 ## Step 5/5: 前端调用
 <span class="text-gray-400 text-sm">Proto → Zod → BFF → OpenAPI</span> → <span class="text-teal-400 text-sm">Frontend</span> ✅
 
-```typescript {all|1-3|5-11|13-17|all}
+```typescript
 // Frontend - 导入 Client
 import { authnClientFactory, type LoginResponse } from '@moego/bff-openapi';
 const authnClient = authnClientFactory(fetcher);
@@ -2590,53 +3682,28 @@ const client = createClient({
 -->
 
 ---
-
-## 多进程架构
-Cluster-Based Architecture
-
-<div class="flex justify-center mt-6">
-
-```mermaid {scale: 0.6}
-flowchart TB
-    subgraph master ["Cluster Manager"]
-        M[Master Process]
-        M --> |Fork| W1
-        M --> |Fork| W2
-        M --> |Fork| W3
-        M --> |Fork| W4
-    end
-    
-    subgraph workers ["Worker Pool"]
-        W1[Worker 1]
-        W2[Worker 2]
-        W3[Worker 3]
-        W4[Worker 4]
-    end
-    
-    LB[Load Balancer] --> master
-    W1 & W2 & W3 & W4 --> Backend["Backend gRPC Services"]
-```
-
-</div>
-
-<div class="grid grid-cols-2 gap-4 mt-4 text-sm">
-<div class="p-3 bg-blue-500/10 rounded-lg">
-<strong>Worker 进程:</strong> 根据 CPU 核数自动创建，处理 HTTP 请求
-</div>
-<div class="p-3 bg-green-500/10 rounded-lg">
-<strong>链路追踪:</strong> span.setTag('cluster.id', process.pid)
-</div>
-</div>
-
-<!--
-运行时架构采用 Node.js Cluster 模式。
-Master 进程负责管理，根据 CPU 核数 fork Worker 进程。
-每个 Worker 独立处理请求，通过 gRPC 连接后端服务。
-链路追踪会记录 cluster.id，方便排查问题。
--->
-
+layout: fact
 ---
 
+## Observability
+可观测性
+
+---
+layout: full
+---
+
+<iframe 
+  src="https://p.us5.datadoghq.com/sb/dd67264b-68d5-11ef-b1d0-0e0f3d7be3b0-0d6cf9379db15ec6f4fc22bbb3bb471f" 
+  style="width: 165%; height: 170%; transform: scale(0.6); transform-origin: top left;"
+></iframe>
+
+<style>
+.slidev-layout {
+  padding:0!important;
+}
+</style>
+
+---
 
 ## Recap: 核心收益
 What We Achieved
@@ -2713,7 +3780,7 @@ class: text-center
 
 <div class="mt-5 space-y-4">
   <section text-s text-gray-400 text-sm>
-    Created with <logos-slidev ml-2 /> Slidev
+    Created by <logos-slidev ml-2 /> Slidev
   </section>
   <div class="text-sm opacity-50 mt-8">
   Slides: https://github.com/Doctor-wu/talks/2025/moegobff_sz</div>
