@@ -15,7 +15,7 @@ addons:
 <h2>Modernized BFF Architecture</h2>
 <h5 class="text-gray-500">类型安全的端到端实践</h5>
 <p class="text-gray-500 text-s">
-Doctor Wu / 2025-12-26
+Doctor Wu / 2025-01-09
 </p>
 
 <!--
